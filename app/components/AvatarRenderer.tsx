@@ -17,27 +17,20 @@ export default function AvatarRenderer() {
   const [isTyping, setIsTyping] = useState(false);
 
   const messages = [
-    "I am a **Machine Learning Engineer** with expertise in **Python**, **TensorFlow**, and **PyTorch**.",
-    "I love building **AI systems** and **neural networks** for computer vision and NLP applications.",
-    "Passionate about **computer vision**, **deep learning**, and **MLOps** - always exploring new technologies.",
-    "Experienced in **software engineering**, **data science**, and **cloud platforms** like AWS and GCP.",
-    "Let's build something amazing together! Check out my **GitHub** and **LinkedIn** for more projects.",
+    "i love building ai systems that help people",
+    "i am a machine learning intern @ shopify @ nokia",
+    "i lead drone club's ml team to autonomously put out wild fires",
+    "i am developing a browser ai agent that can do anything for you",
+    "i am honing my skills within llm research, ai agents, and cv models",
+    "i am looking for ml and swe internships for winter/spring 2026 and summer 2026",
+    "i am a software engineering student @ mcmaster university, graduating in 2027",
   ];
 
-  const formatMessage = (text: string) => {
-    return text
-      .replace(
-        /\*\*(.*?)\*\*/g,
-        '<strong class="text-blue-600 dark:text-blue-400">$1</strong>'
-      )
-      .replace(
-        /GitHub/g,
-        '<a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">GitHub</a>'
-      )
-      .replace(
-        /LinkedIn/g,
-        '<a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">LinkedIn</a>'
-      );
+  const updateHeaderText = (text: string) => {
+    const headerElement = document.getElementById("avatar-text");
+    if (headerElement) {
+      headerElement.innerHTML = `<div class="text-sm text-gray-600 dark:text-gray-400">${text}</div>`;
+    }
   };
 
   const typeMessage = (message: string) => {
@@ -47,7 +40,9 @@ export default function AvatarRenderer() {
 
     const typeInterval = setInterval(() => {
       if (index < message.length) {
-        setDisplayedText((prev) => prev + message[index]);
+        const currentText = message.substring(0, index + 1);
+        setDisplayedText(currentText);
+        updateHeaderText(currentText);
         index++;
       } else {
         setIsTyping(false);
@@ -66,12 +61,12 @@ export default function AvatarRenderer() {
 
     // Camera setup - adjusted for better framing
     const camera = new THREE.PerspectiveCamera(
-      50, // Adjusted FOV
+      60, // Increased FOV to show more of the avatar
       mountRef.current.clientWidth / mountRef.current.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 0, 5); // Moved camera further back
+    camera.position.set(0, 0, 4); // Moved camera closer
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({
@@ -115,14 +110,14 @@ export default function AvatarRenderer() {
         const center = box.getCenter(new THREE.Vector3());
         model.position.sub(center);
 
-        // Scale the model to fit properly without cutoff
+        // Scale the model to be much larger
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 1.5 / maxDim; // Reduced scale to prevent cutoff
+        const scale = 3.5 / maxDim; // Adjusted scale
         model.scale.setScalar(scale);
 
-        // Position the avatar to show full head
-        model.position.y = -0.3;
+        // Position the avatar to show full head and reduce bottom space
+        model.position.y = -1.7; // Adjusted position
 
         // Enable shadows for all meshes
         model.traverse((child) => {
@@ -221,54 +216,19 @@ export default function AvatarRenderer() {
 
   return (
     <div className="relative bg-transparent rounded-lg overflow-hidden">
-      <div className="mb-4 text-center">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          👑 Interactive Avatar
-        </h2>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          Click and drag to rotate • Click to hear me speak
-        </p>
-      </div>
-
       <div
         ref={mountRef}
-        className="w-full h-80 sm:h-96 md:h-[450px] lg:h-[500px] xl:h-[550px] bg-transparent rounded-lg overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        className="w-full h-96 sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] bg-transparent rounded-lg overflow-hidden cursor-grab active:cursor-grabbing select-none"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onClick={handleAvatarClick}
         style={{
-          minHeight: "300px",
-          maxHeight: "600px",
+          minHeight: "400px",
+          maxHeight: "900px",
         }}
       />
-
-      {/* Animated Text Box */}
-      <div className="mt-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-        <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0">
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-bold">👑</span>
-            </div>
-          </div>
-          <div className="flex-1 min-h-0">
-            <div className="text-sm font-medium text-gray-900 dark:text-white mb-1">
-              Avatar
-            </div>
-            <div
-              className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed"
-              dangerouslySetInnerHTML={{
-                __html:
-                  formatMessage(displayedText) +
-                  (isTyping
-                    ? '<span class="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>'
-                    : ""),
-              }}
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

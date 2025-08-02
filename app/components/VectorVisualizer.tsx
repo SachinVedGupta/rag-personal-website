@@ -174,7 +174,7 @@ export default function VectorVisualizer({
               width: 1,
             },
           },
-          name: "Similar Vectors (RAG Results)",
+          name: "Similar Embeddings (RAG Results)",
           text: similarTexts.map(
             (text, i) => `Similar ${i + 1}: ${text.substring(0, 50)}...`
           ),
@@ -263,10 +263,10 @@ export default function VectorVisualizer({
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-6">
       <div className="mb-4">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          🔍 Vector Space Visualization
+          Embedding Space Visualization
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-300">
-          Real-time 2D PCA visualization of your question and similar vectors
+          Real-time 2D PCA visualization of your question and similar embeddings
         </p>
       </div>
 
@@ -275,7 +275,7 @@ export default function VectorVisualizer({
         <div className="flex items-center justify-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
           <span className="ml-3 text-gray-600 dark:text-gray-300">
-            Loading vector data...
+            Loading embedding data...
           </span>
         </div>
       )}

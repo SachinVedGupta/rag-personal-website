@@ -19,7 +19,7 @@ export default function Message({ message }: MessageProps) {
         // Convert markdown links to HTML
         .replace(
           /\[([^\]]+)\]\(([^)]+)\)/g,
-          '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">$1</a>'
+          '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-500 dark:text-blue-300 hover:underline font-medium">$1</a>'
         )
         // Convert bullet points
         .replace(/^[-*]\s+/gm, "• ")

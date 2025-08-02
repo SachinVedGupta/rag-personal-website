@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain.chains import RetrievalQA
@@ -13,6 +14,7 @@ INDEX_NAME = "webrag"
 GOOGLE_API_KEY = "AIzaSyDKJl35hbvRXRMD-StMU9SjHmRpG5PcjZ0"
 
 app = Flask(__name__)
+CORS(app)
 
 # Initialize components
 pc = Pinecone(api_key=PINECONE_API_KEY)

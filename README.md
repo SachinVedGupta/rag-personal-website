@@ -6,6 +6,8 @@ A modern, simple chat interface for Sachin Ved Gupta's portfolio built with Next
 
 - 🎨 Modern, clean UI with dark mode support
 - 💬 Real-time chat with AI about portfolio and experience
+- 🔍 **Live vector space visualization** showing embeddings and similarity search
+- 🌐 **Interactive 3D visualization** with Three.js for immersive exploration
 - 📱 Responsive design that works on all devices
 - ⚡ Fast and lightweight
 - 🔄 Auto-scroll to latest messages
@@ -88,7 +90,16 @@ Make sure your Flask backend is running with the following endpoints:
 
 3. Open `http://localhost:3000` in your browser
 
-4. Start chatting! Ask questions like:
+4. **Chat and Visualize**:
+
+   - Type questions in the chat interface
+   - Watch the vector space visualization update in real-time
+   - See your question vector (red star) and similar vectors (orange circles)
+   - Observe the search area circle around your question
+   - **Interactive 3D visualization** with mouse controls (rotate, zoom, pan)
+   - Compare 2D and 3D representations side by side
+
+5. Try questions like:
    - "What are your skills?"
    - "Tell me about your experience"
    - "What projects have you worked on?"

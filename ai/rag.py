@@ -92,6 +92,102 @@ def ask():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route('/vector-data', methods=['POST'])
+def vector_data():
+    try:
+        from sklearn.decomposition import PCA
+        from sklearn.manifold import TSNE
+        import numpy as np
+        
+        data = request.json
+        question = data.get('question', '').strip()
+        reduction_method = data.get('reductionMethod', 'PCA')
+        
+        # Get all vectors from Pinecone
+        index = pc.Index(INDEX_NAME)
+        query_response = index.query(
+            vector=[0] * 384,  # Dummy vector to get all
+            top_k=1000,
+            include_metadata=True,
+            include_values=True
+        )
+        
+        vectors = []
+        texts = []
+        
+        for match in query_response['matches']:
+            if 'values' in match:
+                vectors.append(match['values'])
+                texts.append(match.get('metadata', {}).get('text', 'Unknown'))
+        
+        if not vectors:
+            return jsonify({"status": "error", "message": "No vectors found"}), 400
+        
+        vectors_array = np.array(vectors)
+        
+        # Reduce dimensions
+        if reduction_method == 'PCA':
+            reducer = PCA(n_components=2)
+        elif reduction_method == 'TSNE':
+            reducer = TSNE(n_components=2, random_state=42, perplexity=min(30, len(vectors)-1))
+        else:
+            return jsonify({"status": "error", "message": "Invalid reduction method"}), 400
+        
+        reduced_vectors = reducer.fit_transform(vectors_array)
+        
+        result = {
+            "status": "success",
+            "vectors": reduced_vectors.tolist(),
+            "texts": texts
+        }
+        
+        # If question provided, add question vector and similar vectors
+        if question:
+            question_embedding = embedding.embed_query(question)
+            question_vector = np.array(question_embedding)
+            
+            # Reduce question vector using the same reducer
+            question_reduced = reducer.transform(question_vector.reshape(1, -1))[0]
+            
+            # Get similar vectors
+            similar_response = index.query(
+                vector=question_vector.tolist(),
+                top_k=5,
+                include_metadata=True,
+                include_values=True
+            )
+            
+            similar_vectors = []
+            similar_texts = []
+            
+            for match in similar_response['matches']:
+                if 'values' in match:
+                    similar_vectors.append(match['values'])
+                    similar_texts.append(match.get('metadata', {}).get('text', 'Unknown'))
+            
+            if similar_vectors:
+                similar_vectors_array = np.array(similar_vectors)
+                similar_reduced = reducer.transform(similar_vectors_array)
+                
+                # Calculate similarity scores for the similar vectors
+                similarity_scores = []
+                for i, similar_vector in enumerate(similar_vectors):
+                    # Cosine similarity
+                    similarity = np.dot(question_vector, similar_vector) / (np.linalg.norm(question_vector) * np.linalg.norm(similar_vector))
+                    similarity_scores.append(float(similarity))
+                
+                result.update({
+                    "question": question,
+                    "questionVector": question_reduced.tolist(),
+                    "similarVectors": similar_reduced.tolist(),
+                    "similarTexts": similar_texts,
+                    "similarityScores": similarity_scores
+                })
+        
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 if __name__ == '__main__':
     print("🚀 Starting RAG API on http://localhost:5000")
     app.run(debug=True, port=5000)

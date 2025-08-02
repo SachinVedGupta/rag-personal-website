@@ -11,7 +11,13 @@ interface Message {
   timestamp: Date;
 }
 
-export default function ChatInterface() {
+interface ChatInterfaceProps {
+  onQuestionChange?: (question: string) => void;
+}
+
+export default function ChatInterface({
+  onQuestionChange,
+}: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -36,6 +42,9 @@ export default function ChatInterface() {
 
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
+
+    // Update the current question for visualization
+    onQuestionChange?.(text.trim());
 
     try {
       const response = await fetch("http://localhost:5000/ask", {

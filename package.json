@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/three": "^0.178.1",
     "next": "14.0.0",
+    "plotly.js": "^3.0.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-plotly.js": "^2.6.0",
+    "three": "^0.179.1"
   },
   "devDependencies": {
     "@types/node": "^20",

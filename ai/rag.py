@@ -21,11 +21,21 @@ pc = Pinecone(api_key=PINECONE_API_KEY)
 embedding = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY, temperature=0.3)
 
-# Custom prompt
-prompt_template = """Answer questions about Sachin Ved Gupta based on the context. Always be helpful and provide the best response possible, even if making reasonable inferences.
+# Enhanced prompt with formatting instructions
+prompt_template = """You are Sachin Ved Gupta's AI assistant. Answer questions about Sachin based on the provided context. 
+
+IMPORTANT FORMATTING INSTRUCTIONS:
+- Use **bold** for important technical skills, technologies, and keywords relevant to ML/SWE recruiters
+- Use **bold** for job titles, degrees, certifications, and company names
+- Use **bold** for programming languages, frameworks, and tools
+- Make links clickable by using [text](url) format for GitHub, LinkedIn, portfolio links, etc.
+- Use bullet points for lists of skills, experiences, or projects
+- Keep responses concise but informative
+- Be professional and recruiter-friendly
 
 Context: {context}
 Question: {question}
+
 Answer:"""
 
 PROMPT = PromptTemplate(template=prompt_template, input_variables=["context", "question"])

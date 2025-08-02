@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ChatInterface from "./components/ChatInterface";
 import VectorVisualizer from "./components/VectorVisualizer";
+import AvatarRenderer from "./components/AvatarRenderer";
 
 export default function Home() {
   const [currentQuestion, setCurrentQuestion] = useState("");
@@ -20,6 +21,11 @@ export default function Home() {
               Chat with AI about Sachin's portfolio with live 2D vector
               visualization
             </p>
+          </div>
+
+          {/* Avatar Section */}
+          <div className="mb-8">
+            <AvatarRenderer />
           </div>
 
           {/* Main Content - Chat and Visualization */}

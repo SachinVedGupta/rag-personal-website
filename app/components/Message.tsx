@@ -8,6 +8,26 @@ interface MessageProps {
 }
 
 export default function Message({ message }: MessageProps) {
+  const formatMessage = (text: string) => {
+    return (
+      text
+        // Convert markdown bold to HTML
+        .replace(
+          /\*\*(.*?)\*\*/g,
+          '<strong class="font-semibold text-blue-600 dark:text-blue-400">$1</strong>'
+        )
+        // Convert markdown links to HTML
+        .replace(
+          /\[([^\]]+)\]\(([^)]+)\)/g,
+          '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">$1</a>'
+        )
+        // Convert bullet points
+        .replace(/^[-*]\s+/gm, "• ")
+        // Convert line breaks
+        .replace(/\n/g, "<br>")
+    );
+  };
+
   return (
     <div className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}>
       <div
@@ -17,7 +37,12 @@ export default function Message({ message }: MessageProps) {
             : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
         }`}
       >
-        <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+        <div
+          className="text-sm whitespace-pre-wrap"
+          dangerouslySetInnerHTML={{
+            __html: message.isUser ? message.text : formatMessage(message.text),
+          }}
+        />
         <p
           className={`text-xs mt-1 ${
             message.isUser

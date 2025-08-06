@@ -20,15 +20,36 @@ export default function ChatInterface({
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingText, setTypingText] = useState("");
+  const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const typeMessage = (text: string, messageId: string) => {
+    setIsTyping(true);
+    setTypingText("");
+    setTypingMessageId(messageId);
+    let index = 0;
+
+    const typeInterval = setInterval(() => {
+      if (index < text.length) {
+        setTypingText(text.substring(0, index + 1));
+        index++;
+      } else {
+        setIsTyping(false);
+        setTypingMessageId(null);
+        clearInterval(typeInterval);
+      }
+    }, 30); // Faster typing speed for chat
+  };
+
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, typingText]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -65,6 +86,8 @@ export default function ChatInterface({
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, aiMessage]);
+        // Start typing animation for AI response
+        typeMessage(data.answer, aiMessage.id);
       } else {
         const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
@@ -95,7 +118,31 @@ export default function ChatInterface({
           Portfolio Chat
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Ask me anything about my experience, skills, or projects
+          Ask me anything about my{" "}
+          <button
+            onClick={() =>
+              sendMessage(
+                "Tell me about your work experience and leadership roles"
+              )
+            }
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline font-medium transition-colors"
+          >
+            experience
+          </button>
+          ,{" "}
+          <button
+            onClick={() => sendMessage("What are your technical skills?")}
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline font-medium transition-colors"
+          >
+            skills
+          </button>
+          , or{" "}
+          <button
+            onClick={() => sendMessage("Tell me about your projects")}
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline font-medium transition-colors"
+          >
+            projects
+          </button>
         </p>
       </div>
 
@@ -111,7 +158,13 @@ export default function ChatInterface({
         )}
 
         {messages.map((message) => (
-          <Message key={message.id} message={message} />
+          <Message
+            key={message.id}
+            message={{
+              ...message,
+              text: typingMessageId === message.id ? typingText : message.text,
+            }}
+          />
         ))}
 
         {isLoading && (

@@ -21,6 +21,11 @@ export default function Message({ message }: MessageProps) {
           /\[([^\]]+)\]\(([^)]+)\)/g,
           '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-500 dark:text-blue-300 hover:underline font-medium">$1</a>'
         )
+        // Convert image file paths to img elements
+        .replace(
+          /(\/[^\/\s]+\.(jpg|jpeg|png|gif|webp|svg))(?:\s|$|\.)/gi,
+          '<img src="$1" alt="Project image" class="max-w-full h-auto rounded-lg shadow-md my-2 border border-gray-200 dark:border-gray-600" style="max-height: 200px;" />'
+        )
         // Convert bullet points
         .replace(/^[-*]\s+/gm, "• ")
         // Convert line breaks

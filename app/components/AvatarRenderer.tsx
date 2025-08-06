@@ -8,22 +8,27 @@ export default function AvatarRenderer() {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const modelRef = useRef<THREE.Group | null>(null);
+  const animationIdRef = useRef<number | null>(null);
+  const rotationYRef = useRef(0); // Use ref instead of state for smooth updates
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const [isDragging, setIsDragging] = useState(false);
   const [lastMouseX, setLastMouseX] = useState(0);
-  const [rotationY, setRotationY] = useState(0);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
   const messages = [
-    "i love building ai systems that help people",
+    "i love creating ai systems that help people and impact lives",
     "i am a machine learning intern @ shopify @ nokia",
     "i lead drone club's ml team to autonomously put out wild fires",
     "i am developing a browser ai agent that can do anything for you",
     "i am honing my skills within llm research, ai agents, and cv models",
     "i am looking for ml and swe internships for winter/spring 2026 and summer 2026",
     "i am a software engineering student @ mcmaster university, graduating in 2027",
+    "i am a builder, click me to learn more or scroll down to ask my ai persona and view the allocating rag embeddings visualization",
   ];
 
   const updateHeaderText = (text: string) => {
@@ -34,11 +39,16 @@ export default function AvatarRenderer() {
   };
 
   const typeMessage = (message: string) => {
+    // Clear any existing interval
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+    }
+
     setIsTyping(true);
     setDisplayedText("");
     let index = 0;
 
-    const typeInterval = setInterval(() => {
+    typingIntervalRef.current = setInterval(() => {
       if (index < message.length) {
         const currentText = message.substring(0, index + 1);
         setDisplayedText(currentText);
@@ -46,7 +56,10 @@ export default function AvatarRenderer() {
         index++;
       } else {
         setIsTyping(false);
-        clearInterval(typeInterval);
+        if (typingIntervalRef.current) {
+          clearInterval(typingIntervalRef.current);
+          typingIntervalRef.current = null;
+        }
       }
     }, 50);
   };
@@ -67,6 +80,7 @@ export default function AvatarRenderer() {
       1000
     );
     camera.position.set(0, 0, 4); // Moved camera closer
+    cameraRef.current = camera;
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({
@@ -141,30 +155,32 @@ export default function AvatarRenderer() {
       }
     );
 
-    // Animation loop
+    // Animation loop - moved outside and using refs
     const animate = () => {
-      requestAnimationFrame(animate);
-
-      // Apply rotation to the model
       if (modelRef.current) {
-        modelRef.current.rotation.y = rotationY;
+        modelRef.current.rotation.y = rotationYRef.current;
       }
 
-      renderer.render(scene, camera);
+      if (rendererRef.current && sceneRef.current && cameraRef.current) {
+        rendererRef.current.render(sceneRef.current, cameraRef.current);
+      }
+
+      animationIdRef.current = requestAnimationFrame(animate);
     };
     animate();
 
     // Handle resize
     const handleResize = () => {
-      if (!mountRef.current) return;
+      if (!mountRef.current || !cameraRef.current || !rendererRef.current)
+        return;
 
       const width = mountRef.current.clientWidth;
       const height = mountRef.current.clientHeight;
 
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
 
-      renderer.setSize(width, height);
+      rendererRef.current.setSize(width, height);
     };
 
     window.addEventListener("resize", handleResize);
@@ -175,12 +191,15 @@ export default function AvatarRenderer() {
     // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };
-  }, [rotationY]);
+  }, []); // Remove rotationY dependency
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -192,9 +211,10 @@ export default function AvatarRenderer() {
     if (!isDragging) return;
 
     const deltaX = e.clientX - lastMouseX;
-    const rotationSpeed = 0.003; // Very smooth rotation
+    const rotationSpeed = 0.005; // Slightly increased for more responsiveness
 
-    setRotationY((prev) => prev + deltaX * rotationSpeed);
+    // Update the ref directly for smooth rotation
+    rotationYRef.current += deltaX * rotationSpeed;
     setLastMouseX(e.clientX);
   };
 
@@ -207,10 +227,25 @@ export default function AvatarRenderer() {
   };
 
   const handleAvatarClick = () => {
-    if (!isTyping) {
-      const nextIndex = (currentMessageIndex + 1) % messages.length;
-      setCurrentMessageIndex(nextIndex);
-      typeMessage(messages[nextIndex]);
+    if (!isDragging) {
+      // Prevent click when dragging
+      if (isTyping) {
+        // Skip typing animation and show full message immediately
+        const currentMessage = messages[currentMessageIndex];
+        setDisplayedText(currentMessage);
+        updateHeaderText(currentMessage);
+        setIsTyping(false);
+        // Clear the typing interval
+        if (typingIntervalRef.current) {
+          clearInterval(typingIntervalRef.current);
+          typingIntervalRef.current = null;
+        }
+      } else {
+        // Start new message
+        const nextIndex = (currentMessageIndex + 1) % messages.length;
+        setCurrentMessageIndex(nextIndex);
+        typeMessage(messages[nextIndex]);
+      }
     }
   };
 

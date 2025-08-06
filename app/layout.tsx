@@ -6,8 +6,13 @@ import Navigation from "./components/Navigation";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sachin Ved Gupta - Portfolio Chat",
+  title: "Sachin's Website",
   description: "Chat with AI about Sachin Ved Gupta's portfolio and experience",
+  icons: {
+    icon: [
+      { url: "/sachin-image-cropped.png", type: "image/jpeg" }
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -17,6 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/sachin-image-final.png" type="image/jpeg" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      </head>
       <body className={inter.className}>
         <Navigation />
         {children}

@@ -12,8 +12,12 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-12 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SVG</span>
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
+              <img
+                src="/sachin-image-final.png"
+                alt="Sachin Ved Gupta"
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="text-xl font-bold text-gray-900 dark:text-white">
               Sachin Ved Gupta
@@ -23,7 +27,8 @@ export default function Navigation() {
           {/* Dynamic Avatar Text in Middle */}
           <div id="avatar-text" className="flex-1 text-center">
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              i am a builder, click me to learn more or scroll down to ask my ai persona
+              i am a builder, click me to learn more or scroll down to ask my ai
+              persona
             </div>
           </div>
 

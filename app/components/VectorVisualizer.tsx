@@ -95,13 +95,15 @@ export default function VectorVisualizer({
       type: "scatter" as const,
       marker: {
         size: 6,
-        color: "lightblue",
+        color: "#6366f1", // Modern indigo
         opacity: 0.6,
       },
       name: "All Vectors",
       text: texts.map((text) => text.substring(0, 50) + "..."),
       hovertemplate:
-        "<b>Vector</b><br>Text: %{text}<br>X: %{x}<br>Y: %{y}<extra></extra>",
+        "<b>All Vectors</b><br>" +
+        "<b>Text:</b> %{text}<br>" +
+        "<b>Position:</b> (%{x:.3f}, %{y:.3f})<extra></extra>",
     };
 
     const traces: any[] = [allVectorsTrace];
@@ -153,9 +155,11 @@ export default function VectorVisualizer({
           },
         },
         name: "Question",
-        text: [`Question: ${q}`],
+        text: [q],
         hovertemplate:
-          "<b>Question</b><br>Text: %{text}<br>X: %{x}<br>Y: %{y}<extra></extra>",
+          "<b>Question</b><br>" +
+          "<b>Text:</b> %{text}<br>" +
+          "<b>Position:</b> (%{x:.3f}, %{y:.3f})<extra></extra>",
       });
 
       // Add similar vectors with enhanced styling
@@ -176,10 +180,12 @@ export default function VectorVisualizer({
           },
           name: "Similar Embeddings (RAG Results)",
           text: similarTexts.map(
-            (text, i) => `Similar ${i + 1}: ${text.substring(0, 50)}...`
+            (text, i) => `(#${i + 1}) ${text.substring(0, 50)}...`
           ),
           hovertemplate:
-            "<b>Similar Vector</b><br>Text: %{text}<br>X: %{x}<br>Y: %{y}<extra></extra>",
+            "<b>Similar Embeddings (RAG Results)</b><br>" +
+            "<b>Text:</b> %{text}<br>" +
+            "<b>Position:</b> (%{x:.3f}, %{y:.3f})<extra></extra>",
         });
 
         // Add connection lines from question to similar vectors
@@ -232,11 +238,11 @@ export default function VectorVisualizer({
             },
           },
           name: "Closest in 2D",
-          text: closest2D.map(
-            (item) => `Closest: ${item.text.substring(0, 50)}...`
-          ),
+          text: closest2D.map((item) => `${item.text.substring(0, 50)}...`),
           hovertemplate:
-            "<b>Closest Vector (2D)</b><br>Text: %{text}<br>X: %{x}<br>Y: %{y}<extra></extra>",
+            "<b>Closest in 2D</b><br>" +
+            "<b>Text:</b> %{text}<br>" +
+            "<b>Position:</b> (%{x:.3f}, %{y:.3f})<extra></extra>",
         });
       }
     }

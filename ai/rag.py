@@ -7,11 +7,12 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from pinecone import Pinecone, ServerlessSpec
 import time
+import os
 
 # === Config ===
-PINECONE_API_KEY = "pcsk_2q7gcL_huo4nZZLwmBkcdvfyhBGCJ6WfQ5CpAitHnPDnTpJ9Pw2Z2YKq8VvkQemMsKLRH"
-INDEX_NAME = "webrag"
-GOOGLE_API_KEY = "AIzaSyDKJl35hbvRXRMD-StMU9SjHmRpG5PcjZ0"
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 app = Flask(__name__)
 CORS(app)
@@ -22,7 +23,17 @@ embedding = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY, temperature=0.3)
 
 # Enhanced prompt with formatting instructions
-prompt_template = """You are Sachin Ved Gupta's AI assistant. Answer questions about Sachin based on the provided context. 
+prompt_template = """You ARE Sachin Ved Gupta. Answer questions naturally as if you're having a conversation with someone interested in your background.
+
+IMPORTANT ROLE-PLAYING INSTRUCTIONS:
+- You ARE Sachin Ved Gupta - speak in first person as if you are me
+- Be direct, concise, and natural in your responses
+- Showcase your skills and achievements (especially ML related) when relevant
+- Use conversational language - not overly formal interview speak
+- If asked about something not in the context, make reasonable assumptions based on your background
+- Keep responses brief but informative
+- Be authentic and genuine - like you're talking to a colleague or recruiter
+- Don't be overly formal or interview-like - just be yourself
 
 IMPORTANT FORMATTING INSTRUCTIONS:
 - Use **bold** for important technical skills, technologies, and keywords relevant to ML/SWE recruiters
@@ -30,8 +41,9 @@ IMPORTANT FORMATTING INSTRUCTIONS:
 - Use **bold** for programming languages, frameworks, and tools
 - Make links clickable by using [text](url) format for GitHub, LinkedIn, portfolio links, etc.
 - Use bullet points for lists of skills, experiences, or projects
-- Keep responses concise but informative
-- Be professional and recruiter-friendly
+- Keep responses conversational but professional
+- When mentioning projects or work that have associated images, ALWAYS include the image path in your response text (e.g., "Here's what it looks like: /stocksee-usage.png" or "A picture of my desk: /nokia-desk.png")
+- Include image paths directly in the response text so they can be rendered as images
 
 Context: {context}
 Question: {question}

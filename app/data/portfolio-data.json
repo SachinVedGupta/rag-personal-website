@@ -1,0 +1,442 @@
+{
+  "experience": {
+    "icon": "💼",
+    "title": "Work Experience",
+    "description": "Machine Learning & Software Engineering roles at top tech companies",
+    "keywords": ["Nokia", "Shopify", "ML", "Python", "RAG"],
+    "linkIcon": "→",
+    "details": {
+      "title": "Professional Experience",
+      "items": [
+        {
+          "company": "Shopify",
+          "role": "Machine Learning Engineer Intern",
+          "period": "Fall 2025",
+          "description": "Developing cutting-edge AI solutions for e-commerce on the Shopify Magic and Sidekick agentic AI team",
+          "technologies": ["Python", "LLMs", "Generative AI", "Agentic Systems", "ML Infrastructure", "E-commerce AI"],
+          "logo": "/experience/shopify-logo.png",
+          "image": "/experience/ml-shopify.png",
+          "details": [
+            "Developing agentic solutions and assistants for clients, business owners, and users",
+            "Enhancing Sidekick (Shopify's AI assistant) to better understand the user's intent and context based on their previous interactions and patterns",
+            "Contributing to large-scale ML infrastructure and model deployment"
+          ]
+        },
+        {
+          "company": "Nokia Bell Labs",
+          "role": "Machine Learning Research Intern",
+          "period": "Summer 2025",
+          "description": "ML research on Gen AI's impact on 5G networks AND created an Agentic system to auto detect & resolve app issues",
+          "technologies": ["LangChain", "Tensorflow", "LangGraph", "Multi-Agent Systems", "Pinecone", "RNNs", "Numpy", "Matplotlib", "Pandas"],
+          "logo": "/experience/nokia-bell-labs-logo.png",
+          "image": "/experience/ml-nokia.png",
+          "details": [
+            "Developed a Retrieval-Augmented Generation (RAG) system using LangChain and Pinecone embeddings to generate context-aware solutions from historical JIRA data and codebase knowledge (adopted across 8+ teams)",
+            "Extended the RAG system with LangGraph-based AI agents that autonomously monitor dashboards, identify failing VMs, and execute targeted Linux recovery commands, resolving over 60% of daily operational issues",
+            "Analyzed Generative AI's impact on 5G networks using Pandas, NumPy, and Matplotlib, identifying a strong correlation (r = 0.72) between AI service demand and network traffic load",
+            "Created an RNN-based traffic forecasting model achieving 4.4% MAPE using TensorFlow, providing data-driven insights that influenced Nokia's strategic infrastructure investments",
+            "Part of Nokia's AI/ML research lab of Nokia Bell Labs"
+          ]
+        },
+        {
+          "company": "Nokia",
+          "role": "Software Engineering Intern",
+          "period": "Summer 2024",
+          "description": "Automating cloud infrastructure provisioning and status visualization",
+          "technologies": ["Python", "OpenStack", "Chrome Extensions", "Automation", "JavaScript"],
+          "logo": "/experience/nokia-logo.png",
+          "image": "/experience/swe-nokia.png",
+          "details": [
+            "Automated OpenStack VM provisioning using modular Python scripts",
+            "Achieved 98.3% reduction in manual work through intelligent automation",
+            "Developed Chrome extension for automated log parsing and root cause analysis",
+            "Reduced average bug resolution time by 64% with dynamic error highlighting",
+            "Saved team over 200 hours per month through automation tools"
+          ]
+        }
+      ]
+    }
+  },
+"leadership": {
+    "icon": "🎯",
+    "title": "Leadership Roles",
+    "description": "Leading teams and initiatives in AI, drones, rocketry, and robotics competitions",
+    "keywords": ["Drone Club", "GDSC", "Rocketry", "SumoBots", "60 members", "AI"],
+    "linkIcon": "→",
+    "details": {
+      "title": "Leadership & Team Management",
+      "items": [
+        {
+          "organization": "Autonomous Drone Club",
+          "role": "Machine Learning Team Lead & Founding Member",
+          "period": "2025",
+          "description": "Leading 20-member Machine Learning subteam across autonomous drone club creation for the international SUAS 2026 competition",
+          "achievements": ["20 member ML team", "YOLOv11 fine tuning", "TensorRT deployment", "3.2× latency speedup"],
+          "image": "/leadership/drone.png",
+          "logo": "/leadership/drone.png",
+          "links": {
+            "website": "https://www.macdrones.ca/"
+          },
+          "details": [
+            "Leading 20 member Software/ML sub-team and founding member of overall 60-member Drone Club for SUAS 2026 competition",
+            "Fine-tuned YOLOv11 on custom balloon/bucket dataset achieving +2.6% mAP (0.924 → 0.95) and +4.4% recall (0.749 → 0.793) improvements",
+            "Architected camera-to-NVIDIA Jetson Nano-to-flight controller pipeline with TensorRT model optimization and FP8 quantization for 3.2× speedup",
+            "Built comprehensive benchmarking pipeline assessing latency, throughput, recall, and mean average precision for objective model performance evaluation",
+            "Developed object triangulation algorithms using NumPy vector calculations to determine travel vectors for detected targets",
+            "Implemented TensorFlow + OpenCV blob detection for IR hotspot identification representing potential wildfire locations",
+            "Created AWS, Docker, and React-based interactive dashboard for real-time drone video feed and flight path visualization",
+            "Led Gazebo and NVIDIA Isaac Sim virtual simulation development for comprehensive model testing in life-like environments"
+          ]
+        },
+        {
+          "organization": "Google Developer Student Club (GDSC)",
+          "role": "Open Source Team Lead",
+          "period": "2025",
+          "description": "Leading 10 member SWE team in agile development of an open-source AI Browser Agent",
+          "achievements": ["10 member SWE team", "Agile development", "Open-source", "AI Browser Agent"],
+          "image": "/leadership/gdsc.png",
+          "logo": "/leadership/gdsc.png",
+          "links": {
+            "website": "https://gdscmcmasteru.ca/"
+          },
+          "details": [
+            "Leading 10-member team in agile development of open-source AI Browser Agent for web automation",
+            "Implementing modern software development practices and contributing to open-source AI tooling ecosystem",
+            "Mentoring junior developers in AI/ML projects and best practices for software and systems design",
+            "Let anyone do anything by automating the browser experience"
+          ]
+        },
+        {
+          "organization": "McMaster Rocketry",
+          "role": "Software Engineer -  Payload Subteam",
+          "period": "2024-2025",
+          "description": "Developing rocket payloads: low-latency communication protocols, 360° camera system, liquid metal electronics testing chamber",
+          "achievements": ["Low-Latency WIFI Communication Protocol", "360° camera system", "CAN-RGX project", "STM32 development"],
+          "image": "/leadership/rocket.png",
+          "logo": "/leadership/rocket.png",
+          "details": [
+            "Developed low-latency rocket WIFI protocol using C++ and ESP32s enabling on-rocket camera livestreaming to ground equipment",
+            "Created 360° immersive video system using C++, Python, and OpenCV to combine 4 camera angles into singular feed",
+            "Working on CAN-RGX project testing liquid metal electronics behavior in low gravity environments for flexible, self-healing circuits",
+            "Implemented STM32 and C++ embedded software development for wireless communication between on-rocket components"
+          ]
+        },
+        {
+          "organization": "McMaster SumoBots",
+          "role": "Software Engineer",
+          "period": "2023-2025",
+          "description": "Led autonomous robot fighting competition with 100+ participants and competed nationally with fully autonomous SumoBot achieving 4-2 record",
+          "achievements": ["Won at National Competition", "100+ participants", "Autonomous algorithms"],
+          "image": "/leadership/sumobots.png",
+          "logo": "/leadership/sumobots.png",
+          "links": {
+            "demo": "https://youtu.be/4TSukrEIZKE"
+          },
+          "details": [
+            "Organized and ran autonomous robot fighting competition with over 100 student competitors",
+            "Designed C++ algorithms ensuring fully autonomous reactions to surroundings and effective opponent responses",
+            "Processed Arduino, ultrasonic sensor, and infrared sensor data through cleaning, scrubbing, and storage systems",
+            "2025: Won at the national competition in the advanced category",
+            "2024: Competed at national competition in Toronto achieving 4 wins and 2 losses with executive SumoBot",
+            "Developed autonomous takedown maneuvers and real-time opponent reaction algorithms for competitive advantage"
+          ]
+        }
+      ]
+    }
+  },
+  "projects": {
+    "icon": "🚀",
+    "title": "Featured Projects",
+    "description": "AI, ML, and software engineering projects with real-world impact",
+    "keywords": ["HackMIT", "StockSee", "QuantRL", "5 projects"],
+    "linkIcon": "→",
+    "details": {
+      "title": "Technical Projects & Hackathons",
+      "items": [
+        {
+          "name": "MITI - HackMIT Winner",
+          "description": "Real-time collaborative music studio with AI-powered suggestions, competing against 1000 participants",
+          "technologies": ["React", "Llama LLM", "CanvasJS", "Convex", "SunoAI"],
+          "achievements": ["HackMIT Winner", "1000 participants", "Music Track"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/Miti",
+            "demo": "https://youtu.be/4EyjRASrDUM"
+          },
+          "image": "/projects/hackmit-win.jpg",
+          "logo": "/projects/hackmit-demo.png",
+          "details": [
+            "Won HackMIT competing against 1000 participants in Music Track sponsored by Suno",
+            "Built innovative real-time collaborative music studio with Meta's Llama LLM integration",
+            "Developed AI-powered musical suggestions and real-time collaboration capabilities",
+            "Implemented drag-and-drop note placement, zoom functionality, and keyboard shortcuts",
+            "Created JSON to MIDI conversion algorithms for seamless music production",
+            "Demonstrated advanced full-stack development skills and innovative AI integration",
+            "Used React, Vite, CanvasJS, Convex + Clerk Database, and SunoAI technologies"
+          ]
+        },
+        {
+          "name": "Llama LLM Inference Optimization",
+          "description": "Optimized LLama LLM (Transformer) inference operations, achieving a 1.13× latency speedup",
+          "technologies": ["AWS Neuron Kernel Interface", "Trainium EC2", "PyTorch", "NumPy"],
+          "achievements": ["1.13× speedup", "ASPLOS Conference", "AWS NKI Contest"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/nki-llama",
+            "documentation": "https://docs.google.com/document/d/1iBo4elvnPlU_SeVow_xYmbjJ9Ym23uRW9FNW8UC_ltI/edit?tab=t.f8x5lvjt07lp"
+          },
+          "image": "/projects/transformer.png",
+          "logo": "/projects/llama-3.png",
+          "details": [
+            "Competed in the AWS NKI Contest to optimize an LLM as part of the ASPLOS Conference",
+            "Reimplemented core operations and kernels (originally PyTorch based) with the AWS NKI (ML accelerator) framework, including Matrix Multiplication and Scaled Dot-Product Attention",
+            "Optimized transformer inference for AWS Trainium EC2 chip architecture",
+            "Used comprehensive benchmarking tools to track accuracy, NKI FLOPs, and throughput",
+            "Achieved 1.13× speedup over the hugging face baseline LLama LLM implementation that uses numpy and pytorch libraries for inference operations"
+          ]
+        },
+        {
+          "name": "QuantRL Trading Bot",
+          "description": "Deep Q-Learning trading bot achieving +191% 3-year return with 27% improvement over baselines",
+          "technologies": ["TensorFlow", "DQN", "Flask", "React", "Reinforcement Learning"],
+          "achievements": ["+191% return", "27% improvement", "3-year backtest"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/QuantRL-Trading-Bot"
+          },
+          "image": "/projects/quantrl.png",
+          "logo": "/projects/quantrl.png",
+          "details": [
+            "Engineered Deep Q-Learning reinforcement learning stock trading bot using TensorFlow",
+            "Created custom trading environment with buy/hold/sell actions and sophisticated reward function",
+            "Achieved +191% 3-year backtested return with trained Deep Q-Network (DQN)",
+            "Developed Flask + React dashboard for trade simulation and portfolio visualization",
+            "Implemented reward shaping, epsilon decay, and experience replay techniques",
+            "Boosted convergence speed and improved returns by 27% over baselines",
+            "Outperformed traditional buy-and-hold strategies by 300%",
+            "Demonstrated advanced ML engineering capabilities in financial applications"
+          ]
+        },
+        {
+          "name": "LearnBridge - Google ADK",
+          "description": "AI agent enabling 80% faster assignment starts with ReAct-based multi-agent workflows",
+          "technologies": ["Google ADK", "ReAct", "OAuth", "Google APIs"],
+          "achievements": ["80% faster starts", "Google ADK Hackathon"],
+          "links": {
+            "demo": "https://youtu.be/wRsyMHja9rw",
+            "github": "https://github.com/SachinVedGupta/TheClassroomChatBot"
+          },
+          "image": "/projects/learnbridge.png",
+          "logo": "/projects/learnbridge-ui.png",
+          "details": [
+            "Built LearnBridge using Google Agent Development Kit and Google Cloud Platform",
+            "Enabled 80% faster assignment starts by extracting key concepts from assignments",
+            "Created ReAct-based multi-agent workflows with memory and sequential execution",
+            "Integrated with Google Classroom & Calendar APIs for seamless LMS integration",
+            "Implemented robust OAuth flows with google-auth-oauthlib for secure access",
+            "Helped students save average 2 hours per week on assignment planning",
+            "Improved academic organization significantly through automated deadline management",
+            "Featured in the Google ADK Hackathon and SpurHacks competitions"
+          ]
+        },
+        {
+          "name": "MakeCloud - UofT Hacks",
+          "description": "AI cloud provisioning assistant reducing setup time from hours to minutes using Terraform automation",
+          "technologies": ["Terraform", "AWS", "Google Gemini", "Flask", "React"],
+          "achievements": ["AI cloud automation", "Terraform scripts"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/MakeCloud"
+          },
+          "image": "/projects/makecloud.png",
+          "logo": "/projects/makecloud.png",
+          "details": [
+            "Created AI cloud provisioning assistant at UofT Hacks 2025",
+            "Automated infrastructure deployment on any cloud platform using Terraform",
+            "Employed conversational techniques for natural user specification understanding",
+            "Dynamically created and executed Terraform scripts using subprocesses",
+            "Removed information overload and complexity of traditional cloud portals",
+            "Reduced cloud setup time from hours to minutes",
+            "Made cloud infrastructure accessible to non-technical users via a simple interface",
+            "Used AWS (EC2, S3), Google Gemini LLM, Python, Flask, and ReactJS"
+          ]
+        },
+        {
+          "name": "StockSee - HackThe6ix Winner",
+          "description": "Visual correlation between real-world events and stock prices with an 8.3 MSE loss LSTM prediction model",
+          "technologies": ["TensorFlow", "LSTM", "NLP", "JavaScript", "React"],
+          "achievements": ["HackThe6ix Winner", "400 participants", "FinTech category"],
+          "links": {
+            "live": "https://stock-see.vercel.app/",
+            "github": "https://github.com/SachinVedGupta/StockSee-with-ML-Predictions"
+          },
+          "image": "/projects/stocksee-win.jpg",
+          "logo": "/projects/stocksee-me-win.jpg",
+          "details": [
+            "Won HackThe6ix competing against 400 participants in FinTech category sponsored by Fidelity",
+            "Created visual correlation platform between real-world events and stock prices",
+            "Designed JavaScript algorithms for identifying significant stock price fluctuations",
+            "Developed LSTM model with an 8.3 MSE loss using TensorFlow",
+            "Built custom NLP sentiment analysis model with 68% accuracy trained on Kaggle datasets",
+            "Made stock market understandable by proving prices are affected by real-world events",
+            "Helped users make more informed investment decisions through data visualization"
+          ]
+        },
+        {
+          "name": "Bus Forecast - BramHacks Winner",
+          "description": "AI-powered bus route optimization tool that automates Brampton's surge bus allocation process based on event data",
+          "technologies": ["ReactJS", "NextJS", "Python", "Facebook API", "ML", "Demographics API"],
+          "achievements": ["BramHacks Winner", "500 competitors", "City of Brampton sponsor"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/BusForcast"
+          },
+          "image": "/projects/busforecast.png",
+          "logo": "/projects/busforecast.png",
+          "details": [
+            "Won BramHacks out of 500 competitors",
+            "Designed automated web scraper to collect upcoming Brampton events from Facebook",
+            "Built machine learning model predicting event attendance using demographic and income datasets",
+            "Developed visual analytics system highlighting high-demand bus routes in red for surge planning",
+            "Replaced previous holiday-only manual bus allocation process with an automated system that continuously gathers event data and accounts for smaller surges and local events",
+            "Collaborated with Brampton Transit officials to address a key municipal transportation challenge through data-driven bus allocation",
+            "Created centralized dashboard displaying events attendance forecasts and optimized bus routes"
+          ]
+        },
+        {
+          "name": "Planet Habitability Predictor",
+          "description": "NASA exoplanet analysis system using ANN to predict habitability scores and identify optimal colonization candidates",
+          "technologies": ["TensorFlow", "Kaggle", "Pandas", "NumPy", "NASA Data", "Google Search API"],
+          "achievements": ["NASA data analysis", "ANN model"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/Nasa-Planet-Habitability-Predictions"
+          },
+          "image": "/projects/planet.png",
+          "logo": "/projects/planet-2.png",
+          "details": [
+            "Performed EDA (Exploratory Data Analysis) on NASA Exoplanet Archive data by collecting, preprocessing, cleaning, scaling, and visualizing it to better understand it and better prepare it for ML models",
+            "Designed an algorithmic method for habitability scoring using Earth-similarity metrics and applied it to the training data",
+            "Built Artificial Neural Network in TensorFlow to predict habitability scores for new unseen planets",
+            "Produced detailed case study evaluating NASA's top 5 potential planet colonization candidates",
+            "Implemented rigorous data validation and NaN handling for reliable model training",
+            "Developed predictive system for rapid assessment of newly discovered exoplanets",
+            "Supported space exploration research through data-driven planetary analysis"
+          ]
+        },
+        {
+          "name": "AutoSurgeon - Hack the Heart",
+          "description": "Robotic surgical system mirroring human joint movements for remote surgery using computer vision and Arduino-controlled robotic arm.",
+          "technologies": ["Arduino", "NumPy", "OpenCV", "MediaPipe", "Python", "Robotics"],
+          "achievements": ["Remote surgery", "Robotic arm control"],
+          "links": {
+            "github": "https://github.com/SachinVedGupta/AutoSurgeon",
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_hackathon-biomedical-roboticsurgery-activity-7192319491274407936-7yhm"
+          },
+          "image": "/projects/auto-surgeon.png",
+          "logo": "/projects/mediapipe.png",
+          "details": [
+            "Built a robotic surgical system at Hack the Heart to help solve surgeon shortages in remote areas",
+            "Used OpenCV and MediaPipe to track human joints in real time for accurate movement capture",
+            "Programmed an Arduino-powered robotic arm to copy a surgeon’s hand movements with high accuracy",
+            "Created a computer vision system that turns hand gestures into robotic commands",
+            "Worked on improving surgical access for communities in underserved regions",
+            "Explored how AI could assist with semi-autonomous surgical procedures",
+            "Combined robotics, computer vision, and medical technology in a new way to tackle healthcare challenges"
+          ]
+        }
+      ]
+    }
+  },
+  "skills": {
+    "icon": "💻",
+    "title": "Technical Skills",
+    "description": "Comprehensive software engineering and AI/ML expertise",
+    "keywords": ["Programming", "AI/ML", "Cloud", "Libraries"],
+    "linkIcon": "🔗",
+    "details": {
+      "categories": [
+        {
+          "name": "Programming",
+          "skills": [
+            "Python",
+            "C++",
+            "Java",
+            "JavaScript",
+            "C",
+            "SQL",
+            "Bash",
+            "Arduino",
+            "Linux",
+            "Git"
+          ]
+        },
+        {
+          "name": "AI & ML",
+          "skills": [
+            "TensorFlow",
+            "PyTorch",
+            "CUDA",
+            "Scikit-Learn",
+            "OpenCV",
+            "Pandas",
+            "NumPy",
+            "Matplotlib",
+            "LangChain",
+            "AWS (SageMaker, Bedrock, Neuron NKI)",
+            "Google ADK (Agent Development Kit)",
+            "Neo4J",
+            "Pinecone",
+            "Kaggle"
+          ]
+        },
+        {
+          "name": "Web & Cloud",
+          "skills": [
+            "ReactJS",
+            "NextJS",
+            "Flask",
+            "Docker",
+            "Kubernetes",
+            "AWS",
+            "GCP",
+            "PostgreSQL",
+            "MongoDB"
+          ]
+        },
+        {
+          "name": "More",
+          "skills": [
+            "Data Structures & Algorithms",
+            "ReAct Agent Framework",
+            "Agile",
+            "Jira",
+            "Attended ICSE and ASPLOS conferences",
+            "Hockey Goalie",
+            "Speaker at IgnitionHacks",
+            "AI Articles on Medium"
+          ]
+        }
+      ],
+      "certifications": [
+        "AWS Certified AI Practitioner (AIF-C01)",
+        "AWS Certified Cloud Practitioner (CLF-C02)",
+        "Nokia Bell Labs - AI and Data Driven 5G Networks Certification",
+        "Udemy - TensorFlow 2.0: Deep Learning and Artificial Intelligence"
+      ]
+    }
+  },
+  "contact": {
+    "icon": "📧",
+    "title": "Connect",
+    "description": "Ready to collaborate on exciting AI and software engineering projects",
+    "keywords": ["Email", "Resume", "LinkedIn", "GitHub"],
+    "linkIcon": "→",
+    "details": {
+      "title": "Contact Information",
+      "email": "sachinvedgupta@gmail.com",
+      "resume": "/Sachin_Resume.pdf",
+      "social": {
+        "linkedin": "https://www.linkedin.com/in/Sachin-Ved-Gupta",
+        "github": "https://github.com/SachinVedGupta",
+        "medium": "https://medium.com/@sachinvgupta9",
+        "devpost": "https://devpost.com/SachinVedGupta"
+      },
+      "message": "I'm always open to discussing new opportunities, collaborations, or interesting projects. Feel free to reach out!"
+    }
+  }
+} 

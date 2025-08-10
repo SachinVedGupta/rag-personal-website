@@ -178,7 +178,7 @@ export default function VectorVisualizer({
               width: 1,
             },
           },
-          name: "Similar Embeddings (RAG Results)",
+          name: "Similar Embeddings<br>(RAG Results)",
           text: similarTexts.map(
             (text, i) => `(#${i + 1}) ${text.substring(0, 50)}...`
           ),
@@ -254,13 +254,17 @@ export default function VectorVisualizer({
           title: "Vector Space (PCA)",
           xaxis: { title: "PCA 1" },
           yaxis: { title: "PCA 2" },
-          height: 400,
+          height: 400,        // Keep height fixed if you want
+          autosize: true,     // Let Plotly resize width automatically
           showlegend: true,
           hovermode: "closest",
-          margin: { l: 50, r: 50, t: 50, b: 50 },
+          margin: { l: 50, r: 50, t: 50, b: 50 }
         }}
-        config={{ displayModeBar: false }}
-        style={{ width: "100%", height: "100%" }}
+        config={{
+          displayModeBar: false,
+          responsive: true,   // Key to making it adapt to parent
+        }}
+        style={{ width: "100%", height: "100%" }}  // Let height be controlled by layout
       />
     );
   };

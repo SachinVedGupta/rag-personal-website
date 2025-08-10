@@ -20,15 +20,20 @@ export default function Navigation() {
               />
             </div>
             <span className="text-xl font-bold text-gray-900 dark:text-white">
-              Sachin Ved Gupta
+              <span className="hidden sm:inline">Sachin Ved Gupta</span>
+              <span className="inline sm:hidden">SVG</span>
             </span>
           </Link>
 
           {/* Dynamic Avatar Text in Middle */}
           <div id="avatar-text" className="flex-1 text-center">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              i am a builder, click me to learn more or scroll down to ask my ai
-              persona
+            {/* Full text on sm+ screens */}
+            <div className="hidden sm:block text-sm text-gray-600 dark:text-gray-400">
+              i am a builder, click me to learn more or scroll down to ask my ai persona
+            </div>
+            {/* Shorter text on small screens */}
+            <div className="block sm:hidden text-sm text-gray-600 dark:text-gray-400">
+              ask my ai persona about me
             </div>
           </div>
 

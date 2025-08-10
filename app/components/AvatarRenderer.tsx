@@ -11,7 +11,7 @@ export default function AvatarRenderer() {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const modelRef = useRef<THREE.Group | null>(null);
   const animationIdRef = useRef<number | null>(null);
-  const rotationYRef = useRef(0); // Use ref instead of state for smooth updates
+  const rotationYRef = useRef(0);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -19,6 +19,7 @@ export default function AvatarRenderer() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [messagesToUse, setMessagesToUse] = useState<string[]>([]);
 
   const messages = [
     "i love creating ai systems that help people and impact lives",
@@ -31,6 +32,31 @@ export default function AvatarRenderer() {
     "i am a builder, click me to learn more or scroll down to ask my ai persona and view the allocating rag embeddings visualization",
   ];
 
+  const shortMessages = [
+    "i build ai systems that help people",
+    "ml intern @ shopify & nokia",
+    "lead drone ml team to fight fires",
+    "making browser ai agent",
+    "honing llm, agents, cv skills",
+    "seeking ml/swe 2026 internships",
+    "swe student @ mcmaster '27",
+    "i am a builder, click me",
+  ];
+
+  useEffect(() => {
+    const updateMessages = () => {
+      if (window.innerWidth < 640) {
+        setMessagesToUse(shortMessages);
+      } else {
+        setMessagesToUse(messages);
+      }
+    };
+
+    updateMessages();
+    window.addEventListener("resize", updateMessages);
+    return () => window.removeEventListener("resize", updateMessages);
+  }, []);
+
   const updateHeaderText = (text: string) => {
     const headerElement = document.getElementById("avatar-text");
     if (headerElement) {
@@ -39,11 +65,7 @@ export default function AvatarRenderer() {
   };
 
   const typeMessage = (message: string) => {
-    // Clear any existing interval
-    if (typingIntervalRef.current) {
-      clearInterval(typingIntervalRef.current);
-    }
-
+    if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
     setIsTyping(true);
     setDisplayedText("");
     let index = 0;
@@ -67,35 +89,25 @@ export default function AvatarRenderer() {
   useEffect(() => {
     if (!mountRef.current) return;
 
-    // Scene setup
     const scene = new THREE.Scene();
-    scene.background = null; // Transparent background
+    scene.background = null;
     sceneRef.current = scene;
 
-    // Camera setup - adjusted for better framing
     const camera = new THREE.PerspectiveCamera(
-      60, // Increased FOV to show more of the avatar
+      60,
       mountRef.current.clientWidth / mountRef.current.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 0, 4); // Moved camera closer
+    camera.position.set(0, 0, 4);
     cameraRef.current = camera;
 
-    // Renderer setup
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true, // Enable transparency
-    });
-    renderer.setSize(
-      mountRef.current.clientWidth,
-      mountRef.current.clientHeight
-    );
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     rendererRef.current = renderer;
 
-    // Enhanced lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
@@ -106,12 +118,10 @@ export default function AvatarRenderer() {
     directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
 
-    // Additional fill light
     const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
     fillLight.position.set(-5, 0, 5);
     scene.add(fillLight);
 
-    // Load avatar
     const loader = new GLTFLoader();
     loader.load(
       "/my_avatar_king.glb",
@@ -119,21 +129,16 @@ export default function AvatarRenderer() {
         const model = gltf.scene;
         modelRef.current = model;
 
-        // Center the model
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         model.position.sub(center);
 
-        // Scale the model to be much larger
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 3.5 / maxDim; // Adjusted scale
+        const scale = 3.5 / maxDim;
         model.scale.setScalar(scale);
+        model.position.y = -1.7;
 
-        // Position the avatar to show full head and reduce bottom space
-        model.position.y = -1.7; // Adjusted position
-
-        // Enable shadows for all meshes
         model.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.castShadow = true;
@@ -143,63 +148,42 @@ export default function AvatarRenderer() {
 
         scene.add(model);
       },
-      (progress) => {
-        console.log(
-          "Loading progress:",
-          (progress.loaded / progress.total) * 100,
-          "%"
-        );
-      },
-      (error) => {
-        console.error("Error loading avatar:", error);
-      }
+      undefined,
+      (error) => console.error("Error loading avatar:", error)
     );
 
-    // Animation loop - moved outside and using refs
     const animate = () => {
       if (modelRef.current) {
         modelRef.current.rotation.y = rotationYRef.current;
       }
-
       if (rendererRef.current && sceneRef.current && cameraRef.current) {
         rendererRef.current.render(sceneRef.current, cameraRef.current);
       }
-
       animationIdRef.current = requestAnimationFrame(animate);
     };
     animate();
 
-    // Handle resize
     const handleResize = () => {
-      if (!mountRef.current || !cameraRef.current || !rendererRef.current)
-        return;
-
+      if (!mountRef.current || !cameraRef.current || !rendererRef.current) return;
       const width = mountRef.current.clientWidth;
       const height = mountRef.current.clientHeight;
-
       cameraRef.current.aspect = width / height;
       cameraRef.current.updateProjectionMatrix();
-
       rendererRef.current.setSize(width, height);
     };
 
     window.addEventListener("resize", handleResize);
-
-    // Mount renderer
     mountRef.current.appendChild(renderer.domElement);
 
-    // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-      }
+      if (animationIdRef.current) cancelAnimationFrame(animationIdRef.current);
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };
-  }, []); // Remove rotationY dependency
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -209,42 +193,30 @@ export default function AvatarRenderer() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-
     const deltaX = e.clientX - lastMouseX;
-    const rotationSpeed = 0.005; // Slightly increased for more responsiveness
-
-    // Update the ref directly for smooth rotation
+    const rotationSpeed = 0.005;
     rotationYRef.current += deltaX * rotationSpeed;
     setLastMouseX(e.clientX);
   };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
 
   const handleAvatarClick = () => {
-    if (!isDragging) {
-      // Prevent click when dragging
+    if (!isDragging && messagesToUse.length > 0) {
       if (isTyping) {
-        // Skip typing animation and show full message immediately
-        const currentMessage = messages[currentMessageIndex];
+        const currentMessage = messagesToUse[currentMessageIndex];
         setDisplayedText(currentMessage);
         updateHeaderText(currentMessage);
         setIsTyping(false);
-        // Clear the typing interval
         if (typingIntervalRef.current) {
           clearInterval(typingIntervalRef.current);
           typingIntervalRef.current = null;
         }
       } else {
-        // Start new message
-        const nextIndex = (currentMessageIndex + 1) % messages.length;
+        const nextIndex = (currentMessageIndex + 1) % messagesToUse.length;
         setCurrentMessageIndex(nextIndex);
-        typeMessage(messages[nextIndex]);
+        typeMessage(messagesToUse[nextIndex]);
       }
     }
   };
@@ -259,10 +231,7 @@ export default function AvatarRenderer() {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onClick={handleAvatarClick}
-        style={{
-          minHeight: "400px",
-          maxHeight: "900px",
-        }}
+        style={{ minHeight: "400px", maxHeight: "900px" }}
       />
     </div>
   );

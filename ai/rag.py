@@ -7,9 +7,11 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from pinecone import Pinecone, ServerlessSpec
 import time
+from dotenv import load_dotenv
 import os
 
 # === Config ===
+load_dotenv()
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")

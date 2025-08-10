@@ -4,6 +4,7 @@ import { useState } from "react";
 import ChatInterface from "./components/ChatInterface";
 import VectorVisualizer from "./components/VectorVisualizer";
 import AvatarRenderer from "./components/AvatarRenderer";
+import PortfolioSection from "./components/PortfolioSection";
 
 export default function Home() {
   const [currentQuestion, setCurrentQuestion] = useState("");
@@ -17,23 +18,23 @@ export default function Home() {
             <AvatarRenderer />
           </div>
 
-          {/* Main Content - Chat and Visualization */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Chat Interface */}
-            <div className="lg:col-span-1">
-              <ChatInterface onQuestionChange={setCurrentQuestion} />
-            </div>
-
-            {/* 2D Visualization */}
-            <div className="lg:col-span-1">
-              <VectorVisualizer
-                question={currentQuestion}
-                onQuestionChange={setCurrentQuestion}
-              />
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <div className="lg:col-span-1 h-full">
+            <ChatInterface onQuestionChange={setCurrentQuestion} />
+          </div>
+          <div className="lg:col-span-1 h-full">
+            <VectorVisualizer
+              question={currentQuestion}
+              onQuestionChange={setCurrentQuestion}
+            />
           </div>
         </div>
+
+        </div>
       </div>
+
+      {/* Portfolio Section */}
+      <PortfolioSection />
     </main>
   );
 }

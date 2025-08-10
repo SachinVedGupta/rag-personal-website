@@ -3,17 +3,6 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
-// Type declaration for react-plotly.js
-declare module "react-plotly.js" {
-  import { Component } from "react";
-  interface PlotProps {
-    data: any[];
-    layout: any;
-    config?: any;
-    style?: any;
-  }
-  export default class Plot extends Component<PlotProps> {}
-}
 
 // Dynamically import Plotly to avoid SSR issues
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false }) as any;

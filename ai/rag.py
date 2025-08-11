@@ -1,3 +1,7 @@
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+import numpy as np
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from langchain_huggingface import HuggingFaceEndpointEmbeddings
@@ -126,10 +130,6 @@ def ask():
 @app.route('/vector-data', methods=['POST'])
 def vector_data():
     try:
-        from sklearn.decomposition import PCA
-        from sklearn.manifold import TSNE
-        import numpy as np
-        
         data = request.json
         question = data.get('question', '').strip()
         reduction_method = data.get('reductionMethod', 'PCA')
@@ -138,7 +138,7 @@ def vector_data():
         index = pc.Index(INDEX_NAME)
         query_response = index.query(
             vector=[0] * 384,  # Dummy vector to get all
-            top_k=1000,
+            top_k=50,
             include_metadata=True,
             include_values=True
         )

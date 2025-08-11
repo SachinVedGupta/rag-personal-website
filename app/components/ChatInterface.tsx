@@ -4,6 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import Message from "./Message";
 import InputBox from "./InputBox";
 
+const BACKEND_URL_LOCAL = "http://localhost:5000/"
+const BACKEND_URL_DEPLOYED = "https://mechanical-jacki-sachin-gupa-df0f5d51.koyeb.app/"
+let BACKEND_URL = BACKEND_URL_DEPLOYED
+
+
 interface Message {
   id: string;
   text: string;
@@ -88,7 +93,7 @@ export default function ChatInterface({
     onQuestionChange?.(text.trim());
 
     try {
-      const response = await fetch("http://localhost:5000/ask", {
+      const response = await fetch(`${BACKEND_URL}ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: text.trim() }),

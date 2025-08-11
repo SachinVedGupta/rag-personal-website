@@ -40,7 +40,7 @@ export default function Navigation() {
           {/* Social Media Links */}
           <div className="flex space-x-4">
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/SachinVedGupta"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
@@ -51,7 +51,7 @@ export default function Navigation() {
             </a>
 
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/Sachin-Ved-Gupta/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
@@ -62,7 +62,7 @@ export default function Navigation() {
             </a>
 
             <a
-              href="https://medium.com/@yourusername"
+              href="https://medium.com/@sachinvgupta9"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"

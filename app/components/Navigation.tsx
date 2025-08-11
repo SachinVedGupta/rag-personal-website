@@ -33,7 +33,7 @@ export default function Navigation() {
             </div>
             {/* Shorter text on small screens */}
             <div className="block sm:hidden text-sm text-gray-600 dark:text-gray-400">
-              ask my ai persona about me
+              ask my ai
             </div>
           </div>
 

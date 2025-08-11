@@ -33,13 +33,13 @@ export default function AvatarRenderer() {
   ];
 
   const shortMessages = [
-    "i build ai systems that help people",
-    "ml intern @ shopify & nokia",
-    "lead drone ml team to fight fires",
-    "making browser ai agent",
-    "honing llm, agents, cv skills",
-    "seeking ml/swe 2026 internships",
-    "swe student @ mcmaster '27",
+    "i build ai systems",
+    "ml intern @ shopify",
+    "lead drone ml team",
+    "making browser ai",
+    "honing agents",
+    "seeking '26 internships",
+    "swe @ mcmaster '27",
     "i am a builder, click me",
   ];
 

@@ -385,6 +385,25 @@ export default function PortfolioSection() {
               )}
             </div>
           </div>
+
+          <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              Education
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {portfolioData.skills.details.education.map(
+                (cert: string, index: number) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 text-sm"
+                  >
+                    <span className="text-green-500">✓</span>
+                    <span>{cert}</span>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
         </section>
 
         {/* Contact Section */}

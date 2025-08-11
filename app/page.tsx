@@ -35,6 +35,11 @@ export default function Home() {
 
       {/* Portfolio Section */}
       <PortfolioSection />
+
+      {/* Footer */}
+      <footer className="bg-white-100 dark:bg-gray-900 text-center py-4 text-sm text-gray-600 dark:text-gray-400">
+        © {new Date().getFullYear()} Sachin Gupta. All rights reserved.
+      </footer>
     </main>
   );
 }

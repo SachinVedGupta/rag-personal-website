@@ -7,6 +7,7 @@ A modern portfolio by Sachin, featuring a 3D Avatar, AI Persona/Chatbot, and Por
 Backend/AI
 - RAG Chatbot: Hugging Face model for embeddings of provided information/text, vector store in a Pinecone DB instance
 - Using Langchain with the Google Gemini LLM to create/orchestrate the AI RAG system and natural AI persona conversation
+- Multi-modal support for text, bold titles, links, images, files, etc...
 - Deployed as a Flask app using Koyeb
 
 Frontend
@@ -17,6 +18,20 @@ Frontend
 - Clean and simple UI
 - AI chatbot module
 - Portfolio viewing section with experience, leadership, projects, etc
+
+
+## Highlights
+
+- **Features**: AI RAG chatbot, 3D avatar, modern responsive design  
+- **Technologies**: Next.js (TypeScript), React, Flask, Hugging Face Transformers, LangChain, Google Gemini LLM, Pinecone, Retrieval-Augmented Generation (RAG), Three.js, Plotly, PCA (Principal Component Analysis), Vercel, Koyeb, HTML, CSS, Tailwind CSS, JavaScript, REST APIs, cloud deployment, UI/UX design  
+- Designed and developed a modern personal portfolio website integrating a 3D avatar and interactive AI persona for dynamic user engagement  
+- Built a Retrieval-Augmented Generation (RAG) chatbot using Hugging Face embeddings, Pinecone vector database, and LangChain orchestration with Google Gemini LLM  
+- Added multi-modal compatibility, allowing the chatbot to dynamically output text, bold titles, links, images, and files directly in the interface  
+- Implemented vector visualization using Plotly with PCA dimensionality reduction to display embeddings in 2D  
+- Developed the frontend in Next.js (TypeScript) with a clean, responsive UI, deploying seamlessly to Vercel  
+- Created a custom Three.js 3D avatar for interactive presentation of personal brand  
+- Engineered and deployed the Flask backend to Koyeb for scalable AI inference and data retrieval  
+
 
 
 

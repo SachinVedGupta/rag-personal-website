@@ -1,6 +1,24 @@
 # Portfolio Chat Frontend
 
-A modern, simple chat interface for Sachin Ved Gupta's portfolio built with Next.js and React.
+A modern portfolio by Sachin, featuring a 3D Avatar, AI Persona/Chatbot, and Portfolio Overview
+
+## About
+
+Backend/AI
+- RAG Chatbot: Hugging Face model for embeddings of provided information/text, vector store in a Pinecone DB instance
+- Using Langchain with the Google Gemini LLM to create/orchestrate the AI RAG system and natural AI persona conversation
+- Deployed as a Flask app using Koyeb
+
+Frontend
+- NextJS with React (TSX version)
+- Deployed with Vercel at sachinvedgupta.com
+- ThreeJS for an avatar of me
+- Using Plotly to visualize the embeddings in a lower dimension (reduced to 2D via PCA)
+- Clean and simple UI
+- AI chatbot module
+- Portfolio viewing section with experience, leadership, projects, etc
+
+
 
 ## Features
 

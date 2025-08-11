@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain.chains import RetrievalQA
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain.prompts import PromptTemplate
 from pinecone import Pinecone, ServerlessSpec
 import time
@@ -15,14 +16,21 @@ load_dotenv()
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+HUGGING_FACE_KEY = os.getenv("HUGGING_FACE_KEY")
 
 app = Flask(__name__)
 CORS(app)
 
 # Initialize components
 pc = Pinecone(api_key=PINECONE_API_KEY)
-embedding = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY, temperature=0.3)
+
+# Embeddings (use an API Gemini API so it doesn't run locally and doesn't consume compute power which will drive up costs)
+# embedding = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+# embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
+embedding = HuggingFaceEndpointEmbeddings(model="sentence-transformers/all-MiniLM-L6-v2", task="feature-extraction", huggingfacehub_api_token=HUGGING_FACE_KEY)
+
+# gemini llm model via api
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0.3)
 
 # Enhanced prompt with formatting instructions
 prompt_template = """You ARE Sachin Ved Gupta. Answer questions naturally as if you're having a conversation with someone interested in your background.

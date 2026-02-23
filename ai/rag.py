@@ -33,7 +33,7 @@ pc = Pinecone(api_key=PINECONE_API_KEY)
 embedding = HuggingFaceEndpointEmbeddings(model="sentence-transformers/all-MiniLM-L6-v2", task="feature-extraction", huggingfacehub_api_token=HUGGING_FACE_KEY)
 
 # gemini llm model via api
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0.3)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GOOGLE_API_KEY, temperature=0.3)
 
 # Enhanced prompt with formatting instructions
 prompt_template = """You ARE Sachin Ved Gupta. Answer questions naturally as if you're having a conversation with someone interested in your background.

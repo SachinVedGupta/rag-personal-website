@@ -1,12 +1,13 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import RagV2Visualizer from "./RagV2Visualizer";
+import RagV2Visualizer, { ALL_SEARCHES } from "./RagV2Visualizer";
 import SafeMarkdown from "./SafeMarkdown";
 import type { AskResponse, VisualizationData } from "./types";
 
 type ChatMessage = { role: "user" | "assistant"; text: string };
 const CHAT_STORAGE_KEY = "rag-v2-chat-history";
+const RESULT_STORAGE_KEY = "rag-v2-latest-result";
 
 const SUGGESTED_PROMPTS = [
   "What did I build at Microsoft?",
@@ -23,6 +24,7 @@ export default function RagV2Page() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<AskResponse | null>(null);
   const [visualization, setVisualization] = useState<VisualizationData | null>(null);
+  const [mapView, setMapView] = useState(ALL_SEARCHES);
 
   useEffect(() => {
     fetch("/api/v2/vector-data", { cache: "no-store" })
@@ -30,7 +32,7 @@ export default function RagV2Page() {
         if (!response.ok) throw new Error("RAG v2 is not ready yet.");
         return response.json();
       })
-      .then((data) => setVisualization(data))
+      .then((data) => setVisualization((current) => current || data))
       .catch((reason) => setError(reason instanceof Error ? reason.message : "RAG v2 is unavailable."));
   }, []);
 
@@ -52,8 +54,17 @@ export default function RagV2Page() {
           );
         }
       }
+      const savedResult = window.localStorage.getItem(RESULT_STORAGE_KEY);
+      if (savedResult) {
+        const parsedResult = JSON.parse(savedResult) as AskResponse;
+        if (parsedResult?.status === "success" && parsedResult.visualization) {
+          setResult(parsedResult);
+          setVisualization(parsedResult.visualization);
+        }
+      }
     } catch {
       window.localStorage.removeItem(CHAT_STORAGE_KEY);
+      window.localStorage.removeItem(RESULT_STORAGE_KEY);
     } finally {
       setHistoryLoaded(true);
     }
@@ -63,6 +74,15 @@ export default function RagV2Page() {
     if (!historyLoaded) return;
     window.localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages.slice(-24)));
   }, [historyLoaded, messages]);
+
+  useEffect(() => {
+    if (!historyLoaded) return;
+    if (result) {
+      window.localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(result));
+    } else {
+      window.localStorage.removeItem(RESULT_STORAGE_KEY);
+    }
+  }, [historyLoaded, result]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -85,6 +105,7 @@ export default function RagV2Page() {
       }
       setResult(data);
       setVisualization(data.visualization);
+      setMapView(ALL_SEARCHES);
       setMessages((current) => [...current, { role: "assistant", text: data.answer }]);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "The question could not be answered.");
@@ -98,7 +119,9 @@ export default function RagV2Page() {
     setResult(null);
     setQuestion("");
     setError("");
+    setMapView(ALL_SEARCHES);
     window.localStorage.removeItem(CHAT_STORAGE_KEY);
+    window.localStorage.removeItem(RESULT_STORAGE_KEY);
   }
 
   return (
@@ -198,7 +221,11 @@ export default function RagV2Page() {
           </section>
 
           <div className="space-y-4">
-            <RagV2Visualizer data={visualization} />
+            <RagV2Visualizer
+              data={visualization}
+              mapView={mapView}
+              onMapViewChange={setMapView}
+            />
             {result && (
               <section className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
                 <h2 className="font-semibold">What the agent searched</h2>
@@ -209,37 +236,73 @@ export default function RagV2Page() {
                       Understood your follow-up as: {result.resolvedQuestion}
                     </p>
                   )}
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  {result.retrieval.queries.map((query) => (
-                    <article key={query.id} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{query.label}</p>
-                      <p className="mt-1 text-sm font-medium text-slate-900">{query.query}</p>
-                      <p className="mt-2 text-xs leading-5 text-slate-500">{query.rationale}</p>
-                      <p className="mt-2 text-xs text-slate-400">
-                        Query PCA: ({query.point[0].toFixed(6)}, {query.point[1].toFixed(6)})
-                      </p>
-                      <details className="mt-3 rounded-lg border border-slate-200 bg-white p-2">
-                        <summary className="cursor-pointer text-xs font-medium text-slate-700">
-                          Inspect {query.hits.length} retrieved chunks
-                        </summary>
-                        <div className="mt-3 space-y-3">
+                <div className="mt-3 space-y-3">
+                  {result.retrieval.queries.map((query, queryIndex) => (
+                    <details
+                      key={query.id}
+                      className="group rounded-xl border border-slate-200 bg-slate-50 open:border-blue-200 open:bg-blue-50/40"
+                      onToggle={(event) => {
+                        if (event.currentTarget.open) setMapView(query.id);
+                      }}
+                    >
+                      <summary className="cursor-pointer list-none p-3 marker:hidden">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+                              Search {queryIndex + 1} · {query.label}
+                            </p>
+                            <p className="mt-1 text-sm font-medium text-slate-900">{query.query}</p>
+                          </div>
+                          <div className="flex shrink-0 items-center gap-2">
+                            <span className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-500">
+                              {query.hits.length} chunks
+                            </span>
+                            <span aria-hidden="true" className="text-slate-400 transition-transform group-open:rotate-180">⌄</span>
+                          </div>
+                        </div>
+                        <p className="mt-2 text-[11px] text-slate-500 group-open:hidden">
+                          Open to inspect this search and focus it on the map
+                        </p>
+                      </summary>
+                      <div className="border-t border-blue-100 px-3 pb-3 pt-3">
+                        <p className="text-xs leading-5 text-slate-600">{query.rationale}</p>
+                        <p className="mt-2 text-xs text-slate-400">
+                          Query PCA: ({query.point[0].toFixed(6)}, {query.point[1].toFixed(6)})
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setMapView(query.id)}
+                            className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-blue-700"
+                          >
+                            Show this search on map
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMapView(ALL_SEARCHES)}
+                            className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-blue-300 hover:text-blue-700"
+                          >
+                            Compare all searches
+                          </button>
+                        </div>
+                        <div className="mt-3 space-y-2">
                           {query.hits.map((hit, rank) => (
-                            <article key={hit.id} className="border-t border-slate-100 pt-3 first:border-0 first:pt-0">
-                              <div className="flex items-start justify-between gap-2">
-                                <p className="text-xs font-semibold text-slate-900">{rank + 1}. {hit.title}</p>
-                                <code className="text-[10px] text-slate-400">score {hit.score.toFixed(4)}</code>
-                              </div>
-                              <p className="mt-1 whitespace-pre-wrap text-xs leading-5 text-slate-600">{hit.text || hit.snippet}</p>
+                            <details key={hit.id} className="rounded-lg border border-slate-200 bg-white p-2.5">
+                              <summary className="cursor-pointer text-xs text-slate-700">
+                                <span className="font-semibold text-slate-900">{rank + 1}. {hit.title}</span>
+                                <span className="ml-2 text-[10px] text-slate-400">score {hit.score.toFixed(4)}</span>
+                              </summary>
+                              <p className="mt-2 whitespace-pre-wrap text-xs leading-5 text-slate-600">{hit.text || hit.snippet}</p>
                               {hit.sourceUrl && (
                                 <a href={hit.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs font-medium text-blue-700 underline">
                                   {hit.source}
                                 </a>
                               )}
-                            </article>
+                            </details>
                           ))}
                         </div>
-                      </details>
-                    </article>
+                      </div>
+                    </details>
                   ))}
                 </div>
               </section>

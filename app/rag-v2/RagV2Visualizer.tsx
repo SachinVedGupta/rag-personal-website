@@ -2,20 +2,85 @@
 
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
-import type { CorpusPoint, VisualizationData } from "./types";
+import type { CorpusPoint, QueryTrace, VisualizationData } from "./types";
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false }) as any;
 
 const COLORS = ["#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c", "#0891b2"];
 
-export default function RagV2Visualizer({ data }: { data: VisualizationData | null }) {
-  const [selected, setSelected] = useState<Record<string, boolean>>({});
+export const ALL_SEARCHES = "__all_searches__";
+export const PROFILE_ONLY = "__profile_only__";
+
+interface RagV2VisualizerProps {
+  data: VisualizationData | null;
+  mapView: string;
+  onMapViewChange: (value: string) => void;
+}
+
+function escapeHover(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function wrappedPreview(value: string, maxCharacters = 112, lineLength = 42) {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  const clipped = normalized.length > maxCharacters
+    ? `${normalized.slice(0, maxCharacters).trimEnd()}…`
+    : normalized;
+  const words: string[] = [];
+  for (const word of clipped.split(" ").filter(Boolean)) {
+    if (word.length <= lineLength) {
+      words.push(word);
+      continue;
+    }
+    for (let offset = 0; offset < word.length; offset += lineLength) {
+      words.push(word.slice(offset, offset + lineLength));
+    }
+  }
+  const lines: string[] = [];
+
+  for (const word of words) {
+    const lastLine = lines.at(-1);
+    if (!lastLine || lastLine.length + word.length + 1 > lineLength) {
+      lines.push(word);
+    } else {
+      lines[lines.length - 1] = `${lastLine} ${word}`;
+    }
+  }
+
+  return lines.slice(0, 3).map(escapeHover).join("<br>");
+}
+
+function pointHover(point: CorpusPoint) {
+  return [
+    `<b>${escapeHover(point.title)}</b>`,
+    escapeHover(point.category),
+    `PCA: (${point.x.toFixed(4)}, ${point.y.toFixed(4)})`,
+    wrappedPreview(point.text || "No preview available."),
+    "<i>Click to inspect the full indexed chunk</i>",
+  ].join("<br>");
+}
+
+function queryHover(query: QueryTrace) {
+  return [
+    `<b>${escapeHover(query.label)}</b>`,
+    wrappedPreview(query.query, 100, 42),
+    `PCA: (${query.point[0].toFixed(4)}, ${query.point[1].toFixed(4)})`,
+  ].join("<br>");
+}
+
+export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV2VisualizerProps) {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
 
+  const queryIndexById = useMemo(
+    () => new Map((data?.queries || []).map((query, index) => [query.id, index])),
+    [data],
+  );
+
   const activeQueries = useMemo(() => {
-    if (!data) return [];
-    return data.queries.filter((query) => selected[query.id] !== false);
-  }, [data, selected]);
+    if (!data || mapView === PROFILE_ONLY) return [];
+    if (mapView === ALL_SEARCHES) return data.queries;
+    return data.queries.filter((query) => query.id === mapView);
+  }, [data, mapView]);
 
   const traces = useMemo(() => {
     if (!data) return [];
@@ -24,10 +89,7 @@ export default function RagV2Visualizer({ data }: { data: VisualizationData | nu
       {
         x: data.points.map((point) => point.x),
         y: data.points.map((point) => point.y),
-        text: data.points.map(
-          (point) =>
-            `<b>${point.title}</b><br>${point.category}<br>PCA: (${point.x.toFixed(4)}, ${point.y.toFixed(4)})<br>${(point.text || "").slice(0, 180)}…`,
-        ),
+        text: data.points.map(pointHover),
         customdata: data.points.map((point) => point.id),
         mode: "markers",
         type: "scatter",
@@ -37,18 +99,17 @@ export default function RagV2Visualizer({ data }: { data: VisualizationData | nu
       },
     ];
 
-    activeQueries.forEach((query, index) => {
-      const color = COLORS[index % COLORS.length];
+    activeQueries.forEach((query) => {
+      const queryIndex = queryIndexById.get(query.id) ?? 0;
+      const color = COLORS[queryIndex % COLORS.length];
       const hitPoints = query.hitIds
         .map((id) => pointById.get(id))
-        .filter(Boolean) as NonNullable<ReturnType<typeof pointById.get>>[];
+        .filter(Boolean) as CorpusPoint[];
+
       plotTraces.push({
         x: hitPoints.map((point) => point.x),
         y: hitPoints.map((point) => point.y),
-        text: hitPoints.map(
-          (point) =>
-            `<b>${point.title}</b><br>PCA: (${point.x.toFixed(4)}, ${point.y.toFixed(4)})<br>${(point.text || "").slice(0, 180)}…`,
-        ),
+        text: hitPoints.map(pointHover),
         customdata: hitPoints.map((point) => point.id),
         mode: "markers",
         type: "scatter",
@@ -59,17 +120,17 @@ export default function RagV2Visualizer({ data }: { data: VisualizationData | nu
       plotTraces.push({
         x: [query.point[0]],
         y: [query.point[1]],
-        text: [query.query],
+        text: [queryHover(query)],
         customdata: [null],
         mode: "markers",
         type: "scatter",
         name: query.label,
         marker: { size: 20, color, symbol: "star", line: { color: "white", width: 2 } },
-        hovertemplate: `<b>${query.label}</b><br>%{text}<extra></extra>`,
+        hovertemplate: "%{text}<extra></extra>",
       });
     });
     return plotTraces;
-  }, [activeQueries, data]);
+  }, [activeQueries, data, queryIndexById]);
 
   const selectedPoint: CorpusPoint | null = useMemo(() => {
     if (!data || !selectedPointId) return null;
@@ -90,33 +151,38 @@ export default function RagV2Visualizer({ data }: { data: VisualizationData | nu
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Retrieval map</p>
         <h2 className="mt-1 text-xl font-semibold text-slate-950">Embedding search space</h2>
         <p className="mt-1 text-sm text-slate-600">
-          Real 384-dimensional MiniLM embeddings reduced onto one fixed PCA map. Hover for a preview or click a point to inspect its complete indexed chunk.
+          Real 384-dimensional MiniLM embeddings reduced onto one fixed PCA map. Choose a search to see its query star and retrieved chunks.
         </p>
       </div>
 
       {data.queries.length > 0 && (
-        <div className="mb-2 flex flex-wrap gap-2">
-          {data.queries.map((query, index) => {
-            const checked = selected[query.id] !== false;
+        <label className="mb-2 block text-xs font-medium text-slate-700">
+          Search shown on map
+          <select
+            value={mapView}
+            onChange={(event) => onMapViewChange(event.target.value)}
+            className="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          >
+            <option value={ALL_SEARCHES}>Compare all agent searches</option>
+            <option value={PROFILE_ONLY}>Profile embeddings only</option>
+            {data.queries.map((query, index) => (
+              <option key={query.id} value={query.id}>
+                Search {index + 1}: {query.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+
+      {activeQueries.length > 0 && (
+        <div className="mb-1 flex flex-wrap gap-2" aria-label="Visible searches">
+          {activeQueries.map((query) => {
+            const queryIndex = queryIndexById.get(query.id) ?? 0;
             return (
-              <label
-                key={query.id}
-                className="flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-700"
-              >
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={(event) =>
-                    setSelected((current) => ({ ...current, [query.id]: event.target.checked }))
-                  }
-                  className="h-3.5 w-3.5"
-                />
-                <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                />
+              <span key={query.id} className="flex items-center gap-2 rounded-full bg-slate-50 px-2.5 py-1 text-[11px] text-slate-600">
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS[queryIndex % COLORS.length] }} />
                 {query.label}
-              </label>
+              </span>
             );
           })}
         </div>
@@ -134,7 +200,14 @@ export default function RagV2Visualizer({ data }: { data: VisualizationData | nu
             xaxis: { title: "PCA 1", gridcolor: "#e2e8f0", zeroline: false },
             yaxis: { title: "PCA 2", gridcolor: "#e2e8f0", zeroline: false },
             hovermode: "closest",
+            hoverlabel: {
+              align: "left",
+              bgcolor: "#ffffff",
+              bordercolor: "#cbd5e1",
+              font: { color: "#334155", family: "ui-sans-serif, system-ui", size: 12 },
+            },
             legend: { orientation: "h", y: -0.22 },
+            uirevision: data.projectionVersion,
           }}
           config={{ displayModeBar: false, responsive: true }}
           style={{ width: "100%", height: "100%" }}
@@ -149,7 +222,7 @@ export default function RagV2Visualizer({ data }: { data: VisualizationData | nu
           <PointDetails point={selectedPoint} />
         ) : (
           <p className="text-sm text-slate-500">
-            Click any profile or result point to inspect its exact indexed text, PCA coordinates, entities, relationships, source, and media.
+            Hover for a short preview. Click any profile or result point to inspect its complete indexed text, coordinates, relationships, source, and media.
           </p>
         )}
       </div>

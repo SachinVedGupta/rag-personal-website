@@ -47,10 +47,10 @@ def main() -> None:
             "category": record["category"],
             "source_name": record["source_name"],
             "source_url": record["source_url"],
-            "confidence": record["confidence"],
             "entities": record["entities"],
             "themes": record["themes"],
             "related_to": record["related_to"],
+            "media_json": json.dumps(record.get("media", []), separators=(",", ":")),
             "corpus_version": version,
         }
         pinecone_records.append(

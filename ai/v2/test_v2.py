@@ -39,6 +39,36 @@ class CorpusTests(unittest.TestCase):
         self.assertIn("Themes:", text)
         self.assertIn("Related records:", text)
 
+    def test_profile_copy_does_not_expose_editorial_caveats(self) -> None:
+        text = " ".join(record["text"] for record in self.records).casefold()
+        for phrase in (
+            "should stay qualified",
+            "should retain their source qualification",
+            "self-reported pending",
+            "denominators should be confirmed",
+            "is not established",
+            "source notes contain",
+            "still needs a contribution-level record",
+            "not been established",
+            "needs a defined study method",
+            "resume-reported",
+            "career notes report",
+            "rather than claims of",
+        ):
+            self.assertNotIn(phrase, text)
+
+    def test_local_media_paths_exist(self) -> None:
+        public = HERE.parents[1] / "public"
+        media_count = 0
+        for record in self.records:
+            for item in record.get("media", []):
+                self.assertIn(item["type"], {"image", "video", "link", "document"})
+                self.assertTrue(item["url"])
+                media_count += 1
+                if item["url"].startswith("/"):
+                    self.assertTrue((public / item["url"].lstrip("/")).is_file())
+        self.assertGreater(media_count, 0)
+
 
 class ProjectionTests(unittest.TestCase):
     def test_projection_matches_the_corpus(self) -> None:

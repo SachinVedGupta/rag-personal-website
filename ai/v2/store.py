@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 import time
 from typing import Any
 
@@ -16,6 +17,11 @@ class SearchHit:
     metadata: dict[str, Any]
 
     def public(self) -> dict[str, Any]:
+        raw_media = self.metadata.get("media_json", "[]")
+        try:
+            media = json.loads(str(raw_media))
+        except (TypeError, ValueError, json.JSONDecodeError):
+            media = []
         return {
             "id": self.id,
             "score": round(self.score, 6),
@@ -23,8 +29,12 @@ class SearchHit:
             "category": self.metadata.get("category", "Profile"),
             "source": self.metadata.get("source_name", "Profile corpus"),
             "sourceUrl": self.metadata.get("source_url", ""),
-            "confidence": self.metadata.get("confidence", "source-backed"),
-            "snippet": self.text[:360],
+            "text": self.text,
+            "snippet": self.text[:420],
+            "entities": list(self.metadata.get("entities", [])),
+            "themes": list(self.metadata.get("themes", [])),
+            "relatedIds": list(self.metadata.get("related_to", [])),
+            "media": media if isinstance(media, list) else [],
         }
 
 

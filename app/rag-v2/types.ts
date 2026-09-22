@@ -1,7 +1,22 @@
+export interface MediaItem {
+  type: "image" | "video" | "link" | "document";
+  url: string;
+  label: string;
+  alt?: string;
+  caption?: string;
+}
+
 export interface CorpusPoint {
   id: string;
   title: string;
   category: string;
+  text: string;
+  source: string;
+  sourceUrl: string;
+  entities: string[];
+  themes: string[];
+  relatedIds: string[];
+  media: MediaItem[];
   x: number;
   y: number;
 }
@@ -13,8 +28,12 @@ export interface EvidenceHit {
   category: string;
   source: string;
   sourceUrl: string;
-  confidence: string;
+  text: string;
   snippet: string;
+  entities: string[];
+  themes: string[];
+  relatedIds: string[];
+  media: MediaItem[];
 }
 
 export interface QueryTrace {

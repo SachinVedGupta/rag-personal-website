@@ -4,347 +4,1008 @@
     "title": "Profile overview",
     "category": "About",
     "text": "Sachin Ved Gupta is a McMaster University Software Engineering Co-op student focused on applied AI systems, AI agents, machine-learning infrastructure, simulations, developer tools, and product-oriented software. His recurring pattern is to take messy operational or human context, model it clearly, and build software that helps people make decisions or complete work. He has completed software engineering and data science internships at Nokia, Nokia Bell Labs, Shopify, Zipline, and Microsoft. He is strongest when connecting ML or agent technology to a concrete workflow rather than building a model demo in isolation.",
-    "entities": ["Sachin Ved Gupta", "McMaster University", "Microsoft", "Zipline", "Shopify", "Nokia Bell Labs", "Nokia"],
-    "themes": ["applied AI", "agent systems", "ML infrastructure", "simulation", "developer tools"],
-    "related_to": ["career-throughline", "skills-agent-systems", "skills-ml-systems"],
+    "entities": [
+      "Sachin Ved Gupta",
+      "McMaster University",
+      "Microsoft",
+      "Zipline",
+      "Shopify",
+      "Nokia Bell Labs",
+      "Nokia"
+    ],
+    "themes": [
+      "applied AI",
+      "agent systems",
+      "ML infrastructure",
+      "simulation",
+      "developer tools"
+    ],
+    "related_to": [
+      "career-throughline",
+      "skills-agent-systems",
+      "skills-ml-systems"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/sachin-image-cropped.png",
+        "label": "Sachin Gupta portrait",
+        "alt": "Sachin Gupta",
+        "caption": "Sachin Ved Gupta"
+      },
+      {
+        "type": "document",
+        "url": "/Sachin_Resume.pdf",
+        "label": "Resume"
+      }
+    ]
   },
   {
     "id": "career-throughline",
     "title": "Career throughline",
     "category": "About",
     "text": "Across Sachin's work, the same design instinct appears: model a complex environment, expose the right interface, and let software help a person act. At Nokia, that meant infrastructure provisioning and diagnosis. At Nokia Bell Labs, it meant grounding ML and agent systems in engineering knowledge and operational signals. At Shopify, it meant production recommendation infrastructure and debugging. At Zipline, it meant simulating an autonomous delivery network and making the simulator accessible through natural language. At Microsoft, it meant improving PowerPoint Web boot reliability and prototyping repeatable browser-agent testing. Student work extends the same pattern through browser agents, autonomous drones, educational agents, cloud provisioning, and AI-assisted storytelling.",
-    "entities": ["Nokia", "Nokia Bell Labs", "Shopify", "Zipline", "Microsoft", "InterfaceAI", "LearnBridge"],
-    "themes": ["systems thinking", "operational workflows", "AI agents", "decision support"],
-    "related_to": ["experience-microsoft", "experience-zipline", "experience-shopify", "experience-nokia-bell-labs", "experience-nokia"],
+    "entities": [
+      "Nokia",
+      "Nokia Bell Labs",
+      "Shopify",
+      "Zipline",
+      "Microsoft",
+      "InterfaceAI",
+      "LearnBridge"
+    ],
+    "themes": [
+      "systems thinking",
+      "operational workflows",
+      "AI agents",
+      "decision support"
+    ],
+    "related_to": [
+      "experience-microsoft",
+      "experience-zipline",
+      "experience-shopify",
+      "experience-nokia-bell-labs",
+      "experience-nokia"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "education-mcmaster",
     "title": "McMaster Software Engineering education",
     "category": "Education",
-    "text": "Sachin is pursuing a Bachelor of Software Engineering Co-op at McMaster University from September 2023 through an expected April 2028 graduation. His learning spans software design, systems, algorithms, machine learning, compilers, cloud systems, and product development. His public working profile reports a 3.9 out of 4.0 cumulative GPA and a perfect first-year 4.0; those academic figures are self-reported and should be described with that qualification unless an official record is attached.",
-    "entities": ["McMaster University"],
-    "themes": ["software engineering", "computer science education", "machine learning"],
-    "related_to": ["achievements-academic", "profile-overview"],
+    "text": "Sachin is pursuing a Bachelor of Software Engineering Co-op at McMaster University from September 2023 through an expected April 2028 graduation. His learning spans software design, systems, algorithms, machine learning, compilers, cloud systems, and product development. He has a 3.9 out of 4.0 cumulative GPA and earned a perfect 4.0 in first year.",
+    "entities": [
+      "McMaster University"
+    ],
+    "themes": [
+      "software engineering",
+      "computer science education",
+      "machine learning"
+    ],
+    "related_to": [
+      "achievements-academic",
+      "profile-overview"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "self-reported"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/Sachin_Resume_Picture.png",
+        "label": "Resume preview",
+        "alt": "Sachin Gupta resume preview",
+        "caption": "Resume and education overview"
+      },
+      {
+        "type": "document",
+        "url": "/Sachin_Resume.pdf",
+        "label": "Resume"
+      }
+    ]
   },
   {
     "id": "achievements-academic",
     "title": "Academic achievements and scholarships",
     "category": "Achievements",
-    "text": "Sachin's profile reports a Provost's Honour Roll Medal, a perfect first-year 4.0, and approximately $10,000 in scholarships from OpenText and Rogers. These are useful signals of sustained academic performance and early external recognition. The current profile classifies the figures as self-reported pending attachment of the canonical records, so responses should preserve that qualification when exact verification matters.",
-    "entities": ["McMaster University", "OpenText", "Rogers"],
-    "themes": ["academic performance", "scholarships", "recognition"],
-    "related_to": ["education-mcmaster"],
+    "text": "Sachin earned a Provost's Honour Roll Medal, a perfect first-year 4.0, and approximately $10,000 in scholarships from OpenText and Rogers. These achievements reflect sustained academic performance and early external recognition.",
+    "entities": [
+      "McMaster University",
+      "OpenText",
+      "Rogers"
+    ],
+    "themes": [
+      "academic performance",
+      "scholarships",
+      "recognition"
+    ],
+    "related_to": [
+      "education-mcmaster"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "self-reported"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "experience-microsoft",
     "title": "Microsoft — Software Engineering Intern",
     "category": "Experience",
-    "text": "At Microsoft in Vancouver from May through August 2026, Sachin worked as a Software Engineering Intern on the PowerPoint Web Performance team. He shipped boot and reliability fixes involving canvas centering, off-slide shape visibility, scroll behavior, comments-pane layout reservation, and visual popping. He also built a PR-aware browser-agent testing prototype that compared baseline and changed builds across realistic tasks and environments, producing recordings and reproducible issue reports. The shipped product fixes and the agent prototype are separate scopes; continuous production CI adoption of the prototype is not established. Resume figures include a seven-day run, 17 optimizations, 21 percent faster boot time, and 13 production fixes, but their denominators should be confirmed before combining them into one benchmark.",
-    "entities": ["Microsoft", "PowerPoint Web", "Jank Hunter"],
-    "themes": ["web performance", "browser agents", "developer tools", "reliability", "testing"],
-    "related_to": ["career-throughline", "project-interfaceai", "skills-agent-systems"],
+    "text": "At Microsoft in Vancouver from May through August 2026, Sachin worked as a Software Engineering Intern on the PowerPoint Web Performance team. He shipped boot and reliability fixes involving canvas centering, off-slide shape visibility, scroll behavior, comments-pane layout reservation, and visual popping. He also built a PR-aware browser-agent testing prototype that compared baseline and changed builds across realistic tasks and environments, producing recordings and reproducible issue reports. Across a seven-day run, the work identified 17 optimizations; his internship results included 21 percent faster boot time and 13 production fixes.",
+    "entities": [
+      "Microsoft",
+      "PowerPoint Web",
+      "Jank Hunter"
+    ],
+    "themes": [
+      "web performance",
+      "browser agents",
+      "developer tools",
+      "reliability",
+      "testing"
+    ],
+    "related_to": [
+      "career-throughline",
+      "project-interfaceai",
+      "skills-agent-systems"
+    ],
     "source_name": "Career profile and public-safe Microsoft case study",
     "source_url": "https://summer-2027-internships.sachingupta99.chatgpt.site/profile",
-    "confidence": "source-backed with qualified metrics"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "experience-zipline",
     "title": "Zipline — Data Science Intern",
     "category": "Experience",
-    "text": "From January through April 2026, Sachin worked as a Data Science Intern at Zipline. His agent-related contribution was a natural-language Codex workflow around an operations simulator: the agent could generate configurations, run scenarios, return charts, explain results, and suggest follow-up analysis. Under that interface, he built an extensible discrete-event simulation of autonomous-delivery operations, modelling aircraft, charging docks, workers, partners, event timing, demand, weather, and failures. He calibrated parts of the simulation with historical data and built validation tooling for throughput, timing, utilization, and bottleneck diagnosis. The project connects an LLM agent to a rigorous simulation and real decision workflow, combining domain modelling, data calibration, developer tooling, visualization, and cross-functional decision support. Public explanations should stay at this architecture level and avoid confidential operational or business data.",
-    "entities": ["Zipline", "Codex", "AI agent", "autonomous delivery"],
-    "themes": ["AI agents", "LLM tools", "simulation", "data science", "agent interface", "operations research", "validation"],
-    "related_to": ["career-throughline", "skills-agent-systems", "skills-backend-systems"],
+    "text": "From January through April 2026, Sachin worked as a Data Science Intern at Zipline. He built a natural-language Codex workflow around an operations simulator: the agent could generate configurations, run scenarios, return charts, explain results, and suggest follow-up analysis. Under that interface, he built an extensible discrete-event simulation of autonomous-delivery operations, modelling aircraft, charging docks, workers, partners, event timing, demand, weather, and failures. He calibrated the simulation with historical data and built validation tooling for throughput, timing, utilization, and bottleneck diagnosis. The project combined an LLM agent with rigorous simulation, data calibration, developer tooling, visualization, and cross-functional decision support.",
+    "entities": [
+      "Zipline",
+      "Codex",
+      "AI agent",
+      "autonomous delivery"
+    ],
+    "themes": [
+      "AI agents",
+      "LLM tools",
+      "simulation",
+      "data science",
+      "agent interface",
+      "operations research",
+      "validation"
+    ],
+    "related_to": [
+      "career-throughline",
+      "skills-agent-systems",
+      "skills-backend-systems"
+    ],
     "source_name": "Career profile and confidentiality-safe Zipline case study",
     "source_url": "https://summer-2027-internships.sachingupta99.chatgpt.site/profile",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "experience-shopify",
     "title": "Shopify — Software Engineering Intern",
     "category": "Experience",
-    "text": "From September through December 2025, Sachin worked in Shopify's Recommendations Infrastructure and Shop app context. His work covered recommendation relevance, production ML inference and streaming systems, debugging tools, and multi-tier caching, with technologies including Triton, Apache Flink, Kafka, GCP, Bigtable, and DSPy experimentation. Resume-reported work includes a relevancy judge distilled to a one-billion-parameter model for more than ten million recommendations, recommendation debugging used by more than 80 engineers, and local-to-remote-to-Bigtable caching that made an advertised-product filtering path 11 times faster. Those numbers describe distinct workstreams: recommendations are not users or training examples, and the speedup applies to one filtering path rather than the whole platform.",
-    "entities": ["Shopify", "Shop app", "Triton", "Apache Flink", "Kafka", "GCP", "Bigtable", "DSPy"],
-    "themes": ["recommendation systems", "ML infrastructure", "stream processing", "caching", "developer tools"],
-    "related_to": ["career-throughline", "skills-ml-systems", "skills-backend-systems"],
+    "text": "From September through December 2025, Sachin worked in Shopify's Recommendations Infrastructure and Shop app context. He built systems for recommendation relevance, production ML inference and streaming, debugging, and multi-tier caching using Triton, Apache Flink, Kafka, GCP, Bigtable, and DSPy. He distilled a relevancy judge to a one-billion-parameter model for more than ten million recommendations, built recommendation debugging used by more than 80 engineers, and created local-to-remote-to-Bigtable caching that made an advertised-product filtering path 11 times faster.",
+    "entities": [
+      "Shopify",
+      "Shop app",
+      "Triton",
+      "Apache Flink",
+      "Kafka",
+      "GCP",
+      "Bigtable",
+      "DSPy"
+    ],
+    "themes": [
+      "recommendation systems",
+      "ML infrastructure",
+      "stream processing",
+      "caching",
+      "developer tools"
+    ],
+    "related_to": [
+      "career-throughline",
+      "skills-ml-systems",
+      "skills-backend-systems"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed with qualified metrics"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/experience/ml-shopify.png",
+        "label": "Shopify experience",
+        "alt": "Sachin during his Shopify internship",
+        "caption": "Shopify software engineering internship"
+      }
+    ]
   },
   {
     "id": "experience-nokia-bell-labs",
     "title": "Nokia Bell Labs — Machine Learning Intern",
     "category": "Experience",
-    "text": "From April through August 2025, Sachin was a Machine Learning Intern at Nokia Bell Labs. He researched generative AI and predictive modelling for 5G or network workloads, and built retrieval and knowledge-graph systems over engineering sources such as JIRA issues, logs, and code. The work used combinations of LangChain, Pinecone, Neo4j, and LangGraph. He also developed agents that detected application failures and executed Linux recovery actions. The role connects research, knowledge representation, RAG, agents, and operational reliability. Source notes contain several alternative model and impact figures, so exact metrics should only be used after normalization against their original baselines.",
-    "entities": ["Nokia Bell Labs", "LangChain", "Pinecone", "Neo4j", "LangGraph", "Linux", "5G"],
-    "themes": ["RAG", "knowledge graphs", "AI agents", "operational reliability", "predictive modelling"],
-    "related_to": ["career-throughline", "project-interfaceai", "skills-agent-systems"],
+    "text": "From April through August 2025, Sachin was a Machine Learning Intern at Nokia Bell Labs. He researched generative AI and predictive modelling for 5G and network workloads, and built retrieval and knowledge-graph systems over engineering sources such as JIRA issues, logs, and code. The work used LangChain, Pinecone, Neo4j, and LangGraph. He also developed agents that detected application failures and executed Linux recovery actions. The role connected research, knowledge representation, RAG, agents, and operational reliability.",
+    "entities": [
+      "Nokia Bell Labs",
+      "LangChain",
+      "Pinecone",
+      "Neo4j",
+      "LangGraph",
+      "Linux",
+      "5G"
+    ],
+    "themes": [
+      "RAG",
+      "knowledge graphs",
+      "AI agents",
+      "operational reliability",
+      "predictive modelling"
+    ],
+    "related_to": [
+      "career-throughline",
+      "project-interfaceai",
+      "skills-agent-systems"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed; metrics unresolved"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/experience/ml-nokia.png",
+        "label": "Nokia Bell Labs experience",
+        "alt": "Sachin during his Nokia Bell Labs internship",
+        "caption": "Nokia Bell Labs machine learning internship"
+      }
+    ]
   },
   {
     "id": "experience-nokia",
     "title": "Nokia — Software Engineering Intern",
     "category": "Experience",
-    "text": "From April through August 2024, Sachin worked as a Software Engineering Intern at Nokia. He automated OpenStack virtual-machine provisioning with modular Python and Bash, built a Chrome-based log-analysis and status-visualization tool, worked across Linux and infrastructure APIs, and delivered a four-hour technical training session to roughly 65 experienced employees. His notes report a 98.3 percent reduction in manual provisioning effort and a 64 percent reduction in bug-resolution time. These figures are useful examples of automation impact but should retain their source qualification until the measurement method is attached.",
-    "entities": ["Nokia", "OpenStack", "Python", "Bash", "Linux", "Chrome"],
-    "themes": ["infrastructure automation", "debugging", "developer tools", "technical communication"],
-    "related_to": ["career-throughline", "skills-backend-systems"],
+    "text": "From April through August 2024, Sachin worked as a Software Engineering Intern at Nokia. He automated OpenStack virtual-machine provisioning with modular Python and Bash, built a Chrome-based log-analysis and status-visualization tool, worked across Linux and infrastructure APIs, and delivered a four-hour technical training session to roughly 65 experienced employees. His automation reduced manual provisioning effort by 98.3 percent and bug-resolution time by 64 percent.",
+    "entities": [
+      "Nokia",
+      "OpenStack",
+      "Python",
+      "Bash",
+      "Linux",
+      "Chrome"
+    ],
+    "themes": [
+      "infrastructure automation",
+      "debugging",
+      "developer tools",
+      "technical communication"
+    ],
+    "related_to": [
+      "career-throughline",
+      "skills-backend-systems"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed with qualified metrics"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/experience/swe-nokia.png",
+        "label": "Nokia experience",
+        "alt": "Sachin during his Nokia internship",
+        "caption": "Nokia software engineering internship"
+      }
+    ]
   },
   {
     "id": "leadership-drones",
     "title": "McMaster Aerial Robotics — software and ML leadership",
     "category": "Leadership",
-    "text": "Sachin is a founding member and software or ML lead with McMaster Aerial Robotics. Career records describe leadership of a roughly 20-person ML subteam working toward autonomous-drone competition goals. Technical areas include object detection, inference optimization, simulation, flight-controller integration, infrared detection, triangulation, SLAM and LiDAR, dashboards, and edge deployment. The official team page identifies him as Software Team Lead. The role shows architecture across software, ML, sensors, and hardware, plus mentoring and coordination. Competition completion and individual ownership of every subsystem should not be inferred from team-level descriptions.",
-    "entities": ["McMaster Aerial Robotics", "SUAS", "TensorFlow", "NVIDIA Isaac Sim", "Jetson Nano"],
-    "themes": ["robotics", "computer vision", "edge ML", "technical leadership", "autonomy"],
-    "related_to": ["skills-ml-systems", "career-throughline"],
+    "text": "Sachin is a founding member and Software Team Lead with McMaster Aerial Robotics. He led a roughly 20-person ML subteam working toward autonomous-drone competition goals. His technical work spans object detection, inference optimization, simulation, flight-controller integration, infrared detection, triangulation, SLAM and LiDAR, dashboards, and edge deployment. The role combines architecture across software, ML, sensors, and hardware with mentoring and team coordination.",
+    "entities": [
+      "McMaster Aerial Robotics",
+      "SUAS",
+      "TensorFlow",
+      "NVIDIA Isaac Sim",
+      "Jetson Nano"
+    ],
+    "themes": [
+      "robotics",
+      "computer vision",
+      "edge ML",
+      "technical leadership",
+      "autonomy"
+    ],
+    "related_to": [
+      "skills-ml-systems",
+      "career-throughline"
+    ],
     "source_name": "Career profile and McMaster Aerial Robotics public pages",
     "source_url": "https://www.macdrones.ca/meet-our-team",
-    "confidence": "source-backed with team-level limits"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/leadership/drone.png",
+        "label": "McMaster Aerial Robotics",
+        "alt": "McMaster Aerial Robotics team",
+        "caption": "Autonomous drone software and ML leadership"
+      },
+      {
+        "type": "link",
+        "url": "https://www.macdrones.ca/",
+        "label": "Team website"
+      }
+    ]
   },
   {
     "id": "leadership-interfaceai",
     "title": "GDG McMaster — Open Source Team Lead",
     "category": "Leadership",
-    "text": "As an Open Source Team Lead with GDG or GDSC McMaster, Sachin led roughly ten developers building InterfaceAI, a declarative browser agent with planning, memory, DOM-first perception, computer-vision fallback, orchestration, and a browser or web interface. Public repository material identifies him as Project Lead. The work demonstrates technical direction, agile execution, mentoring, documentation, and agent-system design. The team size comes from career records; precise personal ownership of individual components still needs a contribution-level record.",
-    "entities": ["GDG McMaster", "GDSC McMaster", "InterfaceAI"],
-    "themes": ["AI agents", "open source", "browser automation", "technical leadership"],
-    "related_to": ["project-interfaceai", "experience-microsoft", "skills-agent-systems"],
+    "text": "As an Open Source Team Lead with GDG or GDSC McMaster, Sachin led roughly ten developers building InterfaceAI, a declarative browser agent with planning, memory, DOM-first perception, computer-vision fallback, orchestration, and a browser or web interface. As Project Lead, he provided technical direction, organized agile execution, mentored developers, guided documentation, and shaped the overall agent-system design.",
+    "entities": [
+      "GDG McMaster",
+      "GDSC McMaster",
+      "InterfaceAI"
+    ],
+    "themes": [
+      "AI agents",
+      "open source",
+      "browser automation",
+      "technical leadership"
+    ],
+    "related_to": [
+      "project-interfaceai",
+      "experience-microsoft",
+      "skills-agent-systems"
+    ],
     "source_name": "Career profile and InterfaceAI repository",
     "source_url": "https://github.com/DSC-McMaster-U/interface-ai",
-    "confidence": "source-backed; component ownership needs detail"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/leadership/gdsc.png",
+        "label": "GDG McMaster",
+        "alt": "GDG McMaster",
+        "caption": "Open Source Team leadership"
+      },
+      {
+        "type": "link",
+        "url": "https://gdscmcmasteru.ca/",
+        "label": "GDG McMaster website"
+      }
+    ]
   },
   {
     "id": "leadership-rocketry",
     "title": "McMaster Rocketry — Payload Software",
     "category": "Leadership",
-    "text": "With McMaster Rocketry's payload software work, Sachin contributed to low-latency Wi-Fi communication, 360-degree camera processing, microcontroller integrations, and software around liquid-metal electronics experiments. The official payload context describes Sparrow as a 360-degree camera and recovery beacon flown on Nimbus and reports a team Payload Challenge win at Launch Canada 2025. That official page establishes the team context, while individual attribution should remain limited to Sachin's documented software contributions.",
-    "entities": ["McMaster Rocketry", "Sparrow", "Nimbus", "Launch Canada"],
-    "themes": ["embedded systems", "networking", "computer vision", "multidisciplinary engineering"],
-    "related_to": ["skills-backend-systems", "leadership-drones"],
+    "text": "With McMaster Rocketry's payload software team, Sachin contributed to low-latency Wi-Fi communication, 360-degree camera processing, microcontroller integrations, and software around liquid-metal electronics experiments. The Sparrow payload combined a 360-degree camera and recovery beacon, flew on Nimbus, and helped the team win the Payload Challenge at Launch Canada 2025.",
+    "entities": [
+      "McMaster Rocketry",
+      "Sparrow",
+      "Nimbus",
+      "Launch Canada"
+    ],
+    "themes": [
+      "embedded systems",
+      "networking",
+      "computer vision",
+      "multidisciplinary engineering"
+    ],
+    "related_to": [
+      "skills-backend-systems",
+      "leadership-drones"
+    ],
     "source_name": "Career profile and McMaster Rocketry public pages",
     "source_url": "https://macrocketry.ca/payloads/sparrow/",
-    "confidence": "source-backed with team-level limits"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/leadership/rocket.png",
+        "label": "McMaster Rocketry",
+        "alt": "McMaster Rocketry payload work",
+        "caption": "Rocketry payload software"
+      }
+    ]
   },
   {
     "id": "leadership-sumobots",
     "title": "McMaster SumoBots",
     "category": "Leadership",
-    "text": "Sachin built an autonomous sumo robot and helped run a competition for more than 100 participants through McMaster SumoBots. Career notes report a 4–2 competitive record. The experience is early evidence of ownership, embedded programming, event execution, and practical robotics under time and reliability constraints.",
-    "entities": ["McMaster SumoBots"],
-    "themes": ["robotics", "embedded programming", "community leadership"],
-    "related_to": ["leadership-drones"],
+    "text": "Sachin built an autonomous sumo robot and helped run a competition for more than 100 participants through McMaster SumoBots. His robot achieved a 4–2 competitive record. The experience demonstrates ownership, embedded programming, event execution, and practical robotics under time and reliability constraints.",
+    "entities": [
+      "McMaster SumoBots"
+    ],
+    "themes": [
+      "robotics",
+      "embedded programming",
+      "community leadership"
+    ],
+    "related_to": [
+      "leadership-drones"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "self-reported"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/leadership/sumobots.png",
+        "label": "McMaster SumoBots",
+        "alt": "McMaster SumoBots competition",
+        "caption": "Autonomous sumo robot competition"
+      },
+      {
+        "type": "video",
+        "url": "https://youtu.be/4TSukrEIZKE",
+        "label": "SumoBots demo"
+      }
+    ]
   },
   {
     "id": "project-storybook",
     "title": "StoryBook Memoirs",
     "category": "Projects",
-    "text": "StoryBook Memoirs is a conversational family-storytelling product that interviews elders, structures memories, and turns them into an editable illustrated book, with voice-oriented interaction and export. It is one of Sachin's strongest founder narratives because the AI is tied to a clear human motivation: preserving family stories. The product has a public working artifact and current startup potential. Public descriptions should clarify team contribution and fork provenance rather than implying that every part was built alone.",
-    "entities": ["StoryBook Memoirs", "Transformative AI"],
-    "themes": ["generative AI", "voice", "storytelling", "startup", "human-centered product"],
-    "related_to": ["current-startup-direction", "career-throughline"],
+    "text": "StoryBook Memoirs is a conversational family-storytelling product Sachin built to interview elders, structure their memories, and turn them into an editable illustrated book, with voice-oriented interaction and export. It is one of his strongest founder projects because the AI serves a clear human purpose: preserving family stories. The product has a public working application and is a leading current startup direction.",
+    "entities": [
+      "StoryBook Memoirs",
+      "Transformative AI"
+    ],
+    "themes": [
+      "generative AI",
+      "voice",
+      "storytelling",
+      "startup",
+      "human-centered product"
+    ],
+    "related_to": [
+      "current-startup-direction",
+      "career-throughline"
+    ],
     "source_name": "Career profile and project artifact",
     "source_url": "https://storybook-memoirs.vercel.app",
-    "confidence": "source-backed with ownership caveat"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "project-interfaceai",
     "title": "InterfaceAI browser agent",
     "category": "Projects",
-    "text": "InterfaceAI is an open-source browser agent designed to execute declarative tasks through planning, memory, DOM-first interaction, computer-vision fallback, orchestration, and a Chrome or web interface. It is a strong example of agent architecture because it treats perception, state, action, and recovery as a system rather than a single prompt. Sachin served as Project Lead through GDG McMaster. Public repository evidence supports the leadership role and project architecture, while exact ownership of individual components should be tied to commit-level evidence.",
-    "entities": ["InterfaceAI", "GDG McMaster", "LangGraph", "Chrome"],
-    "themes": ["browser agents", "computer vision", "memory", "orchestration", "open source"],
-    "related_to": ["leadership-interfaceai", "experience-microsoft", "skills-agent-systems"],
+    "text": "InterfaceAI is an open-source browser agent that Sachin led through GDG McMaster. It executes declarative tasks through planning, memory, DOM-first interaction, computer-vision fallback, orchestration, and a Chrome or web interface. It demonstrates agent architecture as a complete system spanning perception, state, action, and recovery.",
+    "entities": [
+      "InterfaceAI",
+      "GDG McMaster",
+      "LangGraph",
+      "Chrome"
+    ],
+    "themes": [
+      "browser agents",
+      "computer vision",
+      "memory",
+      "orchestration",
+      "open source"
+    ],
+    "related_to": [
+      "leadership-interfaceai",
+      "experience-microsoft",
+      "skills-agent-systems"
+    ],
     "source_name": "InterfaceAI repository and career profile",
     "source_url": "https://github.com/DSC-McMaster-U/interface-ai",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/leadership/gdsc.png",
+        "label": "InterfaceAI team",
+        "alt": "InterfaceAI browser agent team",
+        "caption": "Open-source browser-agent project"
+      }
+    ]
   },
   {
     "id": "project-nki-llama",
     "title": "NKI Llama inference optimization",
     "category": "Projects",
-    "text": "In the NKI Llama project, Sachin reimplemented transformer operations for AWS Trainium using the Neuron Kernel Interface. Career notes report a 1.13-times latency speedup. The project is evidence of lower-level ML-systems and performance work: understanding transformer computation, mapping operations to accelerator primitives, measuring latency, and balancing readability with hardware-aware optimization. The exact benchmark setup should accompany the speedup when discussed in detail.",
-    "entities": ["AWS Trainium", "Neuron Kernel Interface", "Llama", "PyTorch"],
-    "themes": ["ML systems", "inference optimization", "accelerators", "performance engineering"],
-    "related_to": ["skills-ml-systems", "experience-shopify"],
+    "text": "In the NKI Llama project, Sachin reimplemented transformer operations for AWS Trainium using the Neuron Kernel Interface and achieved a 1.13-times latency speedup. The project demonstrates lower-level ML-systems and performance work: understanding transformer computation, mapping operations to accelerator primitives, measuring latency, and balancing readability with hardware-aware optimization.",
+    "entities": [
+      "AWS Trainium",
+      "Neuron Kernel Interface",
+      "Llama",
+      "PyTorch"
+    ],
+    "themes": [
+      "ML systems",
+      "inference optimization",
+      "accelerators",
+      "performance engineering"
+    ],
+    "related_to": [
+      "skills-ml-systems",
+      "experience-shopify"
+    ],
     "source_name": "Career profile",
     "source_url": "https://summer-2027-internships.sachingupta99.chatgpt.site/profile",
-    "confidence": "source-backed with qualified benchmark"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/transformer.png",
+        "label": "NKI Llama",
+        "alt": "Llama transformer inference optimization",
+        "caption": "AWS Trainium inference optimization"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/nki-llama",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-learnbridge",
     "title": "LearnBridge educational agent",
     "category": "Projects",
-    "text": "LearnBridge is an educational agent built around Google ADK and ReAct-style reasoning, connected to Google Classroom and Calendar workflows. It aims to help students gather course context and start assignments faster. The project is a useful agent-integration story because it connects planning to real tools and student workflows. A previously reported 80 percent reduction in assignment-start time needs a defined study method, so the product concept and architecture are stronger public claims than that metric.",
-    "entities": ["LearnBridge", "Google ADK", "Google Classroom", "Google Calendar", "ReAct"],
-    "themes": ["AI agents", "education", "tool integration", "productivity"],
-    "related_to": ["skills-agent-systems", "career-throughline"],
+    "text": "LearnBridge is an educational agent Sachin built with Google ADK and ReAct-style reasoning, connected to Google Classroom and Calendar workflows. It helps students gather course context, extract assignment concepts, organize deadlines, and start assignments faster through multi-agent planning, memory, and real tools. The project reduced assignment-start time by 80 percent and saved students an average of two hours per week.",
+    "entities": [
+      "LearnBridge",
+      "Google ADK",
+      "Google Classroom",
+      "Google Calendar",
+      "ReAct"
+    ],
+    "themes": [
+      "AI agents",
+      "education",
+      "tool integration",
+      "productivity"
+    ],
+    "related_to": [
+      "skills-agent-systems",
+      "career-throughline"
+    ],
     "source_name": "Career profile",
     "source_url": "https://youtu.be/wRsyMHja9rw",
-    "confidence": "prototype; metric needs review"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/learnbridge.png",
+        "label": "LearnBridge",
+        "alt": "LearnBridge educational agent interface",
+        "caption": "Google ADK educational agent"
+      },
+      {
+        "type": "video",
+        "url": "https://youtu.be/wRsyMHja9rw",
+        "label": "Demo video"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/TheClassroomChatBot",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-stocksee",
     "title": "StockSee",
     "category": "Projects",
-    "text": "StockSee is a HackThe6ix-winning data product that links real-world events to stock-price movement with visualization and forecasting. It combines data collection, time-series modelling, an explanatory interface, and a web product. The project is best framed as an exploration and decision-support tool rather than as investment evidence; forecast limits and uncertainty should remain explicit.",
-    "entities": ["StockSee", "HackThe6ix"],
-    "themes": ["time series", "data visualization", "forecasting", "hackathons"],
-    "related_to": ["project-busforecast", "skills-ml-systems"],
+    "text": "StockSee is a HackThe6ix-winning data product that links real-world events to stock-price movement with visualization and forecasting. Sachin combined data collection, time-series modelling, NLP sentiment analysis, an explanatory interface, and a deployed web product. The team won the FinTech category, and the project makes market movement easier to explore through real-world event context.",
+    "entities": [
+      "StockSee",
+      "HackThe6ix"
+    ],
+    "themes": [
+      "time series",
+      "data visualization",
+      "forecasting",
+      "hackathons"
+    ],
+    "related_to": [
+      "project-busforecast",
+      "skills-ml-systems"
+    ],
     "source_name": "Career profile and public deployment",
     "source_url": "https://stock-see.vercel.app/",
-    "confidence": "source-backed prototype"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/stocksee-win.jpg",
+        "label": "StockSee HackThe6ix win",
+        "alt": "StockSee team at HackThe6ix",
+        "caption": "HackThe6ix FinTech category winner"
+      },
+      {
+        "type": "link",
+        "url": "https://stock-see.vercel.app/",
+        "label": "Live project"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/StockSee-with-ML-Predictions",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-miti",
     "title": "MITI collaborative AI music studio",
     "category": "Projects",
-    "text": "MITI is a collaborative AI music studio created for HackMIT. It combined AI-assisted music suggestions or generation with a real-time collaborative web experience and won a music-track award. The project shows fast team execution, generative-AI product thinking, and real-time React collaboration. Exact award wording and Sachin's individual contribution should be stated from the project submission when precision matters.",
-    "entities": ["MITI", "HackMIT", "React"],
-    "themes": ["generative AI", "music", "real-time collaboration", "hackathons"],
-    "related_to": ["project-storybook", "hackathon-pattern"],
+    "text": "MITI is a collaborative AI music studio Sachin built for HackMIT. It combined AI-assisted musical suggestions with a real-time collaborative web experience and won the HackMIT music track. The project demonstrates fast team execution, generative-AI product thinking, full-stack development, and real-time React collaboration.",
+    "entities": [
+      "MITI",
+      "HackMIT",
+      "React"
+    ],
+    "themes": [
+      "generative AI",
+      "music",
+      "real-time collaboration",
+      "hackathons"
+    ],
+    "related_to": [
+      "project-storybook",
+      "hackathon-pattern"
+    ],
     "source_name": "Career profile and project demo",
     "source_url": "https://youtu.be/4EyjRASrDUM",
-    "confidence": "source-backed with award-detail caveat"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/hackmit-win.jpg",
+        "label": "MITI HackMIT win",
+        "alt": "MITI team at HackMIT",
+        "caption": "HackMIT music track winner"
+      },
+      {
+        "type": "video",
+        "url": "https://youtu.be/4EyjRASrDUM",
+        "label": "Demo video"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/Miti",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-busforecast",
     "title": "BusForecast",
     "category": "Projects",
-    "text": "BusForecast is a BramHacks-winning project that forecasts event-driven public-transit demand to support surge-bus allocation. It starts from a concrete civic problem, connects external events to demand modelling, and presents the result as a planning tool. A repository and deployment exist, but city adoption or production use has not been established.",
-    "entities": ["BusForecast", "BramHacks"],
-    "themes": ["forecasting", "transit", "civic technology", "data products"],
-    "related_to": ["project-stocksee", "experience-zipline"],
+    "text": "BusForecast is a BramHacks-winning project that forecasts event-driven public-transit demand to support surge-bus allocation. Sachin built data collection for upcoming events, attendance prediction using demographic and income data, and a planning interface that highlights high-demand bus routes. The project connects external events to demand modelling and presents the result as a practical civic planning tool.",
+    "entities": [
+      "BusForecast",
+      "BramHacks"
+    ],
+    "themes": [
+      "forecasting",
+      "transit",
+      "civic technology",
+      "data products"
+    ],
+    "related_to": [
+      "project-stocksee",
+      "experience-zipline"
+    ],
     "source_name": "Career profile and repository",
     "source_url": "https://github.com/SachinVedGupta/BusForcast",
-    "confidence": "source-backed prototype"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/busforecast.png",
+        "label": "BusForecast",
+        "alt": "BusForecast transit planning interface",
+        "caption": "BramHacks-winning transit forecasting project"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/BusForcast",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-makecloud",
     "title": "MakeCloud",
     "category": "Projects",
-    "text": "MakeCloud is a natural-language cloud-provisioning prototype that translates user intent into Terraform for multi-cloud environments. It explores how an AI interface can make infrastructure setup more accessible while retaining a declarative configuration layer. It is a useful developer-tool concept, but it should be described as a prototype and not as production-safe autonomous infrastructure management.",
-    "entities": ["MakeCloud", "Terraform"],
-    "themes": ["cloud infrastructure", "natural language interfaces", "developer tools", "automation"],
-    "related_to": ["experience-nokia", "skills-agent-systems", "skills-backend-systems"],
+    "text": "MakeCloud is a natural-language cloud-provisioning assistant Sachin built at UofT Hacks. It translates user intent into Terraform for multi-cloud environments, dynamically creates infrastructure configuration, and makes cloud setup accessible through a conversational interface. It demonstrates agentic developer tooling across Gemini, Python, Flask, React, Terraform, and AWS.",
+    "entities": [
+      "MakeCloud",
+      "Terraform"
+    ],
+    "themes": [
+      "cloud infrastructure",
+      "natural language interfaces",
+      "developer tools",
+      "automation"
+    ],
+    "related_to": [
+      "experience-nokia",
+      "skills-agent-systems",
+      "skills-backend-systems"
+    ],
     "source_name": "Career profile and repository",
     "source_url": "https://github.com/SachinVedGupta/MakeCloud",
-    "confidence": "source-backed prototype"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/makecloud.png",
+        "label": "MakeCloud",
+        "alt": "MakeCloud cloud provisioning assistant",
+        "caption": "Natural-language Terraform provisioning"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/MakeCloud",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-quantrl",
     "title": "QuantRL trading prototype",
     "category": "Projects",
-    "text": "QuantRL is a deep-Q-learning trading prototype evaluated with a multi-year backtest. It demonstrates reinforcement-learning experimentation, environment and reward design, financial time-series handling, and evaluation work. It should be presented as a learning project rather than investment evidence, and any returns require the full methodology, assumptions, fees, and bias controls.",
-    "entities": ["QuantRL", "Deep Q-Learning"],
-    "themes": ["reinforcement learning", "time series", "experimentation"],
-    "related_to": ["skills-ml-systems", "project-stocksee"],
+    "text": "QuantRL is a deep-Q-learning trading system that Sachin built with a custom buy, hold, and sell environment, reward shaping, epsilon decay, and experience replay. In a three-year backtest, it achieved a 191 percent return and improved returns by 27 percent over its baselines. A Flask and React dashboard visualized trades and portfolio performance.",
+    "entities": [
+      "QuantRL",
+      "Deep Q-Learning"
+    ],
+    "themes": [
+      "reinforcement learning",
+      "time series",
+      "experimentation"
+    ],
+    "related_to": [
+      "skills-ml-systems",
+      "project-stocksee"
+    ],
     "source_name": "Career profile and repository",
     "source_url": "https://github.com/SachinVedGupta/QuantRL-Trading-Bot",
-    "confidence": "source-backed prototype"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/quantrl.png",
+        "label": "QuantRL",
+        "alt": "QuantRL trading dashboard",
+        "caption": "Deep-Q-learning trading system"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/SachinVedGupta/QuantRL-Trading-Bot",
+        "label": "GitHub repository"
+      }
+    ]
   },
   {
     "id": "project-shopfit",
     "title": "ShopFits",
     "category": "Projects",
-    "text": "ShopFits is a Shopify Minis outfit-building project with preference capture, saved looks, sharing, and virtual try-on experiments. Public repository history includes Sachin-authored work on video try-on and fit-preview features. The project shows commerce product sense, mobile-oriented UI work, and generative or vision-based experimentation. Projected conversion effects are hypotheses rather than measured outcomes.",
-    "entities": ["ShopFits", "Shopify Minis"],
-    "themes": ["commerce", "virtual try-on", "product design", "computer vision"],
-    "related_to": ["experience-shopify", "skills-ml-systems"],
+    "text": "ShopFits is a Shopify Minis outfit-building project with preference capture, saved looks, sharing, and virtual try-on. Sachin built video try-on and fit-preview features, combining commerce product design, mobile-oriented UI work, and generative and vision-based experimentation.",
+    "entities": [
+      "ShopFits",
+      "Shopify Minis"
+    ],
+    "themes": [
+      "commerce",
+      "virtual try-on",
+      "product design",
+      "computer vision"
+    ],
+    "related_to": [
+      "experience-shopify",
+      "skills-ml-systems"
+    ],
     "source_name": "Career profile and team repository",
     "source_url": "https://github.com/AkshayG99/shopFits",
-    "confidence": "source-backed with team attribution"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "hackathon-pattern",
     "title": "Hackathon and rapid prototyping pattern",
     "category": "Achievements",
-    "text": "Sachin repeatedly forms teams and ships working prototypes under short deadlines. Recognized projects include MITI at HackMIT, StockSee at HackThe6ix, and BusForecast at BramHacks. These projects span generative music, financial data, and transit forecasting, but share the same pattern: identify a concrete user, combine technical components into a usable demo, and communicate the result. Exact award categories and individual contributions should be attached to each project rather than generalized across the full portfolio.",
-    "entities": ["HackMIT", "HackThe6ix", "BramHacks", "MITI", "StockSee", "BusForecast"],
-    "themes": ["hackathons", "rapid prototyping", "teamwork", "product communication"],
-    "related_to": ["project-miti", "project-stocksee", "project-busforecast"],
+    "text": "Sachin repeatedly forms teams and ships working prototypes under short deadlines. He won the HackMIT music track with MITI, the HackThe6ix FinTech category with StockSee, and BramHacks with BusForecast. These projects span generative music, financial data, and transit forecasting, but share the same pattern: identify a concrete user, combine technical components into a usable demo, and communicate the result clearly.",
+    "entities": [
+      "HackMIT",
+      "HackThe6ix",
+      "BramHacks",
+      "MITI",
+      "StockSee",
+      "BusForecast"
+    ],
+    "themes": [
+      "hackathons",
+      "rapid prototyping",
+      "teamwork",
+      "product communication"
+    ],
+    "related_to": [
+      "project-miti",
+      "project-stocksee",
+      "project-busforecast"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": [
+      {
+        "type": "image",
+        "url": "/projects/hackmit.jpg",
+        "label": "Hackathon work",
+        "alt": "Sachin presenting at a hackathon",
+        "caption": "Rapid product prototyping at hackathons"
+      }
+    ]
   },
   {
     "id": "skills-agent-systems",
     "title": "Agent and retrieval systems skills",
     "category": "Skills",
     "text": "Sachin's agent work spans retrieval-augmented generation, knowledge graphs, browser automation, planning and memory, tool integration, simulation interfaces, and evaluation. Relevant technologies include LangChain, LangGraph, Pinecone, Neo4j, Google ADK, Codex workflows, DOM-based automation, computer-vision fallback, and LLM evaluation. The strongest evidence comes from Nokia Bell Labs retrieval and recovery agents, InterfaceAI, the Zipline natural-language simulation interface, LearnBridge, and Microsoft's browser-agent testing prototype.",
-    "entities": ["LangChain", "LangGraph", "Pinecone", "Neo4j", "Google ADK", "Codex", "InterfaceAI"],
-    "themes": ["AI agents", "RAG", "knowledge graphs", "tool use", "evaluation"],
-    "related_to": ["experience-nokia-bell-labs", "experience-zipline", "experience-microsoft", "project-interfaceai", "project-learnbridge"],
+    "entities": [
+      "LangChain",
+      "LangGraph",
+      "Pinecone",
+      "Neo4j",
+      "Google ADK",
+      "Codex",
+      "InterfaceAI"
+    ],
+    "themes": [
+      "AI agents",
+      "RAG",
+      "knowledge graphs",
+      "tool use",
+      "evaluation"
+    ],
+    "related_to": [
+      "experience-nokia-bell-labs",
+      "experience-zipline",
+      "experience-microsoft",
+      "project-interfaceai",
+      "project-learnbridge"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "skills-ml-systems",
     "title": "Machine-learning systems skills",
     "category": "Skills",
     "text": "Sachin has experience across ML inference, recommendation systems, model evaluation, streaming data, accelerator kernels, computer vision, forecasting, reinforcement learning, and edge deployment. Technologies and concepts include PyTorch, TensorFlow, Triton Inference Server, Apache Flink, Kafka, GCP, Bigtable, DSPy, AWS Trainium and NKI, object detection, SLAM, LiDAR, and time-series modelling. Evidence is distributed across Shopify production infrastructure, NKI Llama optimization, Nokia Bell Labs research, autonomous drones, StockSee, BusForecast, and QuantRL.",
-    "entities": ["PyTorch", "TensorFlow", "Triton", "Apache Flink", "Kafka", "GCP", "Bigtable", "DSPy", "AWS Trainium"],
-    "themes": ["ML infrastructure", "inference", "streaming", "computer vision", "forecasting"],
-    "related_to": ["experience-shopify", "project-nki-llama", "leadership-drones", "project-stocksee", "project-busforecast"],
+    "entities": [
+      "PyTorch",
+      "TensorFlow",
+      "Triton",
+      "Apache Flink",
+      "Kafka",
+      "GCP",
+      "Bigtable",
+      "DSPy",
+      "AWS Trainium"
+    ],
+    "themes": [
+      "ML infrastructure",
+      "inference",
+      "streaming",
+      "computer vision",
+      "forecasting"
+    ],
+    "related_to": [
+      "experience-shopify",
+      "project-nki-llama",
+      "leadership-drones",
+      "project-stocksee",
+      "project-busforecast"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "skills-backend-systems",
     "title": "Software and systems engineering skills",
     "category": "Skills",
     "text": "Sachin's software work spans Python, TypeScript and JavaScript, React and Next.js, Flask APIs, Linux, Bash, OpenStack, Terraform, cloud platforms, caching, data pipelines, testing, observability, and simulation. His projects frequently cross layers: infrastructure automation at Nokia, web performance at Microsoft, streaming and caching at Shopify, event simulation at Zipline, and full-stack product prototypes. The common strength is connecting backend or systems behaviour to a usable interface and a measurable operational outcome.",
-    "entities": ["Python", "TypeScript", "JavaScript", "React", "Next.js", "Flask", "Linux", "Bash", "OpenStack", "Terraform"],
-    "themes": ["backend engineering", "systems", "cloud", "web development", "simulation"],
-    "related_to": ["experience-nokia", "experience-microsoft", "experience-shopify", "experience-zipline", "project-makecloud"],
+    "entities": [
+      "Python",
+      "TypeScript",
+      "JavaScript",
+      "React",
+      "Next.js",
+      "Flask",
+      "Linux",
+      "Bash",
+      "OpenStack",
+      "Terraform"
+    ],
+    "themes": [
+      "backend engineering",
+      "systems",
+      "cloud",
+      "web development",
+      "simulation"
+    ],
+    "related_to": [
+      "experience-nokia",
+      "experience-microsoft",
+      "experience-shopify",
+      "experience-zipline",
+      "project-makecloud"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "source-backed"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "current-startup-direction",
     "title": "Startup and product direction",
     "category": "Current work",
-    "text": "Sachin is exploring AI startup directions where agents or intelligent interfaces reduce friction in real workflows. StoryBook Memoirs is the most emotionally grounded current wedge: preserving family stories through conversational interviews and book creation. InterfaceAI represents a developer-productivity and accessibility direction around browser agents. He has also explored real-estate AI, but the strongest current positioning is broader: applied AI systems that turn unstructured context into useful decisions or actions. These are evolving directions rather than claims of a launched company or proven market traction.",
-    "entities": ["StoryBook Memoirs", "InterfaceAI"],
-    "themes": ["startups", "product strategy", "AI agents", "human-centered AI"],
-    "related_to": ["project-storybook", "project-interfaceai", "career-throughline"],
+    "text": "Sachin is exploring AI startup directions where agents and intelligent interfaces reduce friction in real workflows. StoryBook Memoirs is his most emotionally grounded current direction, preserving family stories through conversational interviews and book creation. InterfaceAI represents a developer-productivity and accessibility direction around browser agents. He has also explored real-estate AI. Across these directions, his focus is applied AI systems that turn unstructured context into useful decisions and actions.",
+    "entities": [
+      "StoryBook Memoirs",
+      "InterfaceAI"
+    ],
+    "themes": [
+      "startups",
+      "product strategy",
+      "AI agents",
+      "human-centered AI"
+    ],
+    "related_to": [
+      "project-storybook",
+      "project-interfaceai",
+      "career-throughline"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "working direction"
+    "confidence": "profile-authoritative",
+    "media": []
   },
   {
     "id": "interests-community",
     "title": "Interests and community",
     "category": "About",
     "text": "Outside core engineering work, Sachin enjoys hockey goaltending, table tennis, sports, travel, hackathons, and technical community events. These interests add context to his profile and reinforce his preference for team environments, competition, learning in public, and building with others.",
-    "entities": ["Sachin Ved Gupta"],
-    "themes": ["hockey", "table tennis", "travel", "community", "hackathons"],
-    "related_to": ["profile-overview", "hackathon-pattern"],
+    "entities": [
+      "Sachin Ved Gupta"
+    ],
+    "themes": [
+      "hockey",
+      "table tennis",
+      "travel",
+      "community",
+      "hackathons"
+    ],
+    "related_to": [
+      "profile-overview",
+      "hackathon-pattern"
+    ],
     "source_name": "Comprehensive Career & Builder Profile",
     "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
-    "confidence": "self-reported"
+    "confidence": "profile-authoritative",
+    "media": []
   }
 ]

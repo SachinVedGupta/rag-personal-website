@@ -1,9 +1,22 @@
 import type { ReactNode } from "react";
 
-const TOKEN = /(\*\*[^*]+\*\*|\[[^\]]+\]\(https?:\/\/[^)]+\))/g;
+const SAFE_URL = "(?:https?:\\/\\/|\\/(?!\\/))[^)]+";
+const TOKEN = new RegExp(
+  `(!\\[[^\\]]*\\]\\(${SAFE_URL}\\)|\\*\\*[^*]+\\*\\*|\\[[^\\]]+\\]\\(${SAFE_URL}\\))`,
+  "g",
+);
 
 function inline(text: string): ReactNode[] {
   return text.split(TOKEN).filter(Boolean).map((part, index) => {
+    const image = part.match(/^!\[([^\]]*)\]\(((?:https?:\/\/|\/(?!\/))[^)]+)\)$/);
+    if (image) {
+      return (
+        <span key={index} className="my-3 block overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <img src={image[2]} alt={image[1] || "Portfolio media"} className="max-h-72 w-full object-cover" />
+          {image[1] && <span className="block px-3 py-2 text-xs text-slate-500">{image[1]}</span>}
+        </span>
+      );
+    }
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
         <strong key={index} className="font-semibold text-slate-950">
@@ -11,7 +24,7 @@ function inline(text: string): ReactNode[] {
         </strong>
       );
     }
-    const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+    const link = part.match(/^\[([^\]]+)\]\(((?:https?:\/\/|\/(?!\/))[^)]+)\)$/);
     if (link) {
       return (
         <a

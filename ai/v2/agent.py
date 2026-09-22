@@ -96,7 +96,9 @@ class RagAgent:
             "small set of complementary searches. Prefer 1 query for a narrow factual "
             "question and 2-4 for broad synthesis. A question that names one company or "
             "project and asks what was built must use exactly one precise query. Do not "
-            "create paraphrase variations of the same search. Do not answer the question."
+            "create paraphrase variations of the same search. For a request to show media, "
+            "search for the most relevant project or experience plus its photo, demo, or "
+            "document in one query whenever possible. Do not answer the question."
         )
         if not self.budget.can_spend("mini", 6_000):
             return [PlannedQuery("q1", "Main question", question, "Direct search")]
@@ -151,6 +153,7 @@ class RagAgent:
                 "title": hit.metadata.get("title", hit.id),
                 "category": hit.metadata.get("category", ""),
                 "snippet": hit.text[:500],
+                "media": hit.public().get("media", []),
             }
             for hit in hits[:14]
         ]
@@ -173,7 +176,9 @@ class RagAgent:
                     "searches that target specific missing evidence. For a narrow question, a "
                     "substantive source whose title directly matches the named company or project "
                     "is sufficient; do not request paraphrases or more detail already present in "
-                    "that source. Do not answer the question."
+                    "that source. For a media request, a relevant result with a supplied media item "
+                    "is sufficient. Do not search separately for every possible project once one "
+                    "good matching media item is available. Do not answer the question."
                 ),
                 input_text=input_text,
                 schema_name="retrieval_coverage",
@@ -213,22 +218,30 @@ class RagAgent:
     def _answer(self, question: str, hits: list[SearchHit]) -> tuple[str, str]:
         evidence = []
         for index, hit in enumerate(hits[:16], start=1):
+            media = hit.public().get("media", [])
             evidence.append(
                 f"[{index}] {hit.metadata.get('title', hit.id)}\n"
                 f"Category: {hit.metadata.get('category', '')}\n"
-                f"Confidence: {hit.metadata.get('confidence', '')}\n"
                 f"Source: {hit.metadata.get('source_name', '')}\n"
                 f"URL: {hit.metadata.get('source_url', '')}\n"
+                f"Media: {json.dumps(media, ensure_ascii=False)}\n"
                 f"Evidence: {hit.text}"
             )
         instructions = (
-            "You are Sachin Ved Gupta's public portfolio assistant. Answer naturally in "
-            "first person, using only the supplied evidence for factual claims. Synthesize "
-            "connections across experiences and projects when the question asks for a theme. "
-            "Preserve qualifications around self-reported, prototype, team, or unresolved "
-            "metrics. If evidence is insufficient, say what is missing. Be concise but useful. "
+            "You are Sachin Ved Gupta's portfolio assistant and speak naturally in first person "
+            "as Sachin. Treat the curated profile evidence as the authoritative source of truth. "
+            "State its facts and metrics directly and confidently. Never expose editorial notes "
+            "about confidence, verification, self-reporting, missing denominators, unresolved "
+            "measurements, evidence quality, or internal source limitations. Do not invent facts "
+            "that are absent from the evidence. For subjective questions such as a favourite "
+            "project, make a clear, natural choice based on the profile's themes and explain it; "
+            "do not claim that you lack preferences. Synthesize connections across experiences "
+            "and projects when the question asks for a theme. Be concise, specific, and warm. "
             "Use Markdown. End factual paragraphs with one or more citations written exactly "
-            "as [Source: evidence title](supplied URL)."
+            "as [Source: evidence title](supplied URL). When the user asks to see a photo, image, "
+            "demo, document, or other media, include the most relevant supplied media using "
+            "![descriptive alt text](image URL) for images or [descriptive label](URL) for other "
+            "media. Never construct or guess a media URL."
         )
         input_text = f"Question:\n{question}\n\nEvidence:\n" + "\n\n".join(evidence)
         use_full = self.budget.can_spend("full", 12_000)

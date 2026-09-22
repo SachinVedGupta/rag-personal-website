@@ -14,6 +14,15 @@ original `webrag` vectors.
 4. GPT-5.4 writes the grounded answer. GPT-5.4 Mini is the fallback.
 5. The response includes every planned query and its hits so the frontend can
    overlay them on the same PCA map without another retrieval call.
+6. The curated profile is the answer authority. Public answers state its facts
+   directly in Sachin's voice, while still refusing to invent absent details.
+7. Records can carry images, demos, documents, and project links. Media metadata
+   is stored with each Pinecone record and returned only when relevant.
+
+The retrieval map exposes the complete indexed text, similarity scores, entities,
+themes, relationships, sources, media, and fixed PCA coordinates. The 384-value
+MiniLM embeddings remain in Pinecone; the browser receives their stable 2D PCA
+projection rather than a large raw vector payload.
 
 OpenAI-hosted tools are not used. The retrieval loop runs in this service, which
 keeps eligible model traffic within the complimentary-token offer described in

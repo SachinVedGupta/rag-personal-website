@@ -37,11 +37,23 @@ def build_projection(
     reduced = pca.fit_transform(matrix)
     points = []
     for record, point in zip(records, reduced):
+        metadata = record["metadata"]
+        try:
+            media = json.loads(str(metadata.get("media_json", "[]")))
+        except (TypeError, ValueError, json.JSONDecodeError):
+            media = []
         points.append(
             {
                 "id": record["id"],
-                "title": record["metadata"]["title"],
-                "category": record["metadata"]["category"],
+                "title": metadata["title"],
+                "category": metadata["category"],
+                "text": metadata["text"],
+                "source": metadata["source_name"],
+                "sourceUrl": metadata["source_url"],
+                "entities": list(metadata.get("entities", [])),
+                "themes": list(metadata.get("themes", [])),
+                "relatedIds": list(metadata.get("related_to", [])),
+                "media": media if isinstance(media, list) else [],
                 "x": round(float(point[0]), 8),
                 "y": round(float(point[1]), 8),
             }

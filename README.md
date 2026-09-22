@@ -46,6 +46,16 @@ Frontend
 - 🔄 Auto-scroll to latest messages
 - ⌨️ Enter key to send messages
 
+## RAG v2 private preview
+
+The isolated v2 implementation is available at `/rag-v2`. It adds adaptive,
+LLM-planned multi-query retrieval, source-labelled evidence, bounded follow-up
+searches, GPT-5.4 answer generation, and a stable PCA map with selectable query
+overlays. It uses the separate `PINECONE_V2_INDEX_NAME`; the original backend,
+routes, UI, and Pinecone index remain unchanged.
+
+See [`ai/v2/README.md`](ai/v2/README.md) for the data flow and local commands.
+
 ## Prerequisites
 
 Make sure you have the following installed:

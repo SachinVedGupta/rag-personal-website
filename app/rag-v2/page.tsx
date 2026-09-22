@@ -6,8 +6,8 @@ import SafeMarkdown from "./SafeMarkdown";
 import type { AskResponse, VisualizationData } from "./types";
 
 type ChatMessage = { role: "user" | "assistant"; text: string };
-const CHAT_STORAGE_KEY = "rag-v2-chat-history";
-const RESULT_STORAGE_KEY = "rag-v2-latest-result";
+const CHAT_STORAGE_KEY = "rag-v2-chat-history-v3";
+const RESULT_STORAGE_KEY = "rag-v2-latest-result-v3";
 
 const SUGGESTED_PROMPTS = [
   "What did I build at Microsoft?",
@@ -149,7 +149,7 @@ export default function RagV2Page() {
             <div className="flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4">
               <div>
                 <h2 className="font-semibold">AI portfolio conversation</h2>
-                <p className="mt-1 text-xs text-slate-500">Grounded in a public-safe, source-labelled profile corpus.</p>
+                <p className="mt-1 text-xs text-slate-500">Grounded in a curated public portfolio profile.</p>
               </div>
               {messages.length > 0 && (
                 <button
@@ -293,11 +293,11 @@ export default function RagV2Page() {
                                 <span className="ml-2 text-[10px] text-slate-400">score {hit.score.toFixed(4)}</span>
                               </summary>
                               <p className="mt-2 whitespace-pre-wrap text-xs leading-5 text-slate-600">{hit.text || hit.snippet}</p>
-                              {hit.sourceUrl && (
-                                <a href={hit.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs font-medium text-blue-700 underline">
-                                  {hit.source}
+                              {(hit.media || []).filter((item) => item.type !== "image").map((item) => (
+                                <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" className="mt-2 mr-3 inline-block text-xs font-medium text-blue-700 underline">
+                                  {item.label}
                                 </a>
-                              )}
+                              ))}
                             </details>
                           ))}
                         </div>

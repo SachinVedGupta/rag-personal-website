@@ -26,7 +26,7 @@
       "skills-ml-systems"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -71,7 +71,7 @@
       "experience-nokia"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   },
@@ -93,7 +93,7 @@
       "profile-overview"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -129,7 +129,7 @@
       "education-mcmaster"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   },
@@ -156,9 +156,15 @@
       "skills-agent-systems"
     ],
     "source_name": "Career profile and public-safe Microsoft case study",
-    "source_url": "https://summer-2027-internships.sachingupta99.chatgpt.site/profile",
+    "source_url": "https://www.linkedin.com/posts/sachin-ved-gupta_from-outlookcom-to-microsoftcom-im-activity-7467470681367048192-zFDJ",
     "confidence": "profile-authoritative",
-    "media": []
+    "media": [
+      {
+        "type": "link",
+        "url": "https://www.linkedin.com/posts/sachin-ved-gupta_from-outlookcom-to-microsoftcom-im-activity-7467470681367048192-zFDJ",
+        "label": "LinkedIn post"
+      }
+    ]
   },
   {
     "id": "experience-zipline",
@@ -186,9 +192,15 @@
       "skills-backend-systems"
     ],
     "source_name": "Career profile and confidentiality-safe Zipline case study",
-    "source_url": "https://summer-2027-internships.sachingupta99.chatgpt.site/profile",
+    "source_url": "https://www.linkedin.com/posts/sachin-ved-gupta_look-up-its-zipline-its-me-its-been-activity-7464488315472392192-wKPX",
     "confidence": "profile-authoritative",
-    "media": []
+    "media": [
+      {
+        "type": "link",
+        "url": "https://www.linkedin.com/posts/sachin-ved-gupta_look-up-its-zipline-its-me-its-been-activity-7464488315472392192-wKPX",
+        "label": "LinkedIn project post"
+      }
+    ]
   },
   {
     "id": "experience-shopify",
@@ -217,8 +229,8 @@
       "skills-ml-systems",
       "skills-backend-systems"
     ],
-    "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_name": "Public LinkedIn post",
+    "source_url": "https://www.linkedin.com/posts/sachin-ved-gupta_pod-activity-7421034821335830528-EuHA",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -227,6 +239,11 @@
         "label": "Shopify experience",
         "alt": "Sachin during his Shopify internship",
         "caption": "Shopify software engineering internship"
+      },
+      {
+        "type": "link",
+        "url": "https://www.linkedin.com/posts/sachin-ved-gupta_pod-activity-7421034821335830528-EuHA",
+        "label": "LinkedIn post"
       }
     ]
   },
@@ -257,7 +274,7 @@
       "skills-agent-systems"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -293,7 +310,7 @@
       "skills-backend-systems"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -436,7 +453,7 @@
       "leadership-drones"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -535,8 +552,8 @@
       "skills-ml-systems",
       "experience-shopify"
     ],
-    "source_name": "Career profile",
-    "source_url": "https://summer-2027-internships.sachingupta99.chatgpt.site/profile",
+    "source_name": "GitHub repository",
+    "source_url": "https://github.com/SachinVedGupta/nki-llama",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -843,7 +860,7 @@
       "project-busforecast"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": [
       {
@@ -884,7 +901,7 @@
       "project-learnbridge"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   },
@@ -919,7 +936,7 @@
       "project-busforecast"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   },
@@ -955,7 +972,7 @@
       "project-makecloud"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   },
@@ -980,7 +997,7 @@
       "career-throughline"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   },
@@ -1004,7 +1021,7 @@
       "hackathon-pattern"
     ],
     "source_name": "Comprehensive Career & Builder Profile",
-    "source_url": "https://docs.google.com/document/d/1T5S9Tly2cWPlXHXb_QSe4V3Matg2nyhDxjQLfDEZCmI/edit",
+    "source_url": "",
     "confidence": "profile-authoritative",
     "media": []
   }

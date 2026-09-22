@@ -289,7 +289,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
           <PointDetails point={selectedPoint} />
         ) : (
           <p className="text-sm text-slate-500">
-            Hover for a short preview. Click any profile or result point to inspect its complete indexed text, coordinates, relationships, source, and media.
+            Hover for a short preview. Click any profile or result point to inspect its complete indexed text, coordinates, relationships, and public media.
           </p>
         )}
       </div>
@@ -334,11 +334,6 @@ function PointDetails({ point }: { point: CorpusPoint }) {
         </div>
       )}
       <div className="flex flex-wrap gap-3 text-xs">
-        {point.sourceUrl && (
-          <a href={point.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-700 underline">
-            {point.source}
-          </a>
-        )}
         {(point.media || []).filter((item) => item.type !== "image").map((item) => (
           <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-700 underline">
             {item.label}

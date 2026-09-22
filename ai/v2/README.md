@@ -24,7 +24,7 @@ original `webrag` vectors.
    the named subject; synthesis questions can still search across the portfolio.
 
 The retrieval map exposes the complete indexed text, similarity scores, entities,
-themes, relationships, sources, media, and fixed PCA coordinates. The 384-value
+themes, relationships, public media links, and fixed PCA coordinates. The 384-value
 MiniLM embeddings remain in Pinecone; the browser receives their stable 2D PCA
 projection rather than a large raw vector payload.
 

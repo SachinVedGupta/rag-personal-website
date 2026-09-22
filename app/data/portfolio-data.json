@@ -9,17 +9,50 @@
       "title": "Professional Experience",
       "items": [
         {
+          "company": "Microsoft",
+          "role": "Software Engineering Intern, PowerPoint Web Performance",
+          "period": "Summer 2026",
+          "description": "Shipped PowerPoint Web boot and reliability fixes and built a PR-aware browser-agent testing prototype.",
+          "technologies": ["TypeScript", "Web Performance", "Browser Automation", "Developer Tools", "Testing"],
+          "links": {
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_from-outlookcom-to-microsoftcom-im-activity-7467470681367048192-zFDJ"
+          },
+          "details": [
+            "Shipped boot and reliability fixes involving canvas centering, off-slide shape visibility, scroll behavior, comments-pane layout reservation, and visual popping",
+            "Built a PR-aware browser-agent testing prototype that compared baseline and changed builds, producing recordings and reproducible issue reports",
+            "Contributed to 21% faster boot time and 13 production fixes"
+          ]
+        },
+        {
+          "company": "Zipline",
+          "role": "Data Science Intern",
+          "period": "Winter 2026",
+          "description": "Built a natural-language agent workflow around an autonomous-delivery operations simulator.",
+          "technologies": ["Python", "LLM Agents", "Simulation", "Data Science", "Visualization"],
+          "links": {
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_look-up-its-zipline-its-me-its-been-activity-7464488315472392192-wKPX"
+          },
+          "details": [
+            "Built a natural-language Codex workflow that generated configurations, ran scenarios, returned charts, explained results, and suggested follow-up analysis",
+            "Developed an extensible discrete-event simulator covering aircraft, charging docks, workers, partners, demand, weather, and failures",
+            "Calibrated the simulator with historical data and built validation tooling for throughput, timing, utilization, and bottleneck diagnosis"
+          ]
+        },
+        {
           "company": "Shopify",
-          "role": "Machine Learning Engineer Intern",
+          "role": "Software Engineering Intern, Recommendations Infrastructure",
           "period": "Fall 2025",
-          "description": "Developing cutting-edge AI solutions for e-commerce on the Shopify Magic and Sidekick agentic AI team",
-          "technologies": ["Python", "LLMs", "Generative AI", "Agentic Systems", "ML Infrastructure", "E-commerce AI"],
+          "description": "Built recommendation-relevance, ML inference, streaming, debugging, and caching systems for the Shop app context.",
+          "technologies": ["Python", "Triton", "Apache Flink", "Kafka", "GCP", "Bigtable", "DSPy"],
           "logo": "/experience/shopify-logo.png",
           "image": "/experience/ml-shopify.png",
+          "links": {
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_pod-activity-7421034821335830528-EuHA"
+          },
           "details": [
-            "Developing agentic solutions and assistants for clients, business owners, and users",
-            "Enhancing Sidekick (Shopify's AI assistant) to better understand the user's intent and context based on their previous interactions and patterns",
-            "Contributing to large-scale ML infrastructure and model deployment"
+            "Distilled a relevancy judge to a one-billion-parameter model for more than ten million recommendations",
+            "Built recommendation debugging used by more than 80 engineers",
+            "Created local-to-remote-to-Bigtable caching that made an advertised-product filtering path 11× faster"
           ]
         },
         {
@@ -160,6 +193,7 @@
           "achievements": ["HackMIT Winner", "1000 participants", "Music Track"],
           "links": {
             "github": "https://github.com/SachinVedGupta/Miti",
+            "live": "https://miti.vercel.app/",
             "demo": "https://youtu.be/4EyjRASrDUM"
           },
           "image": "/projects/hackmit-win.jpg",
@@ -180,8 +214,7 @@
           "technologies": ["AWS Neuron Kernel Interface", "Trainium EC2", "PyTorch", "NumPy"],
           "achievements": ["1.13× speedup", "ASPLOS Conference", "AWS NKI Contest"],
           "links": {
-            "github": "https://github.com/SachinVedGupta/nki-llama",
-            "documentation": "https://docs.google.com/document/d/1iBo4elvnPlU_SeVow_xYmbjJ9Ym23uRW9FNW8UC_ltI/edit?tab=t.f8x5lvjt07lp"
+            "github": "https://github.com/SachinVedGupta/nki-llama"
           },
           "image": "/projects/transformer.png",
           "logo": "/projects/llama-3.png",
@@ -284,7 +317,8 @@
           "technologies": ["ReactJS", "NextJS", "Python", "Facebook API", "ML", "Demographics API"],
           "achievements": ["BramHacks Winner", "500 competitors", "City of Brampton sponsor"],
           "links": {
-            "github": "https://github.com/SachinVedGupta/BusForcast"
+            "github": "https://github.com/SachinVedGupta/BusForcast",
+            "live": "https://bus-forcast.vercel.app/"
           },
           "image": "/projects/busforecast.png",
           "logo": "/projects/busforecast.png",
@@ -423,8 +457,7 @@
         "Bachelor of Software Engineering Co-op",
         "Provost’s Honour Roll Medal (perfect 4.0 GPA in 1st year)",
         "$10000 Scholarship (from OpenText and Rogers)",
-        "GPA: 3.9/4.0",
-        "Data Structures & Algorithms, OOP, Software Design, Computer Architecture, Linear Algebra"
+        "GPA: 3.9/4.0"
       ]
     }
   },
@@ -447,4 +480,4 @@
       "message": "I'm always open to discussing new opportunities, collaborations, or interesting projects. Feel free to reach out!"
     }
   }
-} 
+}

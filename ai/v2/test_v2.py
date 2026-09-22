@@ -34,6 +34,16 @@ class CorpusTests(unittest.TestCase):
         self.assertNotIn("street address", text.casefold())
         self.assertNotIn("birthday", text.casefold())
 
+    def test_public_corpus_has_no_private_editorial_urls(self) -> None:
+        text = json.dumps(self.records)
+        self.assertNotIn("docs.google.com/document", text)
+        self.assertNotIn("sachingupta99.chatgpt.site", text)
+
+    def test_source_urls_are_empty_or_public_https_urls(self) -> None:
+        for record in self.records:
+            source_url = record.get("source_url", "")
+            self.assertTrue(not source_url or source_url.startswith("https://"))
+
     def test_retrieval_text_contains_relationship_context(self) -> None:
         text = retrieval_text(self.records[0])
         self.assertIn("Entities:", text)

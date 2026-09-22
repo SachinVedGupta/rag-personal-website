@@ -68,6 +68,7 @@ export default function RagV2Page() {
             <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs text-blue-900">
               {result.retrieval.searchCount} of {result.retrieval.maxSearches} searches used
               <br />Answer: {result.models.answer}
+              <br />Full-model local budget: {result.complimentaryBudget.fullUsed.toLocaleString()} / {result.complimentaryBudget.fullLimit.toLocaleString()}
             </div>
           )}
         </header>

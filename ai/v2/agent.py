@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .budget import ComplimentaryBudget
 from .config import Settings
 from .embeddings import EmbeddingClient
 from .openai_client import OpenAIError, OpenAIResponsesClient
@@ -64,7 +65,15 @@ class PlannedQuery:
 class RagAgent:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self.openai = OpenAIResponsesClient(settings.openai_api_key)
+        budget_path = Path(__file__).with_name("data") / "usage-local.json"
+        self.budget = ComplimentaryBudget(
+            budget_path,
+            settings.full_daily_token_budget,
+            settings.mini_daily_token_budget,
+        )
+        self.openai = OpenAIResponsesClient(
+            settings.openai_api_key, on_usage=self.budget.record
+        )
         self.embeddings = EmbeddingClient(
             settings.embedding_model, settings.hugging_face_key
         )
@@ -89,6 +98,8 @@ class RagAgent:
             "project and asks what was built must use exactly one precise query. Do not "
             "create paraphrase variations of the same search. Do not answer the question."
         )
+        if not self.budget.can_spend("mini", 6_000):
+            return [PlannedQuery("q1", "Main question", question, "Direct search")]
         try:
             payload = self.openai.structured(
                 model=self.settings.planner_model,
@@ -132,6 +143,8 @@ class RagAgent:
         remaining: int,
     ) -> list[PlannedQuery]:
         if remaining <= 0:
+            return []
+        if not self.budget.can_spend("mini", 8_000):
             return []
         evidence = [
             {
@@ -218,18 +231,30 @@ class RagAgent:
             "as [Source: evidence title](supplied URL)."
         )
         input_text = f"Question:\n{question}\n\nEvidence:\n" + "\n\n".join(evidence)
+        use_full = self.budget.can_spend("full", 12_000)
+        selected_model = self.settings.answer_model if use_full else self.settings.fallback_model
+        selected_effort = "medium" if use_full else "low"
+        selected_limit = 1800 if use_full else 1600
+        if not use_full and not self.budget.can_spend("mini", 12_000):
+            raise OpenAIError(
+                "The local complimentary-token budget is exhausted for today."
+            )
         try:
             return (
                 self.openai.text(
-                    model=self.settings.answer_model,
+                    model=selected_model,
                     instructions=instructions,
                     input_text=input_text,
-                    max_output_tokens=1800,
-                    reasoning_effort="medium",
+                    max_output_tokens=selected_limit,
+                    reasoning_effort=selected_effort,
                 ),
-                self.settings.answer_model,
+                selected_model,
             )
         except OpenAIError:
+            if selected_model == self.settings.fallback_model:
+                raise
+            if not self.budget.can_spend("mini", 12_000):
+                raise
             return (
                 self.openai.text(
                     model=self.settings.fallback_model,
@@ -301,6 +326,7 @@ class RagAgent:
                 "answer": answer_model,
                 "embedding": self.settings.embedding_model,
             },
+            "complimentaryBudget": self.budget.snapshot(),
             "retrieval": {
                 "searchCount": len(queries),
                 "maxSearches": self.settings.max_searches,

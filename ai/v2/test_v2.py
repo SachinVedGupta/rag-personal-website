@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import unittest
 
+from ai.v2.budget import ComplimentaryBudget
 from ai.v2.ingest import retrieval_text
 from ai.v2.openai_client import OpenAIError, OpenAIResponsesClient
 from ai.v2.projection import Projection
@@ -60,6 +61,18 @@ class OpenAIResponseParsingTests(unittest.TestCase):
     def test_missing_output_is_an_error(self) -> None:
         with self.assertRaises(OpenAIError):
             OpenAIResponsesClient._output_text({"output": []})
+
+
+class ComplimentaryBudgetTests(unittest.TestCase):
+    def test_switch_threshold_uses_a_conservative_reserve(self) -> None:
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as directory:
+            budget = ComplimentaryBudget(Path(directory) / "usage.json", 20_000, 50_000)
+            self.assertTrue(budget.can_spend("full", 12_000))
+            budget.record("gpt-5.4-2026-03-05", 9_000)
+            self.assertFalse(budget.can_spend("full", 12_000))
+            self.assertTrue(budget.can_spend("mini", 12_000))
 
 
 if __name__ == "__main__":

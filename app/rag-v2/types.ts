@@ -43,6 +43,13 @@ export interface AskResponse {
     answer: string;
     embedding: string;
   };
+  complimentaryBudget: {
+    date: string;
+    fullUsed: number;
+    fullLimit: number;
+    miniUsed: number;
+    miniLimit: number;
+  };
   retrieval: {
     searchCount: number;
     maxSearches: number;

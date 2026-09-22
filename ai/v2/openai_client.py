@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import time
-from typing import Any
+from typing import Any, Callable
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -14,9 +14,15 @@ class OpenAIError(RuntimeError):
 class OpenAIResponsesClient:
     """Small Responses API client so v2 adds no production dependency."""
 
-    def __init__(self, api_key: str, timeout: int = 90) -> None:
+    def __init__(
+        self,
+        api_key: str,
+        timeout: int = 90,
+        on_usage: Callable[[str, int], None] | None = None,
+    ) -> None:
         self.api_key = api_key
         self.timeout = timeout
+        self.on_usage = on_usage
 
     def _request(self, payload: dict[str, Any]) -> dict[str, Any]:
         request = Request(
@@ -32,7 +38,14 @@ class OpenAIResponsesClient:
         for attempt in range(3):
             try:
                 with urlopen(request, timeout=self.timeout) as response:
-                    return json.loads(response.read().decode("utf-8"))
+                    result = json.loads(response.read().decode("utf-8"))
+                    usage = result.get("usage") or {}
+                    if self.on_usage:
+                        self.on_usage(
+                            str(payload.get("model", "")),
+                            int(usage.get("total_tokens", 0) or 0),
+                        )
+                    return result
             except HTTPError as exc:
                 detail = exc.read().decode("utf-8", "replace")[:800]
                 last_error = OpenAIError(f"OpenAI returned HTTP {exc.code}: {detail}")

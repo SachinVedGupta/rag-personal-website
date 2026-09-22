@@ -19,6 +19,12 @@ OpenAI-hosted tools are not used. The retrieval loop runs in this service, which
 keeps eligible model traffic within the complimentary-token offer described in
 OpenAI's data-sharing documentation.
 
+The service also keeps a local UTC-day token ledger. It switches final answers
+to Mini at 200K locally observed full-model tokens and stops at 2M Mini tokens,
+leaving a buffer below the Tier 1-2 complimentary limits. The OpenAI quota is
+account-wide, so usage by other projects must still be monitored in the Platform
+Usage dashboard.
+
 ## Local setup
 
 Copy `.env.example` to the ignored `.env` and fill the v2 variables. Then run:

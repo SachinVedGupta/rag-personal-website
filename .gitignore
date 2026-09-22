@@ -116,3 +116,4 @@ temp/
 # History files
 .history/ 
 ai/v2/sources/raw/
+ai/v2/data/usage-local.json

@@ -29,6 +29,8 @@ class Settings:
     fallback_model: str
     max_searches: int
     top_k: int
+    full_daily_token_budget: int
+    mini_daily_token_budget: int
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embedding_dimension: int = 384
     namespace: str = "public-profile-v2"
@@ -51,4 +53,10 @@ class Settings:
             ),
             max_searches=max(1, min(10, int(os.getenv("RAG_V2_MAX_SEARCHES", "10")))),
             top_k=max(2, min(12, int(os.getenv("RAG_V2_TOP_K", "8")))),
+            full_daily_token_budget=max(
+                10_000, int(os.getenv("OPENAI_FULL_DAILY_TOKEN_BUDGET", "200000"))
+            ),
+            mini_daily_token_budget=max(
+                50_000, int(os.getenv("OPENAI_MINI_DAILY_TOKEN_BUDGET", "2000000"))
+            ),
         )

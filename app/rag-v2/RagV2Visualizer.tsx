@@ -129,6 +129,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         name: "Profile knowledge",
         marker: { size: 8, color: "#94a3b8", opacity: 0.55 },
         hovertemplate: "%{text}<extra></extra>",
+        showlegend: false,
       },
     ];
 
@@ -162,6 +163,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         name: `${query.label} results`,
         marker: { size: 14, color, opacity: 0.78, line: { color: "white", width: 1 } },
         hovertemplate: "%{text}<extra></extra>",
+        showlegend: false,
       });
       plotTraces.push({
         x: [query.point[0]],
@@ -173,6 +175,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         name: query.label,
         marker: { size: 20, color, symbol: "star", line: { color: "white", width: 2 } },
         hovertemplate: "%{text}<extra></extra>",
+        showlegend: false,
       });
     });
     return plotTraces;
@@ -192,7 +195,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
   }
 
   return (
-    <section className="flex h-full min-h-[470px] flex-col rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+    <section className="flex min-h-[470px] self-start flex-col rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
       <div className="mb-3">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Retrieval map</p>
         <h2 className="mt-1 text-xl font-semibold text-slate-950">Embedding search space</h2>
@@ -220,30 +223,13 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         </label>
       )}
 
-      {activeQueries.length > 0 && (
-        <div className="mb-1 flex flex-wrap gap-2" aria-label="Visible searches">
-          {activeQueries.map((query) => {
-            const queryIndex = queryIndexById.get(query.id) ?? 0;
-            return (
-              <span key={query.id} className="flex items-center gap-2 rounded-full bg-slate-50 px-2.5 py-1 text-[11px] text-slate-600">
-                <span
-                  className="h-3 w-3 rounded-full border-2 bg-white"
-                  style={{ borderColor: COLORS[queryIndex % COLORS.length] }}
-                />
-                {query.label}
-              </span>
-            );
-          })}
-        </div>
-      )}
-
-      <div className="min-h-[340px] flex-1">
+      <div className="h-[360px] flex-none">
         <Plot
           data={traces}
           layout={{
             autosize: true,
-            height: 390,
-            margin: { l: 35, r: 15, t: 15, b: 35 },
+            height: 360,
+            margin: { l: 35, r: 15, t: 15, b: 40 },
             paper_bgcolor: "rgba(0,0,0,0)",
             plot_bgcolor: "rgba(248,250,252,0.7)",
             xaxis: { title: "PCA 1", gridcolor: "#e2e8f0", zeroline: false },
@@ -261,7 +247,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
               bordercolor: "#cbd5e1",
               font: { color: "#334155", family: "ui-sans-serif, system-ui", size: 12 },
             },
-            legend: { orientation: "h", y: -0.22 },
+            showlegend: false,
             uirevision: data.projectionVersion,
           }}
           config={{ displayModeBar: false, responsive: true }}
@@ -271,6 +257,32 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
             if (typeof id === "string") setSelectedPointId(id);
           }}
         />
+      </div>
+      <div className="mt-2 space-y-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-600" aria-label="Retrieval map legend">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-slate-400 opacity-60" aria-hidden="true" />
+          <span className="font-medium">Profile knowledge</span>
+        </div>
+        {activeQueries.map((query) => {
+          const queryIndex = queryIndexById.get(query.id) ?? 0;
+          const color = COLORS[queryIndex % COLORS.length];
+          return (
+            <div key={query.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-slate-100 pt-2">
+              <span className="flex items-center gap-2">
+                <span className="text-base leading-none" style={{ color }} aria-hidden="true">★</span>
+                <span><span className="font-medium text-slate-800">{query.label}</span> search</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full" style={{ backgroundColor: color }} aria-hidden="true" />
+                <span>Retrieved results</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full border border-dashed" style={{ borderColor: color, backgroundColor: colorWithAlpha(color, 0.08) }} aria-hidden="true" />
+                <span>2D search area</span>
+              </span>
+            </div>
+          );
+        })}
       </div>
       <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
         {selectedPoint ? (

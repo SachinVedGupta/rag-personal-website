@@ -1,12 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CorpusPoint, QueryTrace, VisualizationData } from "./types";
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false }) as any;
 
 const COLORS = ["#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c", "#0891b2"];
+const SEARCH_AREA_STEPS = 72;
 
 export const ALL_SEARCHES = "__all_searches__";
 export const PROFILE_ONLY = "__profile_only__";
@@ -68,8 +69,40 @@ function queryHover(query: QueryTrace) {
   ].join("<br>");
 }
 
+function colorWithAlpha(hex: string, alpha: number) {
+  const value = hex.replace("#", "");
+  const red = Number.parseInt(value.slice(0, 2), 16);
+  const green = Number.parseInt(value.slice(2, 4), 16);
+  const blue = Number.parseInt(value.slice(4, 6), 16);
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
+function searchArea(query: QueryTrace, hitPoints: CorpusPoint[]) {
+  const distances = hitPoints.map((point) =>
+    Math.hypot(point.x - query.point[0], point.y - query.point[1]),
+  );
+  const radius = Math.max(0.045, ...distances) * 1.06;
+  const angles = Array.from(
+    { length: SEARCH_AREA_STEPS + 1 },
+    (_, index) => (index * 2 * Math.PI) / SEARCH_AREA_STEPS,
+  );
+
+  return {
+    x: angles.map((angle) => query.point[0] + radius * Math.cos(angle)),
+    y: angles.map((angle) => query.point[1] + radius * Math.sin(angle)),
+    radius,
+  };
+}
+
 export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV2VisualizerProps) {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const searchSetKey = (data?.queries || [])
+    .map((query) => `${query.id}:${query.query}`)
+    .join("|");
+
+  useEffect(() => {
+    setSelectedPointId(null);
+  }, [searchSetKey]);
 
   const queryIndexById = useMemo(
     () => new Map((data?.queries || []).map((query, index) => [query.id, index])),
@@ -105,7 +138,20 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
       const hitPoints = query.hitIds
         .map((id) => pointById.get(id))
         .filter(Boolean) as CorpusPoint[];
+      const area = searchArea(query, hitPoints);
 
+      plotTraces.push({
+        x: area.x,
+        y: area.y,
+        mode: "lines",
+        type: "scatter",
+        name: `${query.label} search area`,
+        line: { color, width: 1.5, dash: "dot" },
+        fill: "toself",
+        fillcolor: colorWithAlpha(color, 0.08),
+        hoverinfo: "skip",
+        showlegend: false,
+      });
       plotTraces.push({
         x: hitPoints.map((point) => point.x),
         y: hitPoints.map((point) => point.y),
@@ -151,7 +197,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Retrieval map</p>
         <h2 className="mt-1 text-xl font-semibold text-slate-950">Embedding search space</h2>
         <p className="mt-1 text-sm text-slate-600">
-          Real 384-dimensional MiniLM embeddings reduced onto one fixed PCA map. Choose a search to see its query star and retrieved chunks.
+          Real 384-dimensional MiniLM embeddings reduced onto one fixed PCA map. Each translucent circle spans that search&apos;s displayed results in 2D.
         </p>
       </div>
 
@@ -180,7 +226,10 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
             const queryIndex = queryIndexById.get(query.id) ?? 0;
             return (
               <span key={query.id} className="flex items-center gap-2 rounded-full bg-slate-50 px-2.5 py-1 text-[11px] text-slate-600">
-                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS[queryIndex % COLORS.length] }} />
+                <span
+                  className="h-3 w-3 rounded-full border-2 bg-white"
+                  style={{ borderColor: COLORS[queryIndex % COLORS.length] }}
+                />
                 {query.label}
               </span>
             );
@@ -198,7 +247,13 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
             paper_bgcolor: "rgba(0,0,0,0)",
             plot_bgcolor: "rgba(248,250,252,0.7)",
             xaxis: { title: "PCA 1", gridcolor: "#e2e8f0", zeroline: false },
-            yaxis: { title: "PCA 2", gridcolor: "#e2e8f0", zeroline: false },
+            yaxis: {
+              title: "PCA 2",
+              gridcolor: "#e2e8f0",
+              zeroline: false,
+              scaleanchor: "x",
+              scaleratio: 1,
+            },
             hovermode: "closest",
             hoverlabel: {
               align: "left",

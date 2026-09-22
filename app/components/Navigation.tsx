@@ -39,6 +39,12 @@ export default function Navigation() {
 
           {/* Social Media Links */}
           <div className="flex space-x-4">
+            <Link
+              href="/rag-v2-comprehensive"
+              className="self-center whitespace-nowrap text-sm font-medium text-blue-700 transition-colors hover:text-blue-900 dark:text-blue-300 dark:hover:text-white"
+            >
+              AI Portfolio
+            </Link>
             <a
               href="https://github.com/SachinVedGupta"
               target="_blank"

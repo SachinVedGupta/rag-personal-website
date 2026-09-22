@@ -125,7 +125,7 @@ export default function RagV2Page() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8 text-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8 text-slate-900">
       <div className="mx-auto max-w-7xl">
         <header className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -310,6 +310,6 @@ export default function RagV2Page() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

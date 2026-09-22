@@ -48,10 +48,10 @@ Frontend
 
 ## RAG v2 private preview
 
-The isolated v2 implementation is available at `/rag-v2`. It adds adaptive,
-LLM-planned multi-query retrieval, source-labelled evidence, bounded follow-up
-searches, GPT-5.4 answer generation, and a stable PCA map with selectable query
-overlays. It uses the separate `PINECONE_V2_INDEX_NAME`; the original backend,
+The isolated v2 implementation is available at `/rag-v2`, and the full portfolio
+experience with the same adaptive assistant is at `/rag-v2-comprehensive`. The
+map provides independently toggleable profile, query, result, and search-area
+layers. V2 uses the separate `PINECONE_V2_INDEX_NAME`; the original RAG backend,
 routes, UI, and Pinecone index remain unchanged.
 
 See [`ai/v2/README.md`](ai/v2/README.md) for the data flow and local commands.

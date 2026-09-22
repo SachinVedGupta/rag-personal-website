@@ -96,12 +96,14 @@ function searchArea(query: QueryTrace, hitPoints: CorpusPoint[]) {
 
 export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV2VisualizerProps) {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const [hiddenLayers, setHiddenLayers] = useState<Set<string>>(() => new Set());
   const searchSetKey = (data?.queries || [])
     .map((query) => `${query.id}:${query.query}`)
     .join("|");
 
   useEffect(() => {
     setSelectedPointId(null);
+    setHiddenLayers(new Set());
   }, [searchSetKey]);
 
   const queryIndexById = useMemo(
@@ -115,11 +117,24 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
     return data.queries.filter((query) => query.id === mapView);
   }, [data, mapView]);
 
+  function toggleLayer(layerId: string) {
+    setHiddenLayers((current) => {
+      const next = new Set(current);
+      if (next.has(layerId)) next.delete(layerId);
+      else next.add(layerId);
+      return next;
+    });
+  }
+
+  function layerVisible(layerId: string) {
+    return !hiddenLayers.has(layerId);
+  }
+
   const traces = useMemo(() => {
     if (!data) return [];
     const pointById = new Map(data.points.map((point) => [point.id, point]));
-    const plotTraces: any[] = [
-      {
+    const plotTraces: any[] = [];
+    if (!hiddenLayers.has("profile")) plotTraces.push({
         x: data.points.map((point) => point.x),
         y: data.points.map((point) => point.y),
         text: data.points.map(pointHover),
@@ -130,8 +145,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         marker: { size: 8, color: "#94a3b8", opacity: 0.55 },
         hovertemplate: "%{text}<extra></extra>",
         showlegend: false,
-      },
-    ];
+      });
 
     activeQueries.forEach((query) => {
       const queryIndex = queryIndexById.get(query.id) ?? 0;
@@ -141,7 +155,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         .filter(Boolean) as CorpusPoint[];
       const area = searchArea(query, hitPoints);
 
-      plotTraces.push({
+      if (!hiddenLayers.has(`${query.id}:area`)) plotTraces.push({
         x: area.x,
         y: area.y,
         mode: "lines",
@@ -153,7 +167,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         hoverinfo: "skip",
         showlegend: false,
       });
-      plotTraces.push({
+      if (!hiddenLayers.has(`${query.id}:results`)) plotTraces.push({
         x: hitPoints.map((point) => point.x),
         y: hitPoints.map((point) => point.y),
         text: hitPoints.map(pointHover),
@@ -165,7 +179,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         hovertemplate: "%{text}<extra></extra>",
         showlegend: false,
       });
-      plotTraces.push({
+      if (!hiddenLayers.has(`${query.id}:search`)) plotTraces.push({
         x: [query.point[0]],
         y: [query.point[1]],
         text: [queryHover(query)],
@@ -179,7 +193,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
       });
     });
     return plotTraces;
-  }, [activeQueries, data, queryIndexById]);
+  }, [activeQueries, data, hiddenLayers, queryIndexById]);
 
   const selectedPoint: CorpusPoint | null = useMemo(() => {
     if (!data || !selectedPointId) return null;
@@ -259,27 +273,31 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
         />
       </div>
       <div className="mt-2 space-y-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-600" aria-label="Retrieval map legend">
-        <div className="flex items-center gap-2">
+        <label className="flex cursor-pointer items-center gap-2">
+          <input type="checkbox" checked={layerVisible("profile")} onChange={() => toggleLayer("profile")} className="h-3.5 w-3.5 accent-slate-500" />
           <span className="h-2.5 w-2.5 rounded-full bg-slate-400 opacity-60" aria-hidden="true" />
           <span className="font-medium">Profile knowledge</span>
-        </div>
+        </label>
         {activeQueries.map((query) => {
           const queryIndex = queryIndexById.get(query.id) ?? 0;
           const color = COLORS[queryIndex % COLORS.length];
           return (
             <div key={query.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-slate-100 pt-2">
-              <span className="flex items-center gap-2">
+              <label className="flex cursor-pointer items-center gap-2">
+                <input type="checkbox" checked={layerVisible(`${query.id}:search`)} onChange={() => toggleLayer(`${query.id}:search`)} className="h-3.5 w-3.5" />
                 <span className="text-base leading-none" style={{ color }} aria-hidden="true">★</span>
                 <span><span className="font-medium text-slate-800">{query.label}</span> search</span>
-              </span>
-              <span className="flex items-center gap-2">
+              </label>
+              <label className="flex cursor-pointer items-center gap-2">
+                <input type="checkbox" checked={layerVisible(`${query.id}:results`)} onChange={() => toggleLayer(`${query.id}:results`)} className="h-3.5 w-3.5" />
                 <span className="h-3 w-3 rounded-full" style={{ backgroundColor: color }} aria-hidden="true" />
                 <span>Retrieved results</span>
-              </span>
-              <span className="flex items-center gap-2">
+              </label>
+              <label className="flex cursor-pointer items-center gap-2">
+                <input type="checkbox" checked={layerVisible(`${query.id}:area`)} onChange={() => toggleLayer(`${query.id}:area`)} className="h-3.5 w-3.5" />
                 <span className="h-3 w-3 rounded-full border border-dashed" style={{ borderColor: color, backgroundColor: colorWithAlpha(color, 0.08) }} aria-hidden="true" />
                 <span>2D search area</span>
-              </span>
+              </label>
             </div>
           );
         })}

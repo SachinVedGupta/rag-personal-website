@@ -31,7 +31,7 @@ function ItemCard({ item, onClick }: ItemCardProps) {
               className="w-16 h-16 object-contain"
             />
           ) : (
-            <div className="text-4xl text-white">💼</div>
+            <div className="text-4xl text-blue-500">🧠</div>
           )}
         </div>
 
@@ -159,7 +159,7 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
                   className="w-16 h-16 object-contain"
                 />
               ) : (
-                <div className="text-4xl text-white">💼</div>
+                <div className="text-4xl text-blue-500">🧠</div>
               )}
             </div>
           </div>
@@ -259,8 +259,8 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
                     <a
                       key={key}
                       href={url as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target={(url as string).startsWith("/") ? undefined : "_blank"}
+                      rel={(url as string).startsWith("/") ? undefined : "noopener noreferrer"}
                       className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
                     >
                       {key.charAt(0).toUpperCase() + key.slice(1)}
@@ -307,7 +307,7 @@ export default function PortfolioSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            README.md
+            Portfolio
           </h2>
         </div>
 

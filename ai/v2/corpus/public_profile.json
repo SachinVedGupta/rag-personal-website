@@ -493,7 +493,13 @@
     "source_name": "Career profile and project artifact",
     "source_url": "https://storybook-memoirs.vercel.app",
     "confidence": "profile-authoritative",
-    "media": []
+    "media": [
+      {
+        "type": "link",
+        "url": "https://storybook-memoirs.vercel.app/",
+        "label": "Try StoryBook Memoirs"
+      }
+    ]
   },
   {
     "id": "project-interfaceai",
@@ -528,6 +534,11 @@
         "label": "InterfaceAI team",
         "alt": "InterfaceAI browser agent team",
         "caption": "Open-source browser-agent project"
+      },
+      {
+        "type": "link",
+        "url": "https://github.com/DSC-McMaster-U/interface-ai",
+        "label": "InterfaceAI on GitHub"
       }
     ]
   },

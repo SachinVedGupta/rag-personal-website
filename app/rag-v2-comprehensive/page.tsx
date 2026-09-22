@@ -9,7 +9,7 @@ export default function ComprehensivePortfolioPage() {
         <div className="mx-auto mb-8 max-w-7xl">
           <AvatarRenderer />
         </div>
-        <RagV2Page />
+        <RagV2Page embedded />
       </section>
       <PortfolioSection />
       <footer className="bg-white-100 py-4 text-center text-sm text-gray-600 dark:bg-gray-900 dark:text-gray-400">

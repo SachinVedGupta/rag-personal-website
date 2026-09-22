@@ -225,6 +225,39 @@
           ]
         },
         {
+          "name": "StoryBook Memoirs",
+          "role": "Founder project",
+          "period": "Current",
+          "description": "A conversational storytelling product that helps families capture elders’ memories and turn them into an editable illustrated book.",
+          "technologies": ["Generative AI", "Voice", "Full-stack product"],
+          "achievements": ["Human-centered AI"],
+          "links": {
+            "live": "https://storybook-memoirs.vercel.app/"
+          },
+          "details": [
+            "Designed interviews that help elders share personal stories in a natural conversation",
+            "Organizes memories into an editable illustrated book that families can preserve and share",
+            "Explores voice-oriented interaction and export as part of a complete storytelling product"
+          ]
+        },
+        {
+          "name": "InterfaceAI Browser Agent",
+          "role": "Open-source project lead",
+          "period": "2025",
+          "description": "An open-source browser agent that combines task planning, memory, DOM-based interaction, and computer-vision fallback.",
+          "technologies": ["Browser Agents", "LangGraph", "Chrome", "Computer Vision"],
+          "achievements": ["Open source"],
+          "links": {
+            "github": "https://github.com/DSC-McMaster-U/interface-ai"
+          },
+          "image": "/leadership/gdsc.png",
+          "details": [
+            "Led a team building a declarative browser agent for web automation",
+            "Combined planning and memory with DOM-first perception and a computer-vision fallback",
+            "Designed the system around the full agent loop: perception, state, action, and recovery"
+          ]
+        },
+        {
           "name": "Llama LLM Inference Optimization",
           "description": "Optimized LLama LLM (Transformer) inference operations, achieving a 1.13× latency speedup",
           "technologies": ["AWS Neuron Kernel Interface", "Trainium EC2", "PyTorch", "NumPy"],

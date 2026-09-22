@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import RagV2Visualizer, { ALL_SEARCHES } from "./RagV2Visualizer";
 import SafeMarkdown from "./SafeMarkdown";
 import type { AskResponse, VisualizationData } from "./types";
@@ -16,7 +16,7 @@ const SUGGESTED_PROMPTS = [
   "Show me a photo from a winning project.",
 ];
 
-export default function RagV2Page() {
+export default function RagV2Page({ embedded = false }: { embedded?: boolean }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const [question, setQuestion] = useState("");
@@ -25,15 +25,22 @@ export default function RagV2Page() {
   const [result, setResult] = useState<AskResponse | null>(null);
   const [visualization, setVisualization] = useState<VisualizationData | null>(null);
   const [mapView, setMapView] = useState(ALL_SEARCHES);
+  const freshProjectionVersion = useRef<string | null>(null);
 
   useEffect(() => {
     fetch("/api/v2/vector-data", { cache: "no-store" })
       .then(async (response) => {
-        if (!response.ok) throw new Error("RAG v2 is not ready yet.");
+        if (!response.ok) throw new Error("The assistant is temporarily unavailable.");
         return response.json();
       })
-      .then((data) => setVisualization((current) => current || data))
-      .catch((reason) => setError(reason instanceof Error ? reason.message : "RAG v2 is unavailable."));
+      .then((data) => {
+        freshProjectionVersion.current = data.projectionVersion;
+        setVisualization(data);
+        setResult((current) =>
+          current?.visualization.projectionVersion === data.projectionVersion ? current : null,
+        );
+      })
+      .catch((reason) => setError(reason instanceof Error ? reason.message : "The assistant is temporarily unavailable."));
   }, []);
 
   useEffect(() => {
@@ -57,7 +64,12 @@ export default function RagV2Page() {
       const savedResult = window.localStorage.getItem(RESULT_STORAGE_KEY);
       if (savedResult) {
         const parsedResult = JSON.parse(savedResult) as AskResponse;
-        if (parsedResult?.status === "success" && parsedResult.visualization) {
+        if (
+          parsedResult?.status === "success" &&
+          parsedResult.visualization &&
+          (!freshProjectionVersion.current ||
+            parsedResult.visualization.projectionVersion === freshProjectionVersion.current)
+        ) {
           setResult(parsedResult);
           setVisualization(parsedResult.visualization);
         }
@@ -125,31 +137,24 @@ export default function RagV2Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8 text-slate-900">
+    <div className={embedded ? "text-slate-900" : "min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8 text-slate-900"}>
       <div className="mx-auto max-w-7xl">
         <header className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">Private preview · RAG v2</p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Ask across the full story</h1>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-600">AI portfolio assistant</p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Ask about my work</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              An adaptive agent searches experience, projects, leadership, and skills from several angles, then answers from the combined evidence.
+              Ask about my experience, projects, or the ideas that connect them. I’ll find the relevant details and share public links when available.
             </p>
           </div>
-          {result && (
-            <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs text-blue-900">
-              {result.retrieval.searchCount} of {result.retrieval.maxSearches} searches used
-              <br />Answer: {result.models.answer}
-              <br />Full-model local budget: {result.complimentaryBudget.fullUsed.toLocaleString()} / {result.complimentaryBudget.fullLimit.toLocaleString()}
-            </div>
-          )}
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className="flex min-h-[570px] flex-col rounded-2xl border border-slate-200 bg-white/90 shadow-sm">
             <div className="flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4">
               <div>
-                <h2 className="font-semibold">AI portfolio conversation</h2>
-                <p className="mt-1 text-xs text-slate-500">Grounded in a curated public portfolio profile.</p>
+                <h2 className="font-semibold">Chat with me</h2>
+                <p className="mt-1 text-xs text-slate-500">Ask about my experience, projects, and interests.</p>
               </div>
               {messages.length > 0 && (
                 <button
@@ -197,7 +202,7 @@ export default function RagV2Page() {
                   </div>
                 </div>
               ))}
-              {loading && <p className="text-sm text-blue-600">Planning searches and checking evidence…</p>}
+              {loading && <p className="text-sm text-blue-600">Finding the most relevant details…</p>}
               {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
             </div>
             <form onSubmit={submit} className="border-t border-slate-200 p-4">
@@ -206,7 +211,7 @@ export default function RagV2Page() {
                   value={question}
                   onChange={(event) => setQuestion(event.target.value)}
                   disabled={loading}
-                  placeholder="Ask about Sachin's work, skills, or projects…"
+                  placeholder="Ask about my experience, projects, or skills…"
                   className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
                 />
                 <button
@@ -227,8 +232,11 @@ export default function RagV2Page() {
               onMapViewChange={setMapView}
             />
             {result && (
-              <section className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
-                <h2 className="font-semibold">What the agent searched</h2>
+              <details className="group rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-semibold marker:hidden">
+                  <span>Search details <span className="ml-1 text-xs font-normal text-slate-500">{result.retrieval.queries.length} searches · {result.retrieval.queries.reduce((total, query) => total + query.hits.length, 0)} results</span></span>
+                  <span aria-hidden="true" className="text-slate-400 transition-transform group-open:rotate-180">⌄</span>
+                </summary>
                 {result.contextUsed &&
                   result.resolvedQuestion &&
                   result.resolvedQuestion.trim().toLocaleLowerCase() !== result.question.trim().toLocaleLowerCase() && (
@@ -255,7 +263,7 @@ export default function RagV2Page() {
                           </div>
                           <div className="flex shrink-0 items-center gap-2">
                             <span className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-500">
-                              {query.hits.length} chunks
+                              {query.hits.length} results
                             </span>
                             <span aria-hidden="true" className="text-slate-400 transition-transform group-open:rotate-180">⌄</span>
                           </div>
@@ -305,7 +313,7 @@ export default function RagV2Page() {
                     </details>
                   ))}
                 </div>
-              </section>
+              </details>
             )}
           </div>
         </div>

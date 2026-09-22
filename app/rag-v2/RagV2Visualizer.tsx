@@ -211,10 +211,10 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
   return (
     <section className="flex min-h-[470px] self-start flex-col rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
       <div className="mb-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Retrieval map</p>
-        <h2 className="mt-1 text-xl font-semibold text-slate-950">Embedding search space</h2>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Explore my portfolio</p>
+        <h2 className="mt-1 text-xl font-semibold text-slate-950">Search map</h2>
         <p className="mt-1 text-sm text-slate-600">
-          Real 384-dimensional MiniLM embeddings reduced onto one fixed PCA map. Each translucent circle spans that search&apos;s displayed results in 2D.
+          This map places related portfolio details near each other. Stars show searches, dots show matching details, and circles outline each search area.
         </p>
       </div>
 
@@ -307,11 +307,10 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
           <PointDetails point={selectedPoint} />
         ) : (
           <p className="text-sm text-slate-500">
-            Hover for a short preview. Click any profile or result point to inspect its complete indexed text, coordinates, relationships, and public media.
+            Hover for a preview, or select a point to explore the matching details, related topics, and public links or images.
           </p>
         )}
       </div>
-      <p className="mt-1 text-[11px] text-slate-400">Projection {data.projectionVersion}</p>
     </section>
   );
 }

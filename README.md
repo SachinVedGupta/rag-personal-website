@@ -46,13 +46,14 @@ Frontend
 - 🔄 Auto-scroll to latest messages
 - ⌨️ Enter key to send messages
 
-## RAG v2 private preview
+## Portfolio assistant
 
-The isolated v2 implementation is available at `/rag-v2`, and the full portfolio
-experience with the same adaptive assistant is at `/rag-v2-comprehensive`. The
-map provides independently toggleable profile, query, result, and search-area
-layers. V2 uses the separate `PINECONE_V2_INDEX_NAME`; the original RAG backend,
-routes, UI, and Pinecone index remain unchanged.
+The adaptive portfolio assistant is part of the full site at
+`/rag-v2-comprehensive`; `/rag-v2` provides a standalone view. It can search
+across projects and experience, share public links, and show the matching
+details on an interactive map. The map layers can be toggled independently.
+The assistant uses the separate `PINECONE_V2_INDEX_NAME`; the original RAG
+backend, routes, UI, and Pinecone index remain available.
 
 See [`ai/v2/README.md`](ai/v2/README.md) for the data flow and local commands.
 

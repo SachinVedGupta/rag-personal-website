@@ -18,6 +18,10 @@ original `webrag` vectors.
    directly in Sachin's voice, while still refusing to invent absent details.
 7. Records can carry images, demos, documents, and project links. Media metadata
    is stored with each Pinecone record and returned only when relevant.
+8. The browser keeps the current chat in local storage and sends a bounded recent
+   history with each request. The Mini planner resolves short follow-ups such as
+   "yes", "that project", and "photo" before retrieval. Focused follow-ups stay on
+   the named subject; synthesis questions can still search across the portfolio.
 
 The retrieval map exposes the complete indexed text, similarity scores, entities,
 themes, relationships, sources, media, and fixed PCA coordinates. The 384-value

@@ -6,6 +6,7 @@ import SafeMarkdown from "./SafeMarkdown";
 import type { AskResponse, VisualizationData } from "./types";
 
 type ChatMessage = { role: "user" | "assistant"; text: string };
+const CHAT_STORAGE_KEY = "rag-v2-chat-history";
 
 const SUGGESTED_PROMPTS = [
   "What did I build at Microsoft?",
@@ -16,6 +17,7 @@ const SUGGESTED_PROMPTS = [
 
 export default function RagV2Page() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,10 +34,41 @@ export default function RagV2Page() {
       .catch((reason) => setError(reason instanceof Error ? reason.message : "RAG v2 is unavailable."));
   }, []);
 
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(CHAT_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setMessages(
+            parsed
+              .filter(
+                (item): item is ChatMessage =>
+                  item &&
+                  (item.role === "user" || item.role === "assistant") &&
+                  typeof item.text === "string",
+              )
+              .slice(-24),
+          );
+        }
+      }
+    } catch {
+      window.localStorage.removeItem(CHAT_STORAGE_KEY);
+    } finally {
+      setHistoryLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!historyLoaded) return;
+    window.localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages.slice(-24)));
+  }, [historyLoaded, messages]);
+
   async function submit(event: FormEvent) {
     event.preventDefault();
     const trimmed = question.trim();
     if (!trimmed || loading) return;
+    const history = messages.slice(-12);
     setMessages((current) => [...current, { role: "user", text: trimmed }]);
     setQuestion("");
     setLoading(true);
@@ -44,7 +77,7 @@ export default function RagV2Page() {
       const response = await fetch("/api/v2/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: trimmed }),
+        body: JSON.stringify({ question: trimmed, history }),
       });
       const data = (await response.json()) as AskResponse;
       if (!response.ok || data.status !== "success") {
@@ -58,6 +91,14 @@ export default function RagV2Page() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function startNewChat() {
+    setMessages([]);
+    setResult(null);
+    setQuestion("");
+    setError("");
+    window.localStorage.removeItem(CHAT_STORAGE_KEY);
   }
 
   return (
@@ -82,9 +123,21 @@ export default function RagV2Page() {
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className="flex min-h-[570px] flex-col rounded-2xl border border-slate-200 bg-white/90 shadow-sm">
-            <div className="border-b border-slate-200 px-5 py-4">
-              <h2 className="font-semibold">AI portfolio conversation</h2>
-              <p className="mt-1 text-xs text-slate-500">Grounded in a public-safe, source-labelled profile corpus.</p>
+            <div className="flex items-start justify-between gap-3 border-b border-slate-200 px-5 py-4">
+              <div>
+                <h2 className="font-semibold">AI portfolio conversation</h2>
+                <p className="mt-1 text-xs text-slate-500">Grounded in a public-safe, source-labelled profile corpus.</p>
+              </div>
+              {messages.length > 0 && (
+                <button
+                  type="button"
+                  onClick={startNewChat}
+                  disabled={loading}
+                  className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-blue-300 hover:text-blue-700 disabled:opacity-50"
+                >
+                  New chat
+                </button>
+              )}
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               {messages.length === 0 && (
@@ -149,6 +202,13 @@ export default function RagV2Page() {
             {result && (
               <section className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
                 <h2 className="font-semibold">What the agent searched</h2>
+                {result.contextUsed &&
+                  result.resolvedQuestion &&
+                  result.resolvedQuestion.trim().toLocaleLowerCase() !== result.question.trim().toLocaleLowerCase() && (
+                    <p className="mt-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-xs leading-5 text-blue-900">
+                      Understood your follow-up as: {result.resolvedQuestion}
+                    </p>
+                  )}
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   {result.retrieval.queries.map((query) => (
                     <article key={query.id} className="rounded-xl border border-slate-200 bg-slate-50 p-3">

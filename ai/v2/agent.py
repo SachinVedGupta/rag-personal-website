@@ -27,6 +27,8 @@ QUERY_ITEM_SCHEMA: dict[str, Any] = {
 PLAN_SCHEMA: dict[str, Any] = {
     "type": "object",
     "properties": {
+        "resolved_question": {"type": "string"},
+        "scope": {"type": "string", "enum": ["focused", "synthesis"]},
         "queries": {
             "type": "array",
             "items": QUERY_ITEM_SCHEMA,
@@ -34,7 +36,7 @@ PLAN_SCHEMA: dict[str, Any] = {
             "maxItems": 4,
         }
     },
-    "required": ["queries"],
+    "required": ["resolved_question", "scope", "queries"],
     "additionalProperties": False,
 }
 
@@ -88,9 +90,20 @@ class RagAgent:
             raise RuntimeError("Missing v2 projection; run ai/v2/ingest.py")
         self.projection = Projection(projection_path)
 
-    def _plan(self, question: str) -> list[PlannedQuery]:
+    def _plan(
+        self, question: str, history: list[dict[str, str]]
+    ) -> tuple[str, str, list[PlannedQuery]]:
         instructions = (
-            "Plan semantic searches over a public career portfolio. The data contains "
+            "Resolve the latest user message in the context of the recent conversation, then "
+            "plan semantic searches over a public career portfolio. Return a standalone "
+            "resolved_question that preserves the user's actual intent. If the user says yes, "
+            "accepts an offer, uses a pronoun, or gives a short follow-up such as 'more detail' "
+            "or 'photo', bind it to the specific subject and offer in the latest relevant turns. "
+            "Never switch to a different company, experience, or project unless the user does. "
+            "Set scope=focused for one named subject or a follow-up about that subject. Set "
+            "scope=synthesis only when the user asks to connect, compare, summarize, or survey "
+            "multiple parts of the profile. "
+            "The data contains "
             "experience, projects, leadership, skills, education, achievements, and "
             "relationships between them. Break compound or thematic questions into a "
             "small set of complementary searches. Prefer 1 query for a narrow factual "
@@ -101,18 +114,31 @@ class RagAgent:
             "document in one query whenever possible. Do not answer the question."
         )
         if not self.budget.can_spend("mini", 6_000):
-            return [PlannedQuery("q1", "Main question", question, "Direct search")]
+            return question, "focused", [
+                PlannedQuery("q1", "Main question", question, "Direct search")
+            ]
+        planner_input = json.dumps(
+            {
+                "recent_conversation": history[-10:],
+                "latest_user_message": question,
+            },
+            ensure_ascii=False,
+        )
         try:
             payload = self.openai.structured(
                 model=self.settings.planner_model,
                 instructions=instructions,
-                input_text=question,
+                input_text=planner_input,
                 schema_name="retrieval_plan",
                 schema=PLAN_SCHEMA,
                 max_output_tokens=900,
             )
+            resolved_question = str(payload["resolved_question"]).strip()[:1000]
+            scope = str(payload["scope"]).strip()
             raw_queries = payload["queries"]
         except (OpenAIError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+            resolved_question = question
+            scope = "focused"
             raw_queries = [
                 {
                     "label": "Main question",
@@ -135,7 +161,9 @@ class RagAgent:
                     rationale=str(item.get("rationale", "")).strip()[:240],
                 )
             )
-        return planned or [PlannedQuery("q1", "Main question", question, "Direct search")]
+        return resolved_question or question, scope, planned or [
+            PlannedQuery("q1", "Main question", resolved_question or question, "Direct search")
+        ]
 
     def _coverage(
         self,
@@ -178,7 +206,10 @@ class RagAgent:
                     "is sufficient; do not request paraphrases or more detail already present in "
                     "that source. For a media request, a relevant result with a supplied media item "
                     "is sufficient. Do not search separately for every possible project once one "
-                    "good matching media item is available. Do not answer the question."
+                    "good matching media item is available. If a media request refers to one "
+                    "specific company or project and its matching record has no media, treat the "
+                    "search as complete rather than broadening to unrelated subjects. Do not "
+                    "answer the question."
                 ),
                 input_text=input_text,
                 schema_name="retrieval_coverage",
@@ -215,7 +246,13 @@ class RagAgent:
         )
         return [item["hit"] for item in ranked]
 
-    def _answer(self, question: str, hits: list[SearchHit]) -> tuple[str, str]:
+    def _answer(
+        self,
+        question: str,
+        resolved_question: str,
+        history: list[dict[str, str]],
+        hits: list[SearchHit],
+    ) -> tuple[str, str]:
         evidence = []
         for index, hit in enumerate(hits[:16], start=1):
             media = hit.public().get("media", [])
@@ -242,8 +279,23 @@ class RagAgent:
             "demo, document, or other media, include the most relevant supplied media using "
             "![descriptive alt text](image URL) for images or [descriptive label](URL) for other "
             "media. Never construct or guess a media URL."
+            " For a contextual media request, use media only from the same company, experience, "
+            "or project the user is discussing. Never substitute an unrelated image. If that "
+            "specific record has no attached media, say so briefly and continue with its relevant "
+            "source or details. Continue the conversation directly: when the user accepts a prior "
+            "offer, deliver what was offered instead of asking them to choose again. When the "
+            "resolved intent focuses on one company, experience, or project, stay on that subject; "
+            "do not add adjacent projects, broader career themes, comparisons, or a closing offer "
+            "unless the user asks for them."
         )
-        input_text = f"Question:\n{question}\n\nEvidence:\n" + "\n\n".join(evidence)
+        input_text = (
+            "Recent conversation:\n"
+            + json.dumps(history[-10:], ensure_ascii=False)
+            + f"\n\nLatest user message:\n{question}"
+            + f"\n\nResolved intent:\n{resolved_question}"
+            + "\n\nEvidence:\n"
+            + "\n\n".join(evidence)
+        )
         use_full = self.budget.can_spend("full", 12_000)
         selected_model = self.settings.answer_model if use_full else self.settings.fallback_model
         selected_effort = "medium" if use_full else "low"
@@ -279,8 +331,11 @@ class RagAgent:
                 self.settings.fallback_model,
             )
 
-    def ask(self, question: str) -> dict[str, Any]:
-        queries = self._plan(question)
+    def ask(
+        self, question: str, history: list[dict[str, str]] | None = None
+    ) -> dict[str, Any]:
+        history = history or []
+        resolved_question, scope, queries = self._plan(question, history)
         query_vectors: dict[str, list[float]] = {}
         query_hits: dict[str, list[SearchHit]] = {}
         hit_map: dict[str, dict[str, Any]] = {}
@@ -298,10 +353,10 @@ class RagAgent:
                         entry["hit"] = hit
 
         run(queries)
-        while len(queries) < self.settings.max_searches:
+        while scope == "synthesis" and len(queries) < self.settings.max_searches:
             ranked = self._rank_hits(hit_map)
             follow_ups = self._coverage(
-                question,
+                resolved_question,
                 queries,
                 ranked,
                 self.settings.max_searches - len(queries),
@@ -315,7 +370,9 @@ class RagAgent:
             break
 
         ranked_hits = self._rank_hits(hit_map)
-        answer, answer_model = self._answer(question, ranked_hits)
+        answer, answer_model = self._answer(
+            question, resolved_question, history, ranked_hits
+        )
         traces = []
         for planned in queries:
             hits = query_hits[planned.id]
@@ -333,6 +390,8 @@ class RagAgent:
         return {
             "status": "success",
             "question": question,
+            "resolvedQuestion": resolved_question,
+            "contextUsed": bool(history),
             "answer": answer,
             "models": {
                 "planner": self.settings.planner_model,
@@ -341,6 +400,7 @@ class RagAgent:
             },
             "complimentaryBudget": self.budget.snapshot(),
             "retrieval": {
+                "scope": scope,
                 "searchCount": len(queries),
                 "maxSearches": self.settings.max_searches,
                 "queries": traces,

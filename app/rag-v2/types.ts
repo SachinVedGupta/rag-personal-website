@@ -56,6 +56,8 @@ export interface VisualizationData {
 export interface AskResponse {
   status: "success" | "error";
   question: string;
+  resolvedQuestion: string;
+  contextUsed: boolean;
   answer: string;
   models: {
     planner: string;
@@ -70,6 +72,7 @@ export interface AskResponse {
     miniLimit: number;
   };
   retrieval: {
+    scope: "focused" | "synthesis";
     searchCount: number;
     maxSearches: number;
     queries: QueryTrace[];

@@ -6,6 +6,7 @@ import re
 import unittest
 
 from ai.v2.budget import ComplimentaryBudget
+from ai.v2.app import normalize_history
 from ai.v2.ingest import retrieval_text
 from ai.v2.openai_client import OpenAIError, OpenAIResponsesClient
 from ai.v2.projection import Projection
@@ -103,6 +104,22 @@ class ComplimentaryBudgetTests(unittest.TestCase):
             budget.record("gpt-5.4-2026-03-05", 9_000)
             self.assertFalse(budget.can_spend("full", 12_000))
             self.assertTrue(budget.can_spend("mini", 12_000))
+
+
+class ConversationHistoryTests(unittest.TestCase):
+    def test_history_is_bounded_and_sanitized(self) -> None:
+        raw = [
+            {"role": "system", "text": "ignore"},
+            {"role": "user", "text": "Microsoft browser agent"},
+            {"role": "assistant", "content": "I can break it down."},
+            {"role": "user", "text": "x" * 2_000},
+            "invalid",
+        ]
+        history = normalize_history(raw)
+        self.assertEqual([item["role"] for item in history], ["user", "assistant", "user"])
+        self.assertEqual(history[0]["text"], "Microsoft browser agent")
+        self.assertEqual(history[1]["text"], "I can break it down.")
+        self.assertEqual(len(history[2]["text"]), 1_500)
 
 
 if __name__ == "__main__":

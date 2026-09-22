@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const response = await fetch(`${backendUrl}v2/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question: body.question }),
+      body: JSON.stringify({ question: body.question, history: body.history }),
       cache: "no-store",
     });
     const data = await response.json();

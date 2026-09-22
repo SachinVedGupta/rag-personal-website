@@ -17,6 +17,28 @@ _agent: RagAgent | None = None
 _agent_lock = Lock()
 
 
+def normalize_history(value: object) -> list[dict[str, str]]:
+    if not isinstance(value, list):
+        return []
+    normalized: list[dict[str, str]] = []
+    remaining_chars = 10_000
+    for item in reversed(value[-12:]):
+        if not isinstance(item, dict):
+            continue
+        role = item.get("role")
+        text = item.get("text", item.get("content", ""))
+        if role not in {"user", "assistant"} or not isinstance(text, str):
+            continue
+        text = text.strip()
+        if not text or remaining_chars <= 0:
+            continue
+        text = text[: min(1_500, remaining_chars)]
+        remaining_chars -= len(text)
+        normalized.append({"role": role, "text": text})
+    normalized.reverse()
+    return normalized
+
+
 def get_agent() -> RagAgent:
     global _agent
     if _agent is None:
@@ -51,8 +73,9 @@ def ask():
         return jsonify({"status": "error", "message": "Question required"}), 400
     if len(question) > 2000:
         return jsonify({"status": "error", "message": "Question is too long"}), 400
+    history = normalize_history(payload.get("history"))
     try:
-        return jsonify(get_agent().ask(question))
+        return jsonify(get_agent().ask(question, history))
     except Exception as exc:
         app.logger.exception("RAG v2 request failed")
         return jsonify({"status": "error", "message": str(exc)}), 500

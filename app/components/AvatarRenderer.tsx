@@ -23,24 +23,26 @@ export default function AvatarRenderer() {
 
   const messages = [
     "i love creating ai systems that help people and impact lives",
-    "i am a machine learning intern @ shopify @ nokia",
+    "i interned @ microsoft, zipline, shopify, nokia",
     "i lead drone club's ml team to autonomously put out wild fires",
     "i am developing a browser ai agent that can do anything for you",
     "i am honing my skills within llm research, ai agents, and cv models",
-    "i am looking for ml and swe internships for winter/spring 2026 and summer 2026",
-    "i am a software engineering student @ mcmaster university, graduating in 2027",
-    "i am a builder, click me to learn more or scroll down to ask my ai persona and view the allocating rag embeddings visualization",
+    "i am looking for ml and swe internships for summer 2027",
+    "i am a software engineering student @ mcmaster university, graduating in 2028",
+    "i am building in stealth",
+    "i am a go getter, click me to learn more or scroll down to ask my ai persona and view the allocating rag embeddings visualization",
   ];
 
   const shortMessages = [
     "i build ai systems",
-    "ml intern @ shopify",
+    "ex - microsoft, zipline",
     "lead drone ml team",
     "making browser ai",
     "honing agents",
-    "seeking '26 internships",
+    "seeking '27 internships",
     "swe @ mcmaster '27",
-    "i am a builder, click me",
+    "building in stealth",
+    "i am a go getter, click me",
   ];
 
   useEffect(() => {

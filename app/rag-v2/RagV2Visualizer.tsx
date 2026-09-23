@@ -7,6 +7,27 @@ import type { CorpusPoint, QueryTrace, VisualizationData } from "./types";
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false }) as any;
 
 const COLORS = ["#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c", "#0891b2"];
+const PROFILE_CATEGORY_COLORS: Record<string, string> = {
+  Experience: "#7893b4",
+  Leadership: "#9b87ad",
+  Projects: "#6f9f9a",
+  Achievements: "#b39a6b",
+  Skills: "#7f9c8c",
+  Education: "#ac858f",
+  "Current work": "#7e9da4",
+  About: "#8795aa",
+};
+const PROFILE_CATEGORY_ORDER = [
+  "Experience",
+  "Leadership",
+  "Projects",
+  "Achievements",
+  "Skills",
+  "Education",
+  "Current work",
+  "About",
+];
+const PROFILE_DEFAULT_COLOR = "#8895a7";
 const SEARCH_AREA_STEPS = 72;
 
 export const ALL_SEARCHES = "__all_searches__";
@@ -143,7 +164,11 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
         mode: "markers",
         type: "scatter",
         name: "Profile knowledge",
-        marker: { size: 8, color: "#94a3b8", opacity: 0.55 },
+        marker: {
+          size: 8,
+          color: data.points.map((point) => PROFILE_CATEGORY_COLORS[point.category] || PROFILE_DEFAULT_COLOR),
+          opacity: 0.58,
+        },
         hovertemplate: "%{text}<extra></extra>",
         showlegend: false,
       });
@@ -208,6 +233,14 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
       </div>
     );
   }
+
+  const availableCategories = Array.from(new Set(data.points.map((point) => point.category)));
+  const profileCategories = [
+    ...PROFILE_CATEGORY_ORDER.filter((category) => availableCategories.includes(category)),
+    ...availableCategories
+      .filter((category) => !PROFILE_CATEGORY_ORDER.includes(category))
+      .sort((left, right) => left.localeCompare(right)),
+  ];
 
   return (
     <section className={`flex min-h-[470px] self-start flex-col rounded-2xl border p-5 shadow-sm ${darkTheme ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>
@@ -276,9 +309,20 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
       <div className={`mt-2 space-y-2 rounded-xl border px-3 py-2.5 text-xs ${darkTheme ? "border-blue-800 bg-[#061426] text-blue-100/80" : "border-slate-200 bg-white text-slate-600"}`} aria-label="Retrieval map legend">
         <label className="flex cursor-pointer items-center gap-2">
           <input type="checkbox" checked={layerVisible("profile")} onChange={() => toggleLayer("profile")} className="h-3.5 w-3.5 accent-slate-500" />
-          <span className="h-2.5 w-2.5 rounded-full bg-slate-400 opacity-60" aria-hidden="true" />
+          <span className="h-2.5 w-2.5 rounded-full" style={{ background: "linear-gradient(135deg, #7893b4 0%, #9b87ad 35%, #6f9f9a 68%, #b39a6b 100%)", opacity: 0.7 }} aria-hidden="true" />
           <span className="font-medium">Profile knowledge</span>
         </label>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 pl-5 text-[10px]">
+          {profileCategories.map((category) => {
+            const color = PROFILE_CATEGORY_COLORS[category] || PROFILE_DEFAULT_COLOR;
+            return (
+              <span key={category} className="inline-flex items-center gap-1" style={{ color: colorWithAlpha(color, 0.78) }}>
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color, opacity: 0.72 }} aria-hidden="true" />
+                {category}
+              </span>
+            );
+          })}
+        </div>
         {activeQueries.map((query) => {
           const queryIndex = queryIndexById.get(query.id) ?? 0;
           const color = COLORS[queryIndex % COLORS.length];

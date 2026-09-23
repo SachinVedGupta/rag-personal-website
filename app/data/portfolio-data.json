@@ -424,7 +424,7 @@
       "items": [
         {
           "name": "Clothing Brand",
-          "role": "You need to feel good to do good.",
+          "role": "You need to feel good to do good",
           "description": "Creating a modern clothing brand for people in tech.",
           "image": "/projects/fun-clothing.jpg"
         },

@@ -228,7 +228,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
 
   if (!data) {
     return (
-      <div className={`flex h-full min-h-[470px] items-center justify-center rounded-2xl border p-8 text-center text-sm shadow-sm ${darkTheme ? "border-blue-800 bg-[#091b32] text-blue-100/70" : "border-slate-200 bg-white/80 text-slate-500"}`}>
+      <div className={`flex h-[min(78vh,760px)] min-h-[560px] items-center justify-center rounded-2xl border p-8 text-center text-sm shadow-sm ${darkTheme ? "border-blue-800 bg-[#091b32] text-blue-100/70" : "border-slate-200 bg-white/80 text-slate-500"}`}>
         The stable profile map will appear when the v2 backend is ready.
       </div>
     );
@@ -243,7 +243,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
   ];
 
   return (
-    <section className={`flex min-h-[470px] self-start flex-col rounded-2xl border p-5 shadow-sm ${darkTheme ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>
+    <section className={`flex h-[min(78vh,760px)] min-h-[560px] min-w-0 flex-col overflow-hidden rounded-2xl border p-5 shadow-sm ${darkTheme ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>
       <div className="mb-3">
         <h2 className={`mt-1 text-xl font-semibold ${darkTheme ? "text-white" : "text-slate-950"}`}>RAG Embedding Space Visualization</h2>
         <p className={`mt-1 text-sm ${darkTheme ? "text-blue-100/75" : "text-slate-600"}`}>
@@ -270,12 +270,12 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
         </label>
       )}
 
-      <div className="h-[360px] flex-none">
+      <div className="h-[300px] flex-none">
         <Plot
           data={traces}
           layout={{
             autosize: true,
-            height: 360,
+            height: 300,
             margin: { l: 35, r: 15, t: 15, b: 40 },
             paper_bgcolor: "rgba(0,0,0,0)",
             plot_bgcolor: darkTheme ? "rgba(4,16,30,0.8)" : "rgba(248,250,252,0.7)",
@@ -306,7 +306,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
           }}
         />
       </div>
-      <div className={`mt-2 space-y-2 rounded-xl border px-3 py-2.5 text-xs ${darkTheme ? "border-blue-800 bg-[#061426] text-blue-100/80" : "border-slate-200 bg-white text-slate-600"}`} aria-label="Retrieval map legend">
+      <div className={`mt-2 max-h-32 shrink-0 space-y-2 overflow-y-auto overscroll-contain rounded-xl border px-3 py-2.5 text-xs ${darkTheme ? "border-blue-800 bg-[#061426] text-blue-100/80" : "border-slate-200 bg-white text-slate-600"}`} aria-label="Retrieval map legend">
         <label className="flex cursor-pointer items-center gap-2">
           <input type="checkbox" checked={layerVisible("profile")} onChange={() => toggleLayer("profile")} className="h-3.5 w-3.5 accent-slate-500" />
           <span className="h-2.5 w-2.5 rounded-full" style={{ background: "linear-gradient(135deg, #7893b4 0%, #9b87ad 35%, #6f9f9a 68%, #b39a6b 100%)", opacity: 0.7 }} aria-hidden="true" />
@@ -338,7 +338,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
           );
         })}
       </div>
-      <div className={`mt-3 rounded-xl border p-4 ${darkTheme ? "border-blue-800 bg-[#061426]" : "border-slate-200 bg-slate-50"}`}>
+      <div className={`mt-3 min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-xl border p-4 ${darkTheme ? "border-blue-800 bg-[#061426]" : "border-slate-200 bg-slate-50"}`}>
         {selectedPoint ? (
           <PointDetails point={selectedPoint} darkTheme={darkTheme} />
         ) : (

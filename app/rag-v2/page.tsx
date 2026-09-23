@@ -105,7 +105,7 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
         )}
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className={`flex min-h-[570px] flex-col rounded-2xl border shadow-sm ${embedded ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>
+          <section className={`flex h-[min(78vh,760px)] min-h-[560px] flex-col overflow-hidden rounded-2xl border shadow-sm ${embedded ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>
             <div className={`flex items-start justify-between gap-3 border-b px-5 py-4 ${embedded ? "border-blue-800/80" : "border-slate-200"}`}>
               <div>
                 <h2 className={`font-semibold ${embedded ? "text-white" : "text-slate-900"}`}>AI Persona</h2>
@@ -127,7 +127,7 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                 </button>
               )}
             </div>
-            <div className="flex-1 space-y-4 overflow-y-auto p-5">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-5">
               {messages.length === 0 && (
                 <div className={`rounded-xl p-4 ${embedded ? "bg-blue-950/60" : "bg-slate-50"}`}>
                   <div className="flex flex-wrap gap-2">

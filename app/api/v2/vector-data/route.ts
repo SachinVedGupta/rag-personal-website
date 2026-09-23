@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const maxDuration = 60;
+
 const backendUrl = (process.env.RAG_V2_BACKEND_URL || "http://127.0.0.1:5001/").replace(
   /\/?$/,
   "/"

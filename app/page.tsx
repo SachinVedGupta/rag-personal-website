@@ -1,43 +1,20 @@
-"use client";
-
-import { useState } from "react";
-import ChatInterface from "./components/ChatInterface";
-import VectorVisualizer from "./components/VectorVisualizer";
 import AvatarRenderer from "./components/AvatarRenderer";
 import PortfolioSection from "./components/PortfolioSection";
+import RagV2Page from "./rag-v2/page";
 
 export default function Home() {
-  const [currentQuestion, setCurrentQuestion] = useState("");
-
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Avatar Section */}
-          <div className="mb-8">
-            <AvatarRenderer />
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          <div className="lg:col-span-1 h-full">
-            <ChatInterface onQuestionChange={setCurrentQuestion} />
-          </div>
-          <div className="lg:col-span-1 h-full">
-            <VectorVisualizer
-              question={currentQuestion}
-              onQuestionChange={setCurrentQuestion}
-            />
-          </div>
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-none dark:bg-[#061426]">
+      <section className="container mx-auto px-4 py-8">
+        <div className="mx-auto mb-8 max-w-7xl">
+          <AvatarRenderer />
         </div>
-
+        <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+          <RagV2Page embedded />
         </div>
-      </div>
-
-      {/* Portfolio Section */}
+      </section>
       <PortfolioSection />
-
-      {/* Footer */}
-      <footer className="bg-white-100 dark:bg-gray-900 text-center py-4 text-sm text-gray-600 dark:text-gray-400">
+      <footer className="bg-white-100 py-4 text-center text-sm text-gray-600 dark:bg-gray-900 dark:text-gray-400">
         © {new Date().getFullYear()} Sachin Gupta. All rights reserved.
       </footer>
     </main>

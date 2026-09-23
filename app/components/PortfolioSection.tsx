@@ -22,7 +22,7 @@ function ItemCard({ item, onClick }: ItemCardProps) {
             <img
               src={item.image}
               alt={`${item.company || item.organization || item.name} image`}
-              className="w-full h-full object-cover"
+              className={`w-full h-full ${item.imageFit === "contain" ? "object-contain" : "object-cover"}`}
             />
           ) : item.logo ? (
             <img
@@ -149,16 +149,16 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
           <div className="h-48 bg-gradient-to-r from-white to-white rounded-t-xl relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white to-white" />
             <div className="absolute inset-0 flex items-center justify-center">
-              {item.logo ? (
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={`${item.company || item.organization || item.name} image`}
+                  className={`w-full h-full ${item.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+                />
+              ) : item.logo ? (
                 <img
                   src={item.logo}
                   alt={`${item.company || item.organization || item.name} image`}
-                  className="w-full h-full object-cover"
-                />
-              ) : item.image ? (
-                <img
-                  src={item.image}
-                  alt={`${item.company || item.organization || item.name} logo`}
                   className="w-16 h-16 object-contain"
                 />
               ) : item.icon ? (

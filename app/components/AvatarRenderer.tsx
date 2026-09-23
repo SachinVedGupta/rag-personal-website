@@ -30,7 +30,7 @@ export default function AvatarRenderer() {
     "i am looking for ml and swe internships for summer 2027",
     "i am a software engineering student @ mcmaster university, graduating in 2028",
     "i am building in stealth",
-    "i am a go getter, click me to learn more or scroll down to ask my ai persona and view the allocating rag embeddings visualization",
+    "i am a go getter, click me to learn more or scroll down to ask my ai persona",
   ];
 
   const shortMessages = [

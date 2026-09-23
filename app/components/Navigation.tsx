@@ -26,7 +26,7 @@ export default function Navigation() {
           <div id="avatar-text" className="flex-1 text-center">
             {/* Full text on sm+ screens */}
             <div className="hidden sm:block text-sm text-gray-600 dark:text-gray-400">
-              i am a go getter, click me to learn more or scroll down to ask my ai persona and view the allocating rag embeddings visualization
+              i am a go getter, click me to learn more or scroll down to ask my ai persona
             </div>
             {/* Shorter text on small screens */}
             <div className="block sm:hidden text-sm text-gray-600 dark:text-gray-400">

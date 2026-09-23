@@ -227,7 +227,6 @@
         {
           "name": "InterfaceAI Browser Agent",
           "role": "Open-source project lead",
-          "period": "2025",
           "description": "An open-source browser agent that combines task planning, memory, DOM-based interaction, and computer-vision fallback.",
           "technologies": ["Browser Agents", "LangGraph", "Chrome", "Computer Vision"],
           "achievements": ["Open source"],

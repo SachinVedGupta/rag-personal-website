@@ -37,10 +37,11 @@ function ItemCard({ item, onClick }: ItemCardProps) {
           )}
         </div>
 
-        {/* Duration/Period Badge */}
-        <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-          {item.period}
-        </div>
+        {item.period && (
+          <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+            {item.period}
+          </div>
+        )}
       </div>
 
       {/* Title */}
@@ -186,9 +187,11 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
             <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">
               {item.role}
             </p>
-            <span className="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm">
-              {item.period}
-            </span>
+            {item.period && (
+              <span className="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm">
+                {item.period}
+              </span>
+            )}
           </div>
 
           <div className="space-y-6">

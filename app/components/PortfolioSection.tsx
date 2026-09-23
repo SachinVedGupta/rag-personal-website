@@ -30,6 +30,8 @@ function ItemCard({ item, onClick }: ItemCardProps) {
               alt={`${item.company || item.organization || item.name} logo`}
               className="w-16 h-16 object-contain"
             />
+          ) : item.icon ? (
+            <div className="text-4xl" aria-hidden="true">{item.icon}</div>
           ) : (
             <div className="text-4xl text-blue-500">🧠</div>
           )}
@@ -158,6 +160,8 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
                   alt={`${item.company || item.organization || item.name} logo`}
                   className="w-16 h-16 object-contain"
                 />
+              ) : item.icon ? (
+                <div className="text-5xl" aria-hidden="true">{item.icon}</div>
               ) : (
                 <div className="text-4xl text-blue-500">🧠</div>
               )}
@@ -329,6 +333,13 @@ export default function PortfolioSection() {
         <Section
           title="Featured Projects"
           items={portfolioData.projects.details.items}
+          onItemClick={handleItemClick}
+        />
+
+        {/* Small personal and creative projects */}
+        <Section
+          title="Fun Projects"
+          items={portfolioData.funProjects.details.items}
           onItemClick={handleItemClick}
         />
 

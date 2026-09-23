@@ -187,22 +187,6 @@
       "title": "Technical Projects & Hackathons",
       "items": [
         {
-          "name": "Adaptive Portfolio RAG Agent",
-          "description": "An LLM-planned portfolio assistant that searches profile knowledge from multiple angles and visualizes retrieved evidence in an interactive PCA map.",
-          "technologies": ["OpenAI GPT-5.4", "Pinecone", "MiniLM Embeddings", "Flask", "Next.js", "Plotly"],
-          "achievements": ["Adaptive multi-query retrieval", "Interactive vector map"],
-          "links": {
-            "github": "https://github.com/SachinVedGupta/rag-personal-website",
-            "preview": "/rag-v2-comprehensive"
-          },
-          "details": [
-            "Designed an LLM-driven retrieval loop that plans focused searches, evaluates evidence coverage, and follows up when useful",
-            "Stored profile records and public media links in a dedicated Pinecone index while preserving the original RAG system",
-            "Built a fixed PCA map that shows profile embeddings, each search vector, retrieved records, and its 2D search area",
-            "Added per-layer visibility controls so viewers can compare and isolate searches on the same map"
-          ]
-        },
-        {
           "name": "MITI - HackMIT Winner",
           "description": "Real-time collaborative music studio with AI-powered suggestions, competing against 1000 participants",
           "technologies": ["React", "Llama LLM", "CanvasJS", "Convex", "SunoAI"],
@@ -421,6 +405,39 @@
             "Explored how AI could assist with semi-autonomous surgical procedures",
             "Combined robotics, computer vision, and medical technology in a new way to tackle healthcare challenges"
           ]
+        }
+      ]
+    }
+  },
+  "funProjects": {
+    "icon": "🎨",
+    "title": "Fun Projects",
+    "description": "Small creative projects and experiments",
+    "keywords": ["creative", "personal", "experiments"],
+    "linkIcon": "→",
+    "details": {
+      "title": "Fun Projects",
+      "items": [
+        {
+          "name": "Clothing Brand",
+          "role": "In progress",
+          "period": "In progress",
+          "description": "Building an independent clothing brand. More details coming soon.",
+          "image": "/projects/fun-shirt.svg"
+        },
+        {
+          "name": "AI Music",
+          "role": "Creative experiment",
+          "period": "Ongoing",
+          "description": "Turning handwritten bars and lyrics into pop songs with Suno.",
+          "icon": "🎵"
+        },
+        {
+          "name": "Auto Beli",
+          "role": "Personal project",
+          "period": "Ongoing",
+          "description": "A local tool for organizing restaurant photos and preparing Beli drafts.",
+          "icon": "🍽️"
         }
       ]
     }

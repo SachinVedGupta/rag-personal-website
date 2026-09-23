@@ -6,6 +6,19 @@ const TOKEN = new RegExp(
   "g",
 );
 
+function normalizeMarkdown(text: string) {
+  const url = "((?:https?:\\/\\/|\\/(?!\\/))[^)\\s]+)";
+  return text
+    // Repair the model's occasionally over-nested bold/link form into one ordinary link.
+    .replace(
+      new RegExp(`\\*\\*\\[([^\\]]+)\\]\\\\?\\(\\*\\*\\[\\*\\*([^\\]]+)\\*\\*\\]\\(${url}\\)\\*\\*\\\\?\\)\\*\\*`, "g"),
+      "[$1]($3)",
+    )
+    // Bold wrappers around links and images interrupt tokenization; keep the media token intact.
+    .replace(new RegExp(`\\*\\*((?:!\\[[^\\]]*\\]|\\[[^\\]]+\\])\\(${url}\\))\\*\\*`, "g"), "$1")
+    .replace(new RegExp(`\\[\\*\\*([^\\]]+)\\*\\*\\]\\(${url}\\)`, "g"), "[$1]($2)");
+}
+
 function inline(text: string, darkTheme: boolean): ReactNode[] {
   return text.split(TOKEN).filter(Boolean).map((part, index) => {
     const image = part.match(/^!\[([^\]]*)\]\(((?:https?:\/\/|\/(?!\/))[^)]+)\)$/);
@@ -43,7 +56,7 @@ function inline(text: string, darkTheme: boolean): ReactNode[] {
 }
 
 export default function SafeMarkdown({ text, darkTheme = false }: { text: string; darkTheme?: boolean }) {
-  const blocks = text.split(/\n\s*\n/).filter(Boolean);
+  const blocks = normalizeMarkdown(text).split(/\n\s*\n/).filter(Boolean);
   return (
     <div className="space-y-3">
       {blocks.map((block, index) => {

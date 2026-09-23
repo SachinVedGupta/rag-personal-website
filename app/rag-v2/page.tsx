@@ -154,7 +154,7 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                     }`}
                   >
                     {message.role === "assistant" ? (
-                      <SafeMarkdown text={message.text} />
+                      <SafeMarkdown text={message.text} darkTheme={embedded} />
                     ) : (
                       message.text
                     )}
@@ -258,11 +258,11 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                           <details key={hit.id} className={`rounded-lg border p-2.5 ${embedded ? "border-blue-800 bg-[#0a2039]" : "border-slate-200 bg-white"}`}>
                               <summary className={`cursor-pointer text-xs ${embedded ? "text-blue-100" : "text-slate-700"}`}>
                                 <span className={`font-semibold ${embedded ? "text-white" : "text-slate-900"}`}>{rank + 1}. {hit.title}</span>
-                                <span className="ml-2 text-[10px] text-slate-400">score {hit.score.toFixed(4)}</span>
+                                <span className={`ml-2 text-[10px] ${embedded ? "text-blue-200/85" : "text-slate-600"}`}>score {hit.score.toFixed(4)}</span>
                               </summary>
-                              <p className={`mt-2 whitespace-pre-wrap text-xs leading-5 ${embedded ? "text-blue-100/80" : "text-slate-600"}`}>{hit.text || hit.snippet}</p>
+                              <p className={`mt-2 whitespace-pre-wrap text-xs leading-5 ${embedded ? "text-blue-50/95" : "text-slate-700"}`}>{hit.text || hit.snippet}</p>
                               {(hit.media || []).filter((item) => item.type !== "image").map((item) => (
-                                <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" className={`mt-2 mr-3 inline-block text-xs font-medium underline ${embedded ? "text-blue-300" : "text-blue-700"}`}>
+                                <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" className={`mt-2 mr-2 inline-flex rounded-md border px-2 py-1 text-xs font-semibold underline underline-offset-2 transition ${embedded ? "border-blue-600/70 bg-blue-900/50 text-sky-200 hover:border-blue-300 hover:bg-blue-800/70 hover:text-white" : "border-blue-200 bg-blue-50 text-blue-800 hover:border-blue-400 hover:bg-blue-100"}`}>
                                   {item.label}
                                 </a>
                               ))}

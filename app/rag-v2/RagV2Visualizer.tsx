@@ -181,7 +181,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
         .filter(Boolean) as CorpusPoint[];
       const area = searchArea(query, hitPoints);
 
-      if (!hiddenLayers.has(`${query.id}:area`)) plotTraces.push({
+      if (!hiddenLayers.has(query.id)) plotTraces.push({
         x: area.x,
         y: area.y,
         mode: "lines",
@@ -193,7 +193,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
         hoverinfo: "skip",
         showlegend: false,
       });
-      if (!hiddenLayers.has(`${query.id}:results`)) plotTraces.push({
+      if (!hiddenLayers.has(query.id)) plotTraces.push({
         x: hitPoints.map((point) => point.x),
         y: hitPoints.map((point) => point.y),
         text: hitPoints.map(pointHover),
@@ -205,7 +205,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
         hovertemplate: "%{text}<extra></extra>",
         showlegend: false,
       });
-      if (!hiddenLayers.has(`${query.id}:search`)) plotTraces.push({
+      if (!hiddenLayers.has(query.id)) plotTraces.push({
         x: [query.point[0]],
         y: [query.point[1]],
         text: [queryHover(query)],
@@ -328,20 +328,11 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTh
           const color = COLORS[queryIndex % COLORS.length];
           return (
             <div key={query.id} className={`flex flex-wrap items-center gap-x-4 gap-y-1 border-t pt-2 ${darkTheme ? "border-blue-900" : "border-slate-100"}`}>
-              <label className="flex cursor-pointer items-center gap-2">
-                <input type="checkbox" checked={layerVisible(`${query.id}:search`)} onChange={() => toggleLayer(`${query.id}:search`)} className="h-3.5 w-3.5" />
+              <label className="flex min-w-0 cursor-pointer items-center gap-2">
+                <input type="checkbox" checked={layerVisible(query.id)} onChange={() => toggleLayer(query.id)} className="h-3.5 w-3.5 shrink-0" />
                 <span className="text-base leading-none" style={{ color }} aria-hidden="true">★</span>
-                <span><span className={`font-medium ${darkTheme ? "text-white" : "text-slate-800"}`}>{query.label}</span> search</span>
-              </label>
-              <label className="flex cursor-pointer items-center gap-2">
-                <input type="checkbox" checked={layerVisible(`${query.id}:results`)} onChange={() => toggleLayer(`${query.id}:results`)} className="h-3.5 w-3.5" />
-                <span className="h-3 w-3 rounded-full" style={{ backgroundColor: color }} aria-hidden="true" />
-                <span>Retrieved results</span>
-              </label>
-              <label className="flex cursor-pointer items-center gap-2">
-                <input type="checkbox" checked={layerVisible(`${query.id}:area`)} onChange={() => toggleLayer(`${query.id}:area`)} className="h-3.5 w-3.5" />
-                <span className="h-3 w-3 rounded-full border border-dashed" style={{ borderColor: color, backgroundColor: colorWithAlpha(color, 0.08) }} aria-hidden="true" />
-                <span>2D search area</span>
+                <span className={`min-w-0 font-medium ${darkTheme ? "text-blue-50" : "text-slate-800"}`}>{query.label}</span>
+                <span className={`text-[10px] ${darkTheme ? "text-blue-100/80" : "text-slate-600"}`}>search · results · area</span>
               </label>
             </div>
           );

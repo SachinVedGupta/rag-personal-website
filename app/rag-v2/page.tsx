@@ -43,9 +43,8 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
       .catch((reason) => setError(reason instanceof Error ? reason.message : "The assistant is temporarily unavailable."));
   }, []);
 
-  async function submit(event: FormEvent) {
-    event.preventDefault();
-    const trimmed = question.trim();
+  async function sendQuestion(value: string) {
+    const trimmed = value.trim();
     if (!trimmed || loading) return;
     const history = messages.slice(-12);
     setMessages((current) => [...current, { role: "user", text: trimmed }]);
@@ -77,6 +76,11 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
     } finally {
       setLoading(false);
     }
+  }
+
+  function submit(event: FormEvent) {
+    event.preventDefault();
+    void sendQuestion(question);
   }
 
   function startNewChat() {
@@ -131,7 +135,7 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                       <button
                         key={prompt}
                         type="button"
-                        onClick={() => setQuestion(prompt)}
+                        onClick={() => void sendQuestion(prompt)}
                         className={`rounded-full border px-3 py-1.5 text-left text-xs transition ${embedded ? "border-blue-800 bg-[#0c2747] text-blue-100 hover:border-blue-400 hover:text-white" : "border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:text-blue-700"}`}
                       >
                         {prompt}

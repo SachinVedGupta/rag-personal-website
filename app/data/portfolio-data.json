@@ -14,7 +14,7 @@
           "period": "Summer 2026",
           "description": "Shipped PowerPoint Web boot and reliability fixes and built a PR-aware browser-agent testing prototype.",
           "image": "/projects/microsoft-internship.png",
-          "imageFit": "contain",
+          "imagePosition": "center 35%",
           "technologies": ["TypeScript", "Web Performance", "Browser Automation", "Developer Tools", "Testing"],
           "links": {
             "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_from-outlookcom-to-microsoftcom-im-activity-7467470681367048192-zFDJ"
@@ -31,7 +31,7 @@
           "period": "Winter 2026",
           "description": "Built a natural-language agent workflow around an autonomous-delivery operations simulator.",
           "image": "/projects/zipline-internship.jpg",
-          "imageFit": "contain",
+          "imagePosition": "center 60%",
           "technologies": ["Python", "LLM Agents", "Simulation", "Data Science", "Visualization"],
           "links": {
             "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_look-up-its-zipline-its-me-its-been-activity-7464488315472392192-wKPX"
@@ -424,8 +424,8 @@
       "items": [
         {
           "name": "Clothing Brand",
-          "role": "Hip clothing label",
-          "description": "You need to feel good to do good.",
+          "role": "You need to feel good to do good.",
+          "description": "Creating a modern clothing brand for people in tech.",
           "image": "/projects/fun-clothing.jpg"
         },
         {

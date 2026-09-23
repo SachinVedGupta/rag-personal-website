@@ -23,6 +23,7 @@ function ItemCard({ item, onClick }: ItemCardProps) {
               src={item.image}
               alt={`${item.company || item.organization || item.name} image`}
               className={`w-full h-full ${item.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+              style={{ objectPosition: item.imagePosition || "center" }}
             />
           ) : item.logo ? (
             <img
@@ -154,6 +155,7 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
                   src={item.image}
                   alt={`${item.company || item.organization || item.name} image`}
                   className={`w-full h-full ${item.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+                  style={{ objectPosition: item.imagePosition || "center" }}
                 />
               ) : item.logo ? (
                 <img

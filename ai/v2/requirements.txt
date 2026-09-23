@@ -1,0 +1,8 @@
+Flask==3.1.1
+flask-cors==6.0.1
+langchain-huggingface==0.3.1
+pinecone==7.3.0
+scikit-learn==1.7.1
+numpy==2.3.2
+python-dotenv==1.1.1
+gunicorn==23.0.0

@@ -22,7 +22,8 @@ function ItemCard({ item, onClick }: ItemCardProps) {
             <img
               src={item.image}
               alt={`${item.company || item.organization || item.name} image`}
-              className="w-full h-full object-cover"
+              className={`w-full h-full ${item.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+              style={{ objectPosition: item.imagePosition || "center" }}
             />
           ) : item.logo ? (
             <img
@@ -30,15 +31,18 @@ function ItemCard({ item, onClick }: ItemCardProps) {
               alt={`${item.company || item.organization || item.name} logo`}
               className="w-16 h-16 object-contain"
             />
+          ) : item.icon ? (
+            <div className="text-4xl" aria-hidden="true">{item.icon}</div>
           ) : (
-            <div className="text-4xl text-white">💼</div>
+            <div className="text-4xl text-blue-500">🧠</div>
           )}
         </div>
 
-        {/* Duration/Period Badge */}
-        <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-          {item.period}
-        </div>
+        {item.period && (
+          <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+            {item.period}
+          </div>
+        )}
       </div>
 
       {/* Title */}
@@ -146,20 +150,23 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
           <div className="h-48 bg-gradient-to-r from-white to-white rounded-t-xl relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white to-white" />
             <div className="absolute inset-0 flex items-center justify-center">
-              {item.logo ? (
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={`${item.company || item.organization || item.name} image`}
+                  className={`w-full h-full ${item.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+                  style={{ objectPosition: item.imagePosition || "center" }}
+                />
+              ) : item.logo ? (
                 <img
                   src={item.logo}
                   alt={`${item.company || item.organization || item.name} image`}
-                  className="w-full h-full object-cover"
-                />
-              ) : item.image ? (
-                <img
-                  src={item.image}
-                  alt={`${item.company || item.organization || item.name} logo`}
                   className="w-16 h-16 object-contain"
                 />
+              ) : item.icon ? (
+                <div className="text-5xl" aria-hidden="true">{item.icon}</div>
               ) : (
-                <div className="text-4xl text-white">💼</div>
+                <div className="text-4xl text-blue-500">🧠</div>
               )}
             </div>
           </div>
@@ -182,9 +189,11 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
             <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">
               {item.role}
             </p>
-            <span className="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm">
-              {item.period}
-            </span>
+            {item.period && (
+              <span className="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-sm">
+                {item.period}
+              </span>
+            )}
           </div>
 
           <div className="space-y-6">
@@ -259,8 +268,8 @@ function Modal({ isOpen, onClose, item }: ModalProps) {
                     <a
                       key={key}
                       href={url as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target={(url as string).startsWith("/") ? undefined : "_blank"}
+                      rel={(url as string).startsWith("/") ? undefined : "noopener noreferrer"}
                       className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
                     >
                       {key.charAt(0).toUpperCase() + key.slice(1)}
@@ -307,7 +316,7 @@ export default function PortfolioSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            README.md
+            Portfolio
           </h2>
         </div>
 
@@ -329,6 +338,13 @@ export default function PortfolioSection() {
         <Section
           title="Featured Projects"
           items={portfolioData.projects.details.items}
+          onItemClick={handleItemClick}
+        />
+
+        {/* Small personal and creative projects */}
+        <Section
+          title="Fun Projects"
+          items={portfolioData.funProjects.details.items}
           onItemClick={handleItemClick}
         />
 

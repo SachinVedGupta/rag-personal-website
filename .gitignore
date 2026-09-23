@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -114,3 +115,5 @@ temp/
 
 # History files
 .history/ 
+ai/v2/sources/raw/
+ai/v2/data/usage-local.json

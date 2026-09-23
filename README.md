@@ -46,6 +46,17 @@ Frontend
 - 🔄 Auto-scroll to latest messages
 - ⌨️ Enter key to send messages
 
+## Portfolio assistant
+
+The adaptive portfolio assistant is part of the full site at
+`/rag-v2-comprehensive`; `/rag-v2` provides a standalone view. It can search
+across projects and experience, share public links, and show the matching
+details on an interactive map. The map layers can be toggled independently.
+The assistant uses the separate `PINECONE_V2_INDEX_NAME`; the original RAG
+backend, routes, UI, and Pinecone index remain available.
+
+See [`ai/v2/README.md`](ai/v2/README.md) for the data flow and local commands.
+
 ## Prerequisites
 
 Make sure you have the following installed:

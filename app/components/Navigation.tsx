@@ -1,11 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function Navigation() {
-  const pathname = usePathname();
-
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700">
       <div className="container mx-auto px-4">
@@ -29,11 +26,11 @@ export default function Navigation() {
           <div id="avatar-text" className="flex-1 text-center">
             {/* Full text on sm+ screens */}
             <div className="hidden sm:block text-sm text-gray-600 dark:text-gray-400">
-              i am a builder, click me to learn more or scroll down to ask my ai persona
+              i am a go getter, click me to learn more or scroll down to ask my ai persona
             </div>
             {/* Shorter text on small screens */}
             <div className="block sm:hidden text-sm text-gray-600 dark:text-gray-400">
-              ask my ai
+              i am a go getter, click me
             </div>
           </div>
 

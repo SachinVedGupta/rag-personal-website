@@ -9,17 +9,54 @@
       "title": "Professional Experience",
       "items": [
         {
+          "company": "Microsoft",
+          "role": "Software Engineering Intern, PowerPoint Web Performance",
+          "period": "Summer 2026",
+          "description": "Shipped PowerPoint Web boot and reliability fixes and built a PR-aware browser-agent testing prototype.",
+          "image": "/projects/microsoft-internship.png",
+          "imagePosition": "center 35%",
+          "technologies": ["TypeScript", "Web Performance", "Browser Automation", "Developer Tools", "Testing"],
+          "links": {
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_from-outlookcom-to-microsoftcom-im-activity-7467470681367048192-zFDJ"
+          },
+          "details": [
+            "Shipped boot and reliability fixes involving canvas centering, off-slide shape visibility, scroll behavior, comments-pane layout reservation, and visual popping",
+            "Built a PR-aware browser-agent testing prototype that compared baseline and changed builds, producing recordings and reproducible issue reports",
+            "Contributed to 21% faster boot time and 13 production fixes"
+          ]
+        },
+        {
+          "company": "Zipline",
+          "role": "Data Science Intern",
+          "period": "Winter 2026",
+          "description": "Built a natural-language agent workflow around an autonomous-delivery operations simulator.",
+          "image": "/projects/zipline-internship.jpg",
+          "imagePosition": "center 60%",
+          "technologies": ["Python", "LLM Agents", "Simulation", "Data Science", "Visualization"],
+          "links": {
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_look-up-its-zipline-its-me-its-been-activity-7464488315472392192-wKPX"
+          },
+          "details": [
+            "Built a natural-language Codex workflow that generated configurations, ran scenarios, returned charts, explained results, and suggested follow-up analysis",
+            "Developed an extensible discrete-event simulator covering aircraft, charging docks, workers, partners, demand, weather, and failures",
+            "Calibrated the simulator with historical data and built validation tooling for throughput, timing, utilization, and bottleneck diagnosis"
+          ]
+        },
+        {
           "company": "Shopify",
-          "role": "Machine Learning Engineer Intern",
+          "role": "Software Engineering Intern, Recommendations Infrastructure",
           "period": "Fall 2025",
-          "description": "Developing cutting-edge AI solutions for e-commerce on the Shopify Magic and Sidekick agentic AI team",
-          "technologies": ["Python", "LLMs", "Generative AI", "Agentic Systems", "ML Infrastructure", "E-commerce AI"],
+          "description": "Built recommendation-relevance, ML inference, streaming, debugging, and caching systems for the Shop app context.",
+          "technologies": ["Python", "Triton", "Apache Flink", "Kafka", "GCP", "Bigtable", "DSPy"],
           "logo": "/experience/shopify-logo.png",
           "image": "/experience/ml-shopify.png",
+          "links": {
+            "linkedin": "https://www.linkedin.com/posts/sachin-ved-gupta_pod-activity-7421034821335830528-EuHA"
+          },
           "details": [
-            "Developing agentic solutions and assistants for clients, business owners, and users",
-            "Enhancing Sidekick (Shopify's AI assistant) to better understand the user's intent and context based on their previous interactions and patterns",
-            "Contributing to large-scale ML infrastructure and model deployment"
+            "Distilled a relevancy judge to a one-billion-parameter model for more than ten million recommendations",
+            "Built recommendation debugging used by more than 80 engineers",
+            "Created local-to-remote-to-Bigtable caching that made an advertised-product filtering path 11× faster"
           ]
         },
         {
@@ -69,7 +106,7 @@
         {
           "organization": "Autonomous Drone Club",
           "role": "Machine Learning Team Lead & Founding Member",
-          "period": "2025",
+          "period": "2025-2026",
           "description": "Leading 20-member Machine Learning subteam across autonomous drone club creation for the international SUAS 2026 competition",
           "achievements": ["20 member ML team", "YOLOv11 fine tuning", "TensorRT deployment", "3.2× latency speedup"],
           "image": "/leadership/drone.png",
@@ -91,7 +128,7 @@
         {
           "organization": "Google Developer Student Club (GDSC)",
           "role": "Open Source Team Lead",
-          "period": "2025",
+          "period": "2025-2026",
           "description": "Leading 10 member SWE team in agile development of an open-source AI Browser Agent",
           "achievements": ["10 member SWE team", "Agile development", "Open-source", "AI Browser Agent"],
           "image": "/leadership/gdsc.png",
@@ -160,6 +197,7 @@
           "achievements": ["HackMIT Winner", "1000 participants", "Music Track"],
           "links": {
             "github": "https://github.com/SachinVedGupta/Miti",
+            "live": "https://miti.vercel.app/",
             "demo": "https://youtu.be/4EyjRASrDUM"
           },
           "image": "/projects/hackmit-win.jpg",
@@ -175,13 +213,45 @@
           ]
         },
         {
+          "name": "StoryBook Memoirs",
+          "role": "Founder project",
+          "description": "A conversational storytelling product that helps families capture elders’ memories and turn them into an editable illustrated book.",
+          "image": "/projects/storybook-memoirs.jpg",
+          "imageFit": "contain",
+          "technologies": ["Generative AI", "Voice", "Full-stack product"],
+          "achievements": ["Human-centered AI"],
+          "links": {
+            "live": "https://storybook-memoirs.vercel.app/"
+          },
+          "details": [
+            "Designed interviews that help elders share personal stories in a natural conversation",
+            "Organizes memories into an editable illustrated book that families can preserve and share",
+            "Explores voice-oriented interaction and export as part of a complete storytelling product"
+          ]
+        },
+        {
+          "name": "InterfaceAI Browser Agent",
+          "role": "Open-source project lead",
+          "description": "An open-source browser agent that combines task planning, memory, DOM-based interaction, and computer-vision fallback.",
+          "technologies": ["Browser Agents", "LangGraph", "Chrome", "Computer Vision"],
+          "achievements": ["Open source"],
+          "links": {
+            "github": "https://github.com/DSC-McMaster-U/interface-ai"
+          },
+          "image": "/leadership/gdsc.png",
+          "details": [
+            "Led a team building a declarative browser agent for web automation",
+            "Combined planning and memory with DOM-first perception and a computer-vision fallback",
+            "Designed the system around the full agent loop: perception, state, action, and recovery"
+          ]
+        },
+        {
           "name": "Llama LLM Inference Optimization",
           "description": "Optimized LLama LLM (Transformer) inference operations, achieving a 1.13× latency speedup",
           "technologies": ["AWS Neuron Kernel Interface", "Trainium EC2", "PyTorch", "NumPy"],
           "achievements": ["1.13× speedup", "ASPLOS Conference", "AWS NKI Contest"],
           "links": {
-            "github": "https://github.com/SachinVedGupta/nki-llama",
-            "documentation": "https://docs.google.com/document/d/1iBo4elvnPlU_SeVow_xYmbjJ9Ym23uRW9FNW8UC_ltI/edit?tab=t.f8x5lvjt07lp"
+            "github": "https://github.com/SachinVedGupta/nki-llama"
           },
           "image": "/projects/transformer.png",
           "logo": "/projects/llama-3.png",
@@ -284,7 +354,8 @@
           "technologies": ["ReactJS", "NextJS", "Python", "Facebook API", "ML", "Demographics API"],
           "achievements": ["BramHacks Winner", "500 competitors", "City of Brampton sponsor"],
           "links": {
-            "github": "https://github.com/SachinVedGupta/BusForcast"
+            "github": "https://github.com/SachinVedGupta/BusForcast",
+            "live": "https://bus-forcast.vercel.app/"
           },
           "image": "/projects/busforecast.png",
           "logo": "/projects/busforecast.png",
@@ -338,6 +409,36 @@
             "Explored how AI could assist with semi-autonomous surgical procedures",
             "Combined robotics, computer vision, and medical technology in a new way to tackle healthcare challenges"
           ]
+        }
+      ]
+    }
+  },
+  "funProjects": {
+    "icon": "🎨",
+    "title": "Fun Projects",
+    "description": "Small creative projects and experiments",
+    "keywords": ["creative", "personal", "experiments"],
+    "linkIcon": "→",
+    "details": {
+      "title": "Fun Projects",
+      "items": [
+        {
+          "name": "Clothing Brand",
+          "role": "You need to feel good to do good",
+          "description": "Creating a modern clothing brand for people in tech.",
+          "image": "/projects/fun-clothing.jpg"
+        },
+        {
+          "name": "AI Music",
+          "role": "Creative experiment",
+          "description": "Turning handwritten bars and lyrics into pop songs with Suno.",
+          "image": "/projects/fun-ai-music.jpg"
+        },
+        {
+          "name": "Auto Beli",
+          "role": "Automating restaurant posts",
+          "description": "Turning restaurant visits into ready-to-share posts.",
+          "image": "/projects/fun-auto-beli.jpg"
         }
       ]
     }
@@ -419,12 +520,11 @@
         "Udemy - TensorFlow 2.0: Deep Learning and Artificial Intelligence"
       ],
       "education": [
-        "McMaster University (2023 - 2027)",
+        "McMaster University (2023 - 2028)",
         "Bachelor of Software Engineering Co-op",
         "Provost’s Honour Roll Medal (perfect 4.0 GPA in 1st year)",
         "$10000 Scholarship (from OpenText and Rogers)",
-        "GPA: 3.9/4.0",
-        "Data Structures & Algorithms, OOP, Software Design, Computer Architecture, Linear Algebra"
+        "GPA: 3.9/4.0"
       ]
     }
   },
@@ -437,7 +537,7 @@
     "details": {
       "title": "Contact Information",
       "email": "sachinvedgupta@gmail.com",
-      "resume": "/Sachin_Resume.pdf",
+      "resume": "/Sachin_Gupta_Resume_PERSONAL_WEBSITE.pdf",
       "social": {
         "linkedin": "https://www.linkedin.com/in/Sachin-Ved-Gupta",
         "github": "https://github.com/SachinVedGupta",
@@ -447,4 +547,4 @@
       "message": "I'm always open to discussing new opportunities, collaborations, or interesting projects. Feel free to reach out!"
     }
   }
-} 
+}

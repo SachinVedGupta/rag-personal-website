@@ -16,6 +16,7 @@ interface RagV2VisualizerProps {
   data: VisualizationData | null;
   mapView: string;
   onMapViewChange: (value: string) => void;
+  darkTheme?: boolean;
 }
 
 function escapeHover(value: string) {
@@ -94,7 +95,7 @@ function searchArea(query: QueryTrace, hitPoints: CorpusPoint[]) {
   };
 }
 
-export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV2VisualizerProps) {
+export default function RagV2Visualizer({ data, mapView, onMapViewChange, darkTheme = false }: RagV2VisualizerProps) {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
   const [hiddenLayers, setHiddenLayers] = useState<Set<string>>(() => new Set());
   const searchSetKey = (data?.queries || [])
@@ -202,29 +203,28 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
 
   if (!data) {
     return (
-      <div className="flex h-full min-h-[470px] items-center justify-center rounded-2xl border border-slate-200 bg-white/80 p-8 text-center text-sm text-slate-500 shadow-sm">
+      <div className={`flex h-full min-h-[470px] items-center justify-center rounded-2xl border p-8 text-center text-sm shadow-sm ${darkTheme ? "border-blue-800 bg-[#091b32] text-blue-100/70" : "border-slate-200 bg-white/80 text-slate-500"}`}>
         The stable profile map will appear when the v2 backend is ready.
       </div>
     );
   }
 
   return (
-    <section className="flex min-h-[470px] self-start flex-col rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+    <section className={`flex min-h-[470px] self-start flex-col rounded-2xl border p-5 shadow-sm ${darkTheme ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>
       <div className="mb-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Explore my portfolio</p>
-        <h2 className="mt-1 text-xl font-semibold text-slate-950">Search map</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          This map places related portfolio details near each other. Stars show searches, dots show matching details, and circles outline each search area.
+        <h2 className={`mt-1 text-xl font-semibold ${darkTheme ? "text-white" : "text-slate-950"}`}>RAG Embedding Space Visualization</h2>
+        <p className={`mt-1 text-sm ${darkTheme ? "text-blue-100/75" : "text-slate-600"}`}>
+          Real-time 2D PCA visualization of your question and similar embeddings.
         </p>
       </div>
 
       {data.queries.length > 0 && (
-        <label className="mb-2 block text-xs font-medium text-slate-700">
+        <label className={`mb-2 block text-xs font-medium ${darkTheme ? "text-blue-100" : "text-slate-700"}`}>
           Search shown on map
           <select
             value={mapView}
             onChange={(event) => onMapViewChange(event.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className={`mt-1.5 w-full rounded-xl border px-3 py-2.5 text-sm outline-none transition ${darkTheme ? "border-blue-700 bg-[#061426] text-blue-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-900" : "border-slate-300 bg-white text-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"}`}
           >
             <option value={ALL_SEARCHES}>Compare all agent searches</option>
             <option value={PROFILE_ONLY}>Profile embeddings only</option>
@@ -245,11 +245,12 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
             height: 360,
             margin: { l: 35, r: 15, t: 15, b: 40 },
             paper_bgcolor: "rgba(0,0,0,0)",
-            plot_bgcolor: "rgba(248,250,252,0.7)",
-            xaxis: { title: "PCA 1", gridcolor: "#e2e8f0", zeroline: false },
+            plot_bgcolor: darkTheme ? "rgba(4,16,30,0.8)" : "rgba(248,250,252,0.7)",
+            font: { color: darkTheme ? "#cbd5e1" : "#334155" },
+            xaxis: { title: "PCA 1", gridcolor: darkTheme ? "#1e3a5f" : "#e2e8f0", zeroline: false },
             yaxis: {
               title: "PCA 2",
-              gridcolor: "#e2e8f0",
+              gridcolor: darkTheme ? "#1e3a5f" : "#e2e8f0",
               zeroline: false,
               scaleanchor: "x",
               scaleratio: 1,
@@ -257,9 +258,9 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
             hovermode: "closest",
             hoverlabel: {
               align: "left",
-              bgcolor: "#ffffff",
-              bordercolor: "#cbd5e1",
-              font: { color: "#334155", family: "ui-sans-serif, system-ui", size: 12 },
+              bgcolor: darkTheme ? "#0b1d33" : "#ffffff",
+              bordercolor: darkTheme ? "#2563eb" : "#cbd5e1",
+              font: { color: darkTheme ? "#eff6ff" : "#334155", family: "ui-sans-serif, system-ui", size: 12 },
             },
             showlegend: false,
             uirevision: data.projectionVersion,
@@ -272,7 +273,7 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
           }}
         />
       </div>
-      <div className="mt-2 space-y-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-600" aria-label="Retrieval map legend">
+      <div className={`mt-2 space-y-2 rounded-xl border px-3 py-2.5 text-xs ${darkTheme ? "border-blue-800 bg-[#061426] text-blue-100/80" : "border-slate-200 bg-white text-slate-600"}`} aria-label="Retrieval map legend">
         <label className="flex cursor-pointer items-center gap-2">
           <input type="checkbox" checked={layerVisible("profile")} onChange={() => toggleLayer("profile")} className="h-3.5 w-3.5 accent-slate-500" />
           <span className="h-2.5 w-2.5 rounded-full bg-slate-400 opacity-60" aria-hidden="true" />
@@ -282,11 +283,11 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
           const queryIndex = queryIndexById.get(query.id) ?? 0;
           const color = COLORS[queryIndex % COLORS.length];
           return (
-            <div key={query.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-slate-100 pt-2">
+            <div key={query.id} className={`flex flex-wrap items-center gap-x-4 gap-y-1 border-t pt-2 ${darkTheme ? "border-blue-900" : "border-slate-100"}`}>
               <label className="flex cursor-pointer items-center gap-2">
                 <input type="checkbox" checked={layerVisible(`${query.id}:search`)} onChange={() => toggleLayer(`${query.id}:search`)} className="h-3.5 w-3.5" />
                 <span className="text-base leading-none" style={{ color }} aria-hidden="true">★</span>
-                <span><span className="font-medium text-slate-800">{query.label}</span> search</span>
+                <span><span className={`font-medium ${darkTheme ? "text-white" : "text-slate-800"}`}>{query.label}</span> search</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2">
                 <input type="checkbox" checked={layerVisible(`${query.id}:results`)} onChange={() => toggleLayer(`${query.id}:results`)} className="h-3.5 w-3.5" />
@@ -302,11 +303,11 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
           );
         })}
       </div>
-      <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+      <div className={`mt-3 rounded-xl border p-4 ${darkTheme ? "border-blue-800 bg-[#061426]" : "border-slate-200 bg-slate-50"}`}>
         {selectedPoint ? (
-          <PointDetails point={selectedPoint} />
+          <PointDetails point={selectedPoint} darkTheme={darkTheme} />
         ) : (
-          <p className="text-sm text-slate-500">
+          <p className={`text-sm ${darkTheme ? "text-blue-100/65" : "text-slate-500"}`}>
             Hover for a preview, or select a point to explore the matching details, related topics, and public links or images.
           </p>
         )}
@@ -315,44 +316,44 @@ export default function RagV2Visualizer({ data, mapView, onMapViewChange }: RagV
   );
 }
 
-function PointDetails({ point }: { point: CorpusPoint }) {
+function PointDetails({ point, darkTheme }: { point: CorpusPoint; darkTheme: boolean }) {
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{point.category}</p>
-          <h3 className="mt-1 font-semibold text-slate-950">{point.title}</h3>
+          <p className={`text-xs font-semibold uppercase tracking-wide ${darkTheme ? "text-blue-300" : "text-blue-600"}`}>{point.category}</p>
+          <h3 className={`mt-1 font-semibold ${darkTheme ? "text-white" : "text-slate-950"}`}>{point.title}</h3>
         </div>
-        <code className="rounded bg-white px-2 py-1 text-[11px] text-slate-500">
+        <code className={`rounded px-2 py-1 text-[11px] ${darkTheme ? "bg-blue-950 text-blue-100/70" : "bg-white text-slate-500"}`}>
           ({point.x.toFixed(6)}, {point.y.toFixed(6)})
         </code>
       </div>
-      <p className="whitespace-pre-wrap text-sm leading-6 text-slate-700">{point.text}</p>
+      <p className={`whitespace-pre-wrap text-sm leading-6 ${darkTheme ? "text-blue-50/90" : "text-slate-700"}`}>{point.text}</p>
       {((point.entities || []).length > 0 || (point.themes || []).length > 0) && (
         <div className="flex flex-wrap gap-1.5">
           {[...(point.entities || []), ...(point.themes || [])].map((item) => (
-            <span key={item} className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-600">
+            <span key={item} className={`rounded-full border px-2 py-1 text-[11px] ${darkTheme ? "border-blue-800 bg-blue-950 text-blue-100/80" : "border-slate-200 bg-white text-slate-600"}`}>
               {item}
             </span>
           ))}
         </div>
       )}
       {(point.relatedIds || []).length > 0 && (
-        <p className="text-xs text-slate-500">Related records: {(point.relatedIds || []).join(", ")}</p>
+        <p className={`text-xs ${darkTheme ? "text-blue-100/60" : "text-slate-500"}`}>Related records: {(point.relatedIds || []).join(", ")}</p>
       )}
       {(point.media || []).some((item) => item.type === "image") && (
         <div className="grid gap-2 sm:grid-cols-2">
           {(point.media || []).filter((item) => item.type === "image").map((item) => (
-            <figure key={item.url} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+            <figure key={item.url} className={`overflow-hidden rounded-lg border ${darkTheme ? "border-blue-800 bg-blue-950" : "border-slate-200 bg-white"}`}>
               <img src={item.url} alt={item.alt || item.label} className="h-40 w-full object-cover" />
-              <figcaption className="px-3 py-2 text-xs text-slate-500">{item.caption || item.label}</figcaption>
+              <figcaption className={`px-3 py-2 text-xs ${darkTheme ? "text-blue-100/70" : "text-slate-500"}`}>{item.caption || item.label}</figcaption>
             </figure>
           ))}
         </div>
       )}
       <div className="flex flex-wrap gap-3 text-xs">
         {(point.media || []).filter((item) => item.type !== "image").map((item) => (
-          <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-700 underline">
+          <a key={item.url} href={item.url} target="_blank" rel="noopener noreferrer" className={`font-medium underline ${darkTheme ? "text-blue-300" : "text-blue-700"}`}>
             {item.label}
           </a>
         ))}

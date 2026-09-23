@@ -126,8 +126,7 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               {messages.length === 0 && (
                 <div className={`rounded-xl p-4 ${embedded ? "bg-blue-950/60" : "bg-slate-50"}`}>
-                  <p className={`text-sm leading-6 ${embedded ? "text-blue-100/80" : "text-slate-600"}`}>Start a conversation by asking a question!</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {SUGGESTED_PROMPTS.map((prompt) => (
                       <button
                         key={prompt}

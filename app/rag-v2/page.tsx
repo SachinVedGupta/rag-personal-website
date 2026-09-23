@@ -92,11 +92,13 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
   return (
     <div className={embedded ? "text-slate-100" : "min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 px-4 py-8 text-slate-900"}>
       <div className="mx-auto max-w-7xl">
-        <header className="mb-7 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className={`mt-2 text-3xl font-bold tracking-tight sm:text-4xl ${embedded ? "text-white" : "text-slate-950"}`}>Ask about my work</h1>
-          </div>
-        </header>
+        {!embedded && (
+          <header className="mb-7 flex flex-wrap items-end justify-between gap-4">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Ask about my work
+            </h1>
+          </header>
+        )}
 
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <section className={`flex min-h-[570px] flex-col rounded-2xl border shadow-sm ${embedded ? "border-blue-800/80 bg-[#091b32]/90" : "border-slate-200 bg-white/90"}`}>

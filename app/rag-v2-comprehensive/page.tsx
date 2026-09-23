@@ -4,12 +4,12 @@ import RagV2Page from "../rag-v2/page";
 
 export default function ComprehensivePortfolioPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-none dark:bg-[#061426]">
       <section className="container mx-auto px-4 py-8">
         <div className="mx-auto mb-8 max-w-7xl">
           <AvatarRenderer />
         </div>
-        <div className="mx-auto max-w-7xl rounded-3xl bg-gradient-to-br from-[#071a31] via-[#0b2341] to-[#12365c] p-4 shadow-2xl shadow-blue-950/20 sm:p-6 lg:p-8">
+        <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
           <RagV2Page embedded />
         </div>
       </section>

@@ -61,9 +61,15 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed, history }),
       });
-      const data = (await response.json()) as AskResponse;
+      const responseText = await response.text();
+      let data: AskResponse;
+      try {
+        data = JSON.parse(responseText) as AskResponse;
+      } catch {
+        throw new Error("The assistant is temporarily unavailable. Please try again shortly.");
+      }
       if (!response.ok || data.status !== "success") {
-        throw new Error(data.message || "The question could not be answered.");
+        throw new Error(data.message || "The assistant is temporarily unavailable. Please try again shortly.");
       }
       setResult(data);
       setVisualization(data.visualization);

@@ -38,6 +38,10 @@ leaving a buffer below the Tier 1-2 complimentary limits. The OpenAI quota is
 account-wide, so usage by other projects must still be monitored in the Platform
 Usage dashboard.
 
+`PINECONE_V2_INDEX_HOST` is optional. When set, the service connects directly
+to the configured `PINECONE_V2_INDEX_NAME` host and checks the index through the
+data plane, avoiding control-plane index discovery on every service start.
+
 ## Local setup
 
 Copy `.env.example` to the ignored `.env` and fill the v2 variables. Then run:

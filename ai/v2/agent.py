@@ -83,6 +83,7 @@ class RagAgent:
             settings.pinecone_api_key,
             settings.pinecone_index_name,
             settings.namespace,
+            settings.pinecone_index_host,
         )
         self.store.ensure_index(settings.embedding_dimension)
         projection_path = Path(__file__).with_name("data") / "projection.json"

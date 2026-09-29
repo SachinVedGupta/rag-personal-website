@@ -11,7 +11,8 @@ original `webrag` vectors.
    namespace, and writes a fixed PCA projection.
 3. `agent.py` asks GPT-5.4 Mini for a small semantic search plan, queries
    Pinecone, checks evidence coverage, and may run one follow-up batch.
-4. GPT-5.4 writes the grounded answer. GPT-5.4 Mini is the fallback.
+4. GPT-5.4 writes the grounded answer with low reasoning effort for a faster
+   response. GPT-5.4 Mini is the fallback.
 5. The response includes every planned query and its hits so the frontend can
    overlay them on the same PCA map without another retrieval call.
 6. The curated profile is the answer authority. Public answers state its facts
@@ -37,6 +38,10 @@ to Mini at 200K locally observed full-model tokens and stops at 2M Mini tokens,
 leaving a buffer below the Tier 1-2 complimentary limits. The OpenAI quota is
 account-wide, so usage by other projects must still be monitored in the Platform
 Usage dashboard.
+
+`PINECONE_V2_INDEX_HOST` is optional. When set, the service connects directly
+to the configured `PINECONE_V2_INDEX_NAME` host and checks the index through the
+data plane, avoiding control-plane index discovery on every service start.
 
 ## Local setup
 

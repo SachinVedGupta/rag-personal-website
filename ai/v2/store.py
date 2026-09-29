@@ -39,12 +39,25 @@ class SearchHit:
 
 
 class VectorStore:
-    def __init__(self, api_key: str, index_name: str, namespace: str) -> None:
+    def __init__(
+        self, api_key: str, index_name: str, namespace: str, index_host: str = ""
+    ) -> None:
         self.pc = Pinecone(api_key=api_key)
         self.index_name = index_name
         self.namespace = namespace
+        self.index_host = index_host.strip()
+        self._index = None
 
     def ensure_index(self, dimension: int, *, create: bool = False) -> None:
+        if self.index_host:
+            stats = self.index.describe_index_stats()
+            actual_dimension = int(getattr(stats, "dimension", dimension))
+            if actual_dimension != dimension:
+                raise RuntimeError(
+                    f"Index dimension {actual_dimension} does not match {dimension}"
+                )
+            return
+
         names = self.pc.list_indexes().names()
         if self.index_name not in names:
             if not create:
@@ -72,7 +85,12 @@ class VectorStore:
 
     @property
     def index(self):
-        return self.pc.Index(self.index_name)
+        if self._index is None:
+            if self.index_host:
+                self._index = self.pc.Index(host=self.index_host)
+            else:
+                self._index = self.pc.Index(self.index_name)
+        return self._index
 
     def replace(self, records: list[dict[str, Any]]) -> None:
         index = self.index

@@ -16,7 +16,20 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ question: body.question, history: body.history }),
       cache: "no-store",
     });
-    const data = await response.json();
+    const responseText = await response.text();
+    let data: unknown;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      console.error("RAG v2 ask proxy received a non-JSON backend response", {
+        status: response.status,
+        contentType: response.headers.get("content-type"),
+      });
+      return NextResponse.json(
+        { status: "error", message: "The assistant is temporarily unavailable. Please try again shortly." },
+        { status: 502 }
+      );
+    }
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
     console.error("RAG v2 ask proxy failed", error);

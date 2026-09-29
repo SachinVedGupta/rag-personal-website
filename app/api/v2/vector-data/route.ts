@@ -12,7 +12,20 @@ export async function GET() {
     const response = await fetch(`${backendUrl}v2/vector-data`, {
       cache: "no-store",
     });
-    const data = await response.json();
+    const responseText = await response.text();
+    let data: unknown;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      console.error("RAG v2 vector proxy received a non-JSON backend response", {
+        status: response.status,
+        contentType: response.headers.get("content-type"),
+      });
+      return NextResponse.json(
+        { status: "error", message: "The visualization is temporarily unavailable. Please try again shortly." },
+        { status: 502 }
+      );
+    }
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
     console.error("RAG v2 vector proxy failed", error);

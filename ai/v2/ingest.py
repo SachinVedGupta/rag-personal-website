@@ -61,6 +61,7 @@ def main() -> None:
         settings.pinecone_api_key,
         settings.pinecone_index_name,
         settings.namespace,
+        settings.pinecone_index_host,
     )
     store.ensure_index(settings.embedding_dimension, create=True)
     store.replace(pinecone_records)

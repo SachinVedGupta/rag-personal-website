@@ -4,12 +4,15 @@ import json
 from pathlib import Path
 import re
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from ai.v2.budget import ComplimentaryBudget
 from ai.v2.app import normalize_history
 from ai.v2.ingest import retrieval_text
 from ai.v2.openai_client import OpenAIError, OpenAIResponsesClient
 from ai.v2.projection import Projection
+from ai.v2.store import VectorStore
 
 
 HERE = Path(__file__).resolve().parent
@@ -88,6 +91,29 @@ class ProjectionTests(unittest.TestCase):
         self.assertEqual({point["id"] for point in projection.points}, {r["id"] for r in records})
         self.assertEqual(projection.components.shape, (2, 384))
         self.assertEqual(projection.mean.shape, (384,))
+
+
+class VectorStoreTests(unittest.TestCase):
+    @patch("ai.v2.store.Pinecone")
+    def test_configured_host_uses_data_plane_without_listing_indexes(self, pinecone):
+        index = pinecone.return_value.Index.return_value
+        index.describe_index_stats.return_value = SimpleNamespace(dimension=384)
+        store = VectorStore("test-key", "webrag-v2", "public-profile-v2", "host")
+
+        store.ensure_index(384)
+
+        pinecone.return_value.Index.assert_called_once_with(host="host")
+        index.describe_index_stats.assert_called_once_with()
+        pinecone.return_value.list_indexes.assert_not_called()
+
+    @patch("ai.v2.store.Pinecone")
+    def test_configured_host_still_checks_index_dimension(self, pinecone):
+        index = pinecone.return_value.Index.return_value
+        index.describe_index_stats.return_value = SimpleNamespace(dimension=768)
+        store = VectorStore("test-key", "webrag-v2", "public-profile-v2", "host")
+
+        with self.assertRaisesRegex(RuntimeError, "does not match 384"):
+            store.ensure_index(384)
 
 
 class OpenAIResponseParsingTests(unittest.TestCase):

@@ -5,12 +5,12 @@ import RagV2Visualizer, { ALL_SEARCHES } from "./RagV2Visualizer";
 import SafeMarkdown from "./SafeMarkdown";
 import type { AskResponse, VisualizationData } from "./types";
 
-type ChatMessage = { role: "user" | "assistant"; text: string };
+type ChatMessage = { id: string; role: "user" | "assistant"; text: string };
 const SUGGESTED_PROMPTS = [
-  "What did I build at Microsoft?",
-  "How does my AI-agent experience connect across internships and projects?",
-  "What's my favourite project and why?",
-  "Show me a photo of my McMaster Rocketry payload project.",
+  "What did you build at Microsoft?",
+  "How does your AI-agent experience connect across internships and projects?",
+  "What's your favourite project and why?",
+  "Show me a photo of your McMaster Rocketry payload project.",
 ];
 
 export default function RagV2Page({ embedded = false }: { embedded?: boolean }) {
@@ -18,11 +18,95 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [typing, setTyping] = useState(false);
   const [result, setResult] = useState<AskResponse | null>(null);
   const [visualization, setVisualization] = useState<VisualizationData | null>(null);
   const [mapView, setMapView] = useState(ALL_SEARCHES);
+  const chatPaneRef = useRef<HTMLDivElement>(null);
+  const followLatestRef = useRef(true);
+  const userPausedRef = useRef(false);
+  const lastScrollTopRef = useRef(0);
+  const touchStartYRef = useRef<number | null>(null);
+  const typingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const messageIdRef = useRef(0);
   const profileVisualization = useRef<VisualizationData | null>(null);
   const hasActiveSearch = useRef(false);
+
+  function handleChatScroll() {
+    const pane = chatPaneRef.current;
+    if (!pane) return;
+    const distanceFromBottom = pane.scrollHeight - pane.scrollTop - pane.clientHeight;
+    const movingUp = pane.scrollTop < lastScrollTopRef.current;
+    if (movingUp) userPausedRef.current = true;
+    if (userPausedRef.current) {
+      if (!movingUp && distanceFromBottom <= 48) userPausedRef.current = false;
+      followLatestRef.current = !userPausedRef.current;
+    } else {
+      followLatestRef.current = distanceFromBottom <= 48;
+    }
+    lastScrollTopRef.current = pane.scrollTop;
+  }
+
+  function handleChatWheel(event: React.WheelEvent<HTMLDivElement>) {
+    if (event.deltaY < 0) {
+      userPausedRef.current = true;
+      followLatestRef.current = false;
+    } else if (event.deltaY > 0) {
+      requestAnimationFrame(handleChatScroll);
+    }
+  }
+
+  function handleChatTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    touchStartYRef.current = event.touches[0]?.clientY ?? null;
+  }
+
+  function handleChatTouchMove(event: React.TouchEvent<HTMLDivElement>) {
+    const currentY = event.touches[0]?.clientY;
+    const startY = touchStartYRef.current;
+    if (currentY === undefined || startY === null) return;
+    if (currentY > startY + 2) {
+      userPausedRef.current = true;
+      followLatestRef.current = false;
+    } else if (currentY < startY - 2) {
+      requestAnimationFrame(handleChatScroll);
+    }
+    touchStartYRef.current = currentY;
+  }
+
+  function animateAssistantAnswer(text: string) {
+    const messageId = `assistant-${++messageIdRef.current}`;
+    const words = text.match(/\S+\s*/g) ?? [text];
+    let visibleWords = 0;
+    setTyping(true);
+    setMessages((current) => [...current, { id: messageId, role: "assistant", text: "" }]);
+
+    typingIntervalRef.current = setInterval(() => {
+      visibleWords = Math.min(visibleWords + 1, words.length);
+      const visibleText = words.slice(0, visibleWords).join("");
+      setMessages((current) =>
+        current.map((message) =>
+          message.id === messageId ? { ...message, text: visibleText } : message
+        )
+      );
+      if (visibleWords >= words.length) {
+        if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+        typingIntervalRef.current = null;
+        setTyping(false);
+      }
+    }, 40);
+  }
+
+  useEffect(() => {
+    const pane = chatPaneRef.current;
+    if (pane && followLatestRef.current) pane.scrollTop = pane.scrollHeight;
+  }, [messages, loading, typing]);
+
+  useEffect(
+    () => () => {
+      if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+    },
+    []
+  );
 
   useEffect(() => {
     try {
@@ -45,9 +129,14 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
 
   async function sendQuestion(value: string) {
     const trimmed = value.trim();
-    if (!trimmed || loading) return;
+    if (!trimmed || loading || typing) return;
     const history = messages.slice(-12);
-    setMessages((current) => [...current, { role: "user", text: trimmed }]);
+    userPausedRef.current = false;
+    followLatestRef.current = true;
+    setMessages((current) => [
+      ...current,
+      { id: `user-${++messageIdRef.current}`, role: "user", text: trimmed },
+    ]);
     setQuestion("");
     setLoading(true);
     setError("");
@@ -74,7 +163,7 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
       setResult(data);
       setVisualization(data.visualization);
       setMapView(ALL_SEARCHES);
-      setMessages((current) => [...current, { role: "assistant", text: data.answer }]);
+      animateAssistantAnswer(data.answer);
     } catch (reason) {
       hasActiveSearch.current = false;
       setVisualization(profileVisualization.current);
@@ -90,12 +179,17 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
   }
 
   function startNewChat() {
+    if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+    typingIntervalRef.current = null;
+    setTyping(false);
     setMessages([]);
     setResult(null);
     setQuestion("");
     setError("");
     setMapView(ALL_SEARCHES);
     hasActiveSearch.current = false;
+    userPausedRef.current = false;
+    followLatestRef.current = true;
     setVisualization(profileVisualization.current);
   }
 
@@ -117,23 +211,30 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                 <h2 className={`font-semibold ${embedded ? "text-white" : "text-slate-900"}`}>AI Persona</h2>
                 <p className={`mt-1 text-sm ${embedded ? "text-blue-100/80" : "text-slate-500"}`}>
                   Ask me anything about my{" "}
-                  <button type="button" onClick={() => setQuestion("Tell me about my experience")} className={`font-semibold underline decoration-blue-400/70 underline-offset-2 ${embedded ? "text-blue-300 hover:text-white" : "text-blue-700 hover:text-blue-900"}`}>experience</button>,{" "}
-                  <button type="button" onClick={() => setQuestion("What are my skills?")} className={`font-semibold underline decoration-blue-400/70 underline-offset-2 ${embedded ? "text-blue-300 hover:text-white" : "text-blue-700 hover:text-blue-900"}`}>skills</button>, or{" "}
-                  <button type="button" onClick={() => setQuestion("What are my favourite projects?")} className={`font-semibold underline decoration-blue-400/70 underline-offset-2 ${embedded ? "text-blue-300 hover:text-white" : "text-blue-700 hover:text-blue-900"}`}>projects</button>
+                  <button type="button" onClick={() => setQuestion("Tell me about your experience")} className={`font-semibold underline decoration-blue-400/70 underline-offset-2 ${embedded ? "text-blue-300 hover:text-white" : "text-blue-700 hover:text-blue-900"}`}>experience</button>,{" "}
+                  <button type="button" onClick={() => setQuestion("What are your skills?")} className={`font-semibold underline decoration-blue-400/70 underline-offset-2 ${embedded ? "text-blue-300 hover:text-white" : "text-blue-700 hover:text-blue-900"}`}>skills</button>, or{" "}
+                  <button type="button" onClick={() => setQuestion("What are your favourite projects?")} className={`font-semibold underline decoration-blue-400/70 underline-offset-2 ${embedded ? "text-blue-300 hover:text-white" : "text-blue-700 hover:text-blue-900"}`}>projects</button>
                 </p>
               </div>
               {messages.length > 0 && (
                 <button
                   type="button"
                   onClick={startNewChat}
-                  disabled={loading}
+                  disabled={loading || typing}
                   className={`shrink-0 rounded-lg border px-3 py-1.5 text-xs font-medium transition disabled:opacity-50 ${embedded ? "border-blue-700 bg-blue-950 text-blue-100 hover:border-blue-400 hover:text-white" : "border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-700"}`}
                 >
                   New chat
                 </button>
               )}
             </div>
-            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-5">
+            <div
+              ref={chatPaneRef}
+              onScroll={handleChatScroll}
+              onWheel={handleChatWheel}
+              onTouchStart={handleChatTouchStart}
+              onTouchMove={handleChatTouchMove}
+              className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-5"
+            >
               {messages.length === 0 && (
                 <div className={`rounded-xl p-4 ${embedded ? "bg-blue-950/60" : "bg-slate-50"}`}>
                   <div className="flex flex-wrap gap-2">
@@ -150,8 +251,8 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                   </div>
                 </div>
               )}
-              {messages.map((message, index) => (
-                <div key={index} className={message.role === "user" ? "flex justify-end" : "flex justify-start"}>
+              {messages.map((message) => (
+                <div key={message.id} className={message.role === "user" ? "flex justify-end" : "flex justify-start"}>
                   <div
                     className={`max-w-[92%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-6 ${
                       message.role === "user"
@@ -175,13 +276,13 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                 <input
                   value={question}
                   onChange={(event) => setQuestion(event.target.value)}
-                  disabled={loading}
-                  placeholder="Ask me anything about my portfolio…"
+                  disabled={loading || typing}
+                  placeholder="Ask me anything about your portfolio…"
                   className={`min-w-0 flex-1 rounded-xl border px-4 py-3 text-sm outline-none transition disabled:opacity-60 ${embedded ? "border-blue-700 bg-[#061426] text-white placeholder:text-blue-200/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-900" : "border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"}`}
                 />
                 <button
                   type="submit"
-                  disabled={loading || !question.trim()}
+                  disabled={loading || typing || !question.trim()}
                   className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Ask

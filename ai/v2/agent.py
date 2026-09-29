@@ -304,7 +304,10 @@ class RagAgent:
         )
         use_full = self.budget.can_spend("full", 12_000)
         selected_model = self.settings.answer_model if use_full else self.settings.fallback_model
-        selected_effort = "medium" if use_full else "low"
+        # Portfolio answers are grounded in a small, curated evidence set; low
+        # reasoning keeps the normal chat path responsive without changing the
+        # GPT-5.4 primary model or the adaptive retrieval steps.
+        selected_effort = "low"
         selected_limit = 1800 if use_full else 1600
         if not use_full and not self.budget.can_spend("mini", 12_000):
             raise OpenAIError(

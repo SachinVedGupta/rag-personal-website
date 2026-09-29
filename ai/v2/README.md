@@ -11,7 +11,8 @@ original `webrag` vectors.
    namespace, and writes a fixed PCA projection.
 3. `agent.py` asks GPT-5.4 Mini for a small semantic search plan, queries
    Pinecone, checks evidence coverage, and may run one follow-up batch.
-4. GPT-5.4 writes the grounded answer. GPT-5.4 Mini is the fallback.
+4. GPT-5.4 writes the grounded answer with low reasoning effort for a faster
+   response. GPT-5.4 Mini is the fallback.
 5. The response includes every planned query and its hits so the frontend can
    overlay them on the same PCA map without another retrieval call.
 6. The curated profile is the answer authority. Public answers state its facts

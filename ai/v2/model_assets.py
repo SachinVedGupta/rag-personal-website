@@ -11,10 +11,15 @@ MODEL_URL = (
     "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/"
     + MODEL_REVISION
 )
-ASSETS = {
+FULL_ASSETS = {
     "tokenizer.json": ("tokenizer.json", "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"),
     "model.onnx": ("onnx/model.onnx", "6fd5d72fe4589f189f8ebc006442dbb529bb7ce38f8082112682524616046452"),
 }
+
+QUANTIZED_MODEL = (
+    "onnx/model_quint8_avx2.onnx",
+    "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+)
 
 
 def model_directory() -> Path:
@@ -24,7 +29,10 @@ def model_directory() -> Path:
 def main() -> None:
     directory = model_directory()
     directory.mkdir(parents=True, exist_ok=True)
-    for name, (remote_path, expected_hash) in ASSETS.items():
+    assets = FULL_ASSETS.copy()
+    if os.environ.get("RAG_V2_QUANTIZED_MODEL") == "1":
+        assets["model.onnx"] = QUANTIZED_MODEL
+    for name, (remote_path, expected_hash) in assets.items():
         destination = directory / name
         if destination.is_file():
             with destination.open("rb") as existing:

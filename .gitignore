@@ -117,3 +117,5 @@ temp/
 .history/ 
 ai/v2/sources/raw/
 ai/v2/data/usage-local.json
+
+/ai/v2/model/

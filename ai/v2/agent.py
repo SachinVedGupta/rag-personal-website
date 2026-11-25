@@ -76,16 +76,13 @@ class RagAgent:
         self.openai = OpenAIResponsesClient(
             settings.openai_api_key, on_usage=self.budget.record
         )
-        self.embeddings = EmbeddingClient(
-            settings.embedding_model, settings.hugging_face_key
-        )
+        self.embeddings = EmbeddingClient()
         self.store = VectorStore(
             settings.pinecone_api_key,
             settings.pinecone_index_name,
             settings.namespace,
             settings.pinecone_index_host,
         )
-        self.store.ensure_index(settings.embedding_dimension)
         projection_path = Path(__file__).with_name("data") / "projection.json"
         if not projection_path.exists():
             raise RuntimeError("Missing v2 projection; run ai/v2/ingest.py")
@@ -421,13 +418,4 @@ class RagAgent:
                 "points": self.projection.public_points(),
                 "queries": traces,
             },
-        }
-
-    def visualization(self) -> dict[str, Any]:
-        return {
-            "status": "success",
-            "method": "PCA",
-            "projectionVersion": self.projection.version,
-            "points": self.projection.public_points(),
-            "queries": [],
         }

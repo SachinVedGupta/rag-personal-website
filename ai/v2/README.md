@@ -10,7 +10,8 @@ original `webrag` vectors.
 2. `ingest.py` embeds each record with `all-MiniLM-L6-v2`, replaces only the v2
    namespace, and writes a fixed PCA projection.
 3. `agent.py` asks GPT-5.4 Mini for a small semantic search plan, queries
-   Pinecone, checks evidence coverage, and may run one follow-up batch.
+   Pinecone using MiniLM embeddings computed in the backend, checks evidence
+   coverage, and may run one follow-up batch.
 4. GPT-5.4 writes the grounded answer with low reasoning effort for a faster
    response. GPT-5.4 Mini is the fallback.
 5. The response includes every planned query and its hits so the frontend can
@@ -19,7 +20,7 @@ original `webrag` vectors.
    directly in Sachin's voice, while still refusing to invent absent details.
 7. Records can carry images, demos, documents, and project links. Media metadata
    is stored with each Pinecone record and returned only when relevant.
-8. The browser keeps the current chat in local storage and sends a bounded recent
+8. The browser keeps the current chat in memory and sends a bounded recent
    history with each request. The Mini planner resolves short follow-ups such as
    "yes", "that project", and "photo" before retrieval. Focused follow-ups stay on
    the named subject; synthesis questions can still search across the portfolio.
@@ -40,18 +41,33 @@ account-wide, so usage by other projects must still be monitored in the Platform
 Usage dashboard.
 
 `PINECONE_V2_INDEX_HOST` is optional. When set, the service connects directly
-to the configured `PINECONE_V2_INDEX_NAME` host and checks the index through the
-data plane, avoiding control-plane index discovery on every service start.
+to the configured index host, avoiding control-plane discovery on the first search.
+
+The root Procfile fetches and verifies the pinned MiniLM model files before
+launching Gunicorn. If the host defines a custom start command, use the root
+Procfile command there too. The files can also be provisioned during the build
+to avoid downloading them after a cold start. This only fetches public model
+files and requires no hosted Hugging Face Inference credentials.
 
 ## Local setup
 
 Copy `.env.example` to the ignored `.env` and fill the v2 variables. Then run:
 
 ```bash
-ai/.venv/bin/python -m ai.v2.ingest
+ai/.venv/bin/python -m ai.v2.model_assets
 ai/.venv/bin/python -m ai.v2.app
 npm run dev -- -p 3001
 ```
 
 Open `http://localhost:3001/rag-v2`. The original page and backend routes remain
 available separately.
+
+## Container deployment
+
+Build the backend with `docker build -f Dockerfile.rag-v2 .`. The image
+includes the pinned MiniLM assets so runtime does not download them. On
+Northflank, use a combined service with the repository root as the build
+context, `Dockerfile.rag-v2` as the Dockerfile, and port 8080 exposed over HTTPS.
+Use `/v2/health` for readiness and inject the required OpenAI and Pinecone
+settings as runtime secrets. Set the Vercel server's `RAG_V2_BACKEND_URL` to the
+verified origin. The Docker build does not need provider credentials.

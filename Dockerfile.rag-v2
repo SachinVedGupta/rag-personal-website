@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+WORKDIR /srv/portfolio
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    OMP_NUM_THREADS=1 \
+    RAG_V2_MODEL_DIR=/srv/portfolio/model \
+    PORT=8080
+
+RUN useradd --create-home --uid 10001 rag
+
+COPY ai/v2/requirements.txt /tmp/rag-requirements.txt
+RUN pip install --no-cache-dir -r /tmp/rag-requirements.txt
+
+COPY ai/v2/model_assets.py ai/v2/model_assets.py
+RUN python -m ai.v2.model_assets
+
+COPY --chown=rag:rag ai/v2/*.py ai/v2/
+COPY --chown=rag:rag ai/v2/data/projection.json ai/v2/data/projection.json
+USER rag
+
+EXPOSE 8080
+CMD ["sh", "-c", "exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 55 ai.v2.app:app"]

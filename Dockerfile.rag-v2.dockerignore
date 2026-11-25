@@ -1,0 +1,7 @@
+**
+!ai/
+!ai/v2/
+!ai/v2/*.py
+!ai/v2/requirements.txt
+!ai/v2/data/
+!ai/v2/data/projection.json

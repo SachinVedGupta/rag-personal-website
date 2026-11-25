@@ -32,7 +32,7 @@ def main() -> None:
     source_path = HERE / "corpus" / "public_profile.json"
     records = json.loads(source_path.read_text())
     texts = [retrieval_text(record) for record in records]
-    embeddings = EmbeddingClient(settings.embedding_model, settings.hugging_face_key)
+    embeddings = EmbeddingClient()
     vectors = embeddings.documents(texts)
     if any(len(vector) != settings.embedding_dimension for vector in vectors):
         raise RuntimeError("Embedding model returned an unexpected dimension")

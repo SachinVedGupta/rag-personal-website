@@ -23,7 +23,6 @@ class Settings:
     pinecone_api_key: str
     pinecone_index_name: str
     pinecone_index_host: str
-    hugging_face_key: str
     openai_api_key: str
     planner_model: str
     answer_model: str
@@ -42,7 +41,6 @@ class Settings:
             pinecone_api_key=_required("PINECONE_API_KEY"),
             pinecone_index_name=_required("PINECONE_V2_INDEX_NAME"),
             pinecone_index_host=os.getenv("PINECONE_V2_INDEX_HOST", "").strip(),
-            hugging_face_key=_required("HUGGING_FACE_KEY"),
             openai_api_key=_required("OPENAI_API_KEY"),
             planner_model=os.getenv(
                 "OPENAI_PLANNER_MODEL", "gpt-5.4-mini-2026-03-17"

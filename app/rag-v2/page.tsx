@@ -124,7 +124,9 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
         profileVisualization.current = data;
         if (!hasActiveSearch.current) setVisualization(data);
       })
-      .catch((reason) => setError(reason instanceof Error ? reason.message : "The assistant is temporarily unavailable."));
+      .catch((reason) => {
+        if (!hasActiveSearch.current) setError(reason instanceof Error ? reason.message : "The visualization is temporarily unavailable.");
+      });
   }, []);
 
   async function sendQuestion(value: string) {

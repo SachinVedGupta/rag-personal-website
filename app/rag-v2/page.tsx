@@ -6,6 +6,7 @@ import SafeMarkdown from "./SafeMarkdown";
 import type { AskResponse, VisualizationData } from "./types";
 
 type ChatMessage = { id: string; role: "user" | "assistant"; text: string };
+const CHAT_ERROR = "The assistant could not answer right now. Your question is still in the input so you can try again.";
 const SUGGESTED_PROMPTS = [
   "What did you build at Microsoft?",
   "How does your AI-agent experience connect across internships and projects?",
@@ -117,15 +118,15 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
     }
     fetch("/api/v2/vector-data", { cache: "no-store" })
       .then(async (response) => {
-        if (!response.ok) throw new Error("The assistant is temporarily unavailable.");
+        if (!response.ok) throw new Error("Profile map unavailable");
         return response.json();
       })
       .then((data) => {
         profileVisualization.current = data;
         if (!hasActiveSearch.current) setVisualization(data);
       })
-      .catch((reason) => {
-        if (!hasActiveSearch.current) setError(reason instanceof Error ? reason.message : "The visualization is temporarily unavailable.");
+      .catch(() => {
+        // A successful chat request also restores the profile map.
       });
   }, []);
 
@@ -133,11 +134,12 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
     const trimmed = value.trim();
     if (!trimmed || loading || typing) return;
     const history = messages.slice(-12);
+    const messageId = `user-${++messageIdRef.current}`;
     userPausedRef.current = false;
     followLatestRef.current = true;
     setMessages((current) => [
       ...current,
-      { id: `user-${++messageIdRef.current}`, role: "user", text: trimmed },
+      { id: messageId, role: "user", text: trimmed },
     ]);
     setQuestion("");
     setLoading(true);
@@ -152,24 +154,20 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed, history }),
       });
-      const responseText = await response.text();
-      let data: AskResponse;
-      try {
-        data = JSON.parse(responseText) as AskResponse;
-      } catch {
-        throw new Error("The assistant is temporarily unavailable. Please try again shortly.");
-      }
-      if (!response.ok || data.status !== "success") {
-        throw new Error(data.message || "The assistant is temporarily unavailable. Please try again shortly.");
-      }
+      if (!response.ok) throw new Error("Chat request failed");
+      const data = (await response.json()) as AskResponse;
+      if (data.status !== "success") throw new Error("Chat response unavailable");
+      profileVisualization.current = { ...data.visualization, queries: [] };
       setResult(data);
       setVisualization(data.visualization);
       setMapView(ALL_SEARCHES);
       animateAssistantAnswer(data.answer);
-    } catch (reason) {
+    } catch {
       hasActiveSearch.current = false;
       setVisualization(profileVisualization.current);
-      setError(reason instanceof Error ? reason.message : "The question could not be answered.");
+      setMessages((current) => current.filter((message) => message.id !== messageId));
+      setQuestion(trimmed);
+      setError(CHAT_ERROR);
     } finally {
       setLoading(false);
     }
@@ -271,12 +269,13 @@ export default function RagV2Page({ embedded = false }: { embedded?: boolean }) 
                 </div>
               ))}
               {loading && <p className={`text-sm ${embedded ? "text-blue-200" : "text-blue-600"}`}>Finding the most relevant details…</p>}
-              {error && <p className={`rounded-xl p-3 text-sm ${embedded ? "bg-red-950/70 text-red-200" : "bg-red-50 text-red-700"}`}>{error}</p>}
+              {error && <p role="alert" className={`rounded-xl p-3 text-sm ${embedded ? "bg-red-950/70 text-red-200" : "bg-red-50 text-red-700"}`}>{error}</p>}
             </div>
             <form onSubmit={submit} className={`border-t p-4 ${embedded ? "border-blue-800/80" : "border-slate-200"}`}>
               <div className="flex gap-2">
                 <input
                   value={question}
+                  maxLength={2000}
                   onChange={(event) => setQuestion(event.target.value)}
                   disabled={loading || typing}
                   placeholder="Ask me anything about your portfolio…"

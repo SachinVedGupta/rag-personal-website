@@ -65,7 +65,8 @@ available separately.
 ## Container deployment
 
 Build the backend with `docker build -f Dockerfile.rag-v2 .`. The image
-includes the pinned MiniLM assets so runtime does not download them. On
+includes a pinned, quantized MiniLM model for the smaller deployment tier.
+It loads the model from disk without a runtime download. On
 Northflank, use a combined service with the repository root as the build
 context, `Dockerfile.rag-v2` as the Dockerfile, and port 8080 exposed over HTTPS.
 Use `/v2/health` for readiness and inject the required OpenAI and Pinecone

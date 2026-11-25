@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from sklearn.decomposition import PCA
 
 
 class Projection:
@@ -32,6 +31,9 @@ def build_projection(
     path: Path,
     version: str,
 ) -> None:
+    # The serving process only reads the precomputed projection.
+    from sklearn.decomposition import PCA
+
     matrix = np.asarray(vectors, dtype=float)
     pca = PCA(n_components=2, random_state=42)
     reduced = pca.fit_transform(matrix)

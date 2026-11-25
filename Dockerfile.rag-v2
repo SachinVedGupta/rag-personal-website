@@ -14,7 +14,7 @@ COPY ai/v2/requirements.txt /tmp/rag-requirements.txt
 RUN pip install --no-cache-dir -r /tmp/rag-requirements.txt
 
 COPY ai/v2/model_assets.py ai/v2/model_assets.py
-RUN python -m ai.v2.model_assets
+RUN RAG_V2_QUANTIZED_MODEL=1 python -m ai.v2.model_assets
 
 COPY --chown=rag:rag ai/v2/*.py ai/v2/
 COPY --chown=rag:rag ai/v2/data/projection.json ai/v2/data/projection.json
